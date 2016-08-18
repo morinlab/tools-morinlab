@@ -1,21 +1,16 @@
 <tool id="strelka" name="Strelka" version="1.0.14">
     <description>
-        Somatic variant calling tool for matched tumor-normal samples
+        detects somatic SNVs and small indels in tumour/normal pairs
     </description>
     <macros>
         <import>citations.xml</import>
-    </macros>    
-    <parallelism method="multi" split_inputs="interval_file" split_mode="to_size" split_size="1" shared_inputs="normal,tumour,config" merge_outputs="snvs,indels"></parallelism>
+    </macros>
     <requirements>
         <requirement type="set_environment">STRELKA_INSTALL_DIR</requirement>
         <requirement type="set_environment">STRELKA_REPOSITORY_DIR</requirement>
     </requirements>
-    <stdio>
-        <regex match="INFO: Scanning reference genome" source="stderr" level="warning" description="Strelka verbose to stderr, not an error"/>
-        <regex match="INFO: Scanning reference genome complete" source="stderr" level="warning" description="Strelka verbose to stderr, not an error"/>
-    </stdio>    
-    <command>
-  
+    <command detect_errors="aggressive">
+
     <!-- LINK BAM INDEX -->
     ln -s $normal normal.bam;
     ln -s $normal.metadata.bam_index normal.bam.bai;
@@ -108,22 +103,22 @@
     </command>
     <inputs>
         <conditional name="reference_source">
-            <param label="Choose the source for the reference files" name="reference_source_selector" type="select">
-                <option value="cached">Locally Cached</option>
-                <option value="history">History</option>
+            <param label="Choose the source for the reference genome" name="reference_source_selector" type="select">
+                <option value="cached">Use a built-in genome</option>
+                <option value="history">Use a genome from the history</option>
             </param>
             <when value="cached">
-                <param label="Genome" name="ref_file" type="select">
-                    <options from_data_table="fasta_indexes"/>
+                <param label="Reference Genome File" name="ref_file" type="select" >
+                    <options from_data_table="fasta_indexes" />
                 </param>
             </when>
             <when value="history">
-                <param label="Genome" name="ref_file" type="data" format="fasta"/>
+                <param label="Reference Genome File" name="ref_file" type="data" format="fasta" />
             </when>
         </conditional>
-        <param type="data" format="bam" name="normal" label="Normal Alignment File"/>
-        <param type="data" format="bam" name="tumour" label="Tumour Alignment File"/>
-        <param type="data" format="txt" optional="true" name="interval_file" label="Inteval file" help="Created by make parallel, only use when parallelism is turned on"/>
+        <param type="data" format="bam" name="normal" label="Normal Alignment File" />
+        <param type="data" format="bam" name="tumour" label="Tumour Alignment File" />
+        <param type="data" format="txt" optional="true" name="interval_file" label="Chromosomes" help="Restrict SNV calls to the following list of chromosomes (one per line)" />
         <conditional type="depthfilters">
             <param type="select" name="seqType" label="What Type of Sequencing?">
                 <option value="genome" selected="true">Whole Genome</option>
@@ -155,8 +150,8 @@
         </section>
     </inputs>
     <outputs>
-        <data format="vcf" name="snvs"/>
-        <data format="vcf" name="indels"/>
+        <data format="vcf" name="snvs" label="Strelka SNVs"/>
+        <data format="vcf" name="indels" label="Strelka indels"/>
     </outputs>
     <tests>
         <test>
@@ -164,8 +159,8 @@
             <param name="tumour" value="test.tumour.bam"/>
             <param name="reference_source" value="history"/>
             <param name="ref_file" value="test.fa"/>
-            <output name="snvs" ftype="vcf" file="all.somatic.snvs.vcf" lines_diff="2"/>
-            <output name="indels" ftype="vcf" file="all.somatic.indels.vcf" lines_diff="2"/>
+            <output name="snvs" ftype="vcf" file="somatic.all.somatic.snvs.vcf" lines_diff="2"/>
+            <output name="indels" ftype="vcf" file="somatic.all.somatic.indels.vcf" lines_diff="2"/>
         </test>
     </tests>
     <help>
