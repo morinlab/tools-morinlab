@@ -1,0 +1,116 @@
+<tool id="vardictjava" name="VarDictJava" version="1.4.6">
+    <description>
+        VarDict is a variant discovery program. It can run in single sample, paired sample, or amplicon bias aware modes.
+    </description>
+
+    <requirements>
+        <requirement type="package" version="5.18.1">perl</requirement>
+        <requirement type="package" version="3.0.2">R_3_0_2</requirement>
+        <requirement type="package" version="0.1.19">samtools</requirement>
+        <requirement type="package" version="1.4.6">vardictjava</requirement>
+        <requirement type="set_environment">VARDICT_DIR</requirement>
+    </requirements>
+
+    <command detect_errors="aggressive">
+        <!-- LINK BAM INDEX -->
+        ln -s $sample.normal ./normal.bam;
+        ln -s $sample.normal.metadata.bam_index ./normal.bam.bai;
+        ln -s $sample.tumor tumor.bam;
+        ln -s $sample.tumor.metadata.bam_index ./tumor.bam.bai;
+
+        <!-- INDEX REFERENCE FASTA FILE IF FROM HISTORY -->
+        #if $reference_source.reference_source_selector == "history":
+            ln -s $reference_source.ref_file ref.fa;
+            samtools faidx ref.fa;
+        #end if
+
+        <!-- BUILD VARDICT COMMAND -->
+        \$VDJ_DIR/build/install/VarDict/bin/VarDict
+        <!-- REFERENCE GENOME FILE -->
+        #if $reference_source.reference_source_selector == "history":
+            -G ref.fa
+        #else
+            -G ${reference_source.ref_file.fields.path}
+        #end if
+        <!-- ADVANCED OPTIONS -->
+        -f ${advancedsettings.AF_THR}
+        -k ${advancedsettings.k}
+        -r ${advancedsettings.r}
+        -B ${advancedsettings.B}
+        -Q ${advancedsettings.Q}
+        -q ${advancedsettings.q}
+        -m ${advancedsettings.m}
+        -T ${advancedsettings.T}
+        -X ${advancedsettings.X}
+        -P ${advancedsettings.P}
+        -o ${advancedsettings.o}
+        -O ${advancedsettings.O}
+        -V ${advancedsettings.V}
+        <!-- SAMPLE MODE -->
+        -N "${sample.tumor}" -b "./tumor.bam|./normal.bam"
+        <!-- CONSTRUCT VCF TABLE -->
+        -c 1 -S 2 -E 3 -g 4
+        <!-- REGION SPECIFICATION METHOD -->
+        #if ${interval_file}
+            -R ${interval_file}
+        #end if
+        |
+        <!-- RENAME AND REFILTER FOR MIN ALLELE FREQ -->
+        \$VDJ_DIR/VarDict/testsomatic.R | \$VDJ_DIR/VarDict/var2vcf_somatic.pl -N "${sample.tumor}|${sample.normal}"
+        <!-- ADD MORE FILTERING OPTIONS FROM VAR2VCF SCRIPTS LATER -->
+        -f ${AF_THR} > ${out_file}
+    </command>
+
+    <inputs>
+        <conditional name="reference_source">
+            <param name="reference_source_selector" type="select" label="Choose the source for the reference genome file">
+                <option value="cached" selected="True">Use a built-in genome</option>
+                <option value="history">Use a genome from the history</option>
+            </param>
+            <when value="cached">
+                <param name="ref_file" type="select" label="Reference Genome File">
+                    <options from_data_table="fasta_indexes"/>
+                </param>
+            </when>
+            <when value="history">
+                <param name="ref_file" format="fasta" type="data" label="Reference Genome File" />
+            </when>
+        </conditional>
+
+        <param name="normal" type="data" format="bam" label="Normal Alignment File" />
+        <param name="tumour" type="data" format="bam" label="Tumour Alignment File" />
+        <param name="interval_file" type="data" format="txt" optional="true" label="Chromosomes" help="Restrict SNV calls to the following list of chromosomes (one per line)" />
+
+        <section name="advancedsettings" title="Advanced Settings" expanded="False">
+            <param name="AF_THR" type="float" value="0.02" label="Minimum allele frequency" />
+            <param name="k" type="integer" value="1" label="Set to 0 to disable local realignment"/>
+            <param name="r" type="integer" value="2" label="The minimum # of variance reads"/>
+            <param name="B" type="integer" value="2" label="The minimum # of reads to determine strand bias"/>
+            <param name="Q" type="integer" value="0" label="Reads with mapping quality less than INT will be filtered and ignored"/>
+            <param name="q" type="integer" value="25" label="The phred score for a base to be considered a good call. 25 is recommended for Illumina. For PGM, set it to ~15, as PGM tends to under estimate base quality"/>
+            <param name="m" type="integer" value="0" label="reads with mismatches more than INT will be filtered and ignored. Gaps are not counted as mismatches"/>
+            <param name="T" type="integer" value="0" label="Trim bases after [INT] bases in the reads"/>
+            <param name="X" type="integer" value="3" label="Extension of bp to look for mismatches after insersion or deletion"/>
+            <param name="P" type="integer" value="25" label="The read position filter. If the mean variants position is less that specified, it`s considered false positive"/>
+            <param name="o" type="float" value="1.5" label="The Qratio of (good_quality_reads)/(bad_quality_reads+0.5). The quality is defined by the phred score considered a good call, defined above"/>
+            <param name="O" type="float" value="0" label="MapQ value. The reads should have at least mean MapQ to be considered a valid variant"/>
+            <param name="V" type="float" value="0.05" label="The lowest frequency in normal sample allowed for a putative somatic mutations"/>
+        </section>
+    </inputs>
+
+    <outputs>
+        <data name="snvs" format="vcf" label="VarDict SNVs" />
+    </outputs>
+
+    <help>
+        <![CDATA[
+        https://github.com/AstraZeneca-NGS/VarDictJava
+        ]]>
+    </help>
+
+    <citations>
+        <expand macro="morinlab_citation" />
+        <expand macro="galaxy_citation" />
+        <expand macro="vardict_citation" />
+    </citations>
+</tool>
