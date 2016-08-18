@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<tool_dependency>
+  <package name="strelka" version="1.0.14">
+    <install version="1.0">
+      <actions>
+        <action type="download_by_url">ftp://strelka@ftp.illumina.com/v1-branch/v1.0.14/strelka_workflow-1.0.14.tar.gz</action>
+        <action type="shell_command">./configure --prefix=$INSTALL_DIR</action>
+        <action type="shell_command">make</action>
+        <action type="shell_command">make install</action>
+        <action type="set_environment">
+          <environment_variable action="set_to" name="STRELKA_INSTALL_DIR">$INSTALL_DIR</environment_variable>
+          <environment_variable action="set_to" name="STRELKA_RESPOSITORY_DIR">$REPOSITORY_DIR</environment_variable>
+        </action>
+      </actions>
+    </install>
+  </package>
+</tool_dependency>

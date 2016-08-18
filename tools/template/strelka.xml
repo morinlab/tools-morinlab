@@ -1,0 +1,182 @@
+<tool id="strelka" name="Strelka" version="1.0.14">
+    <description>
+        Somatic variant calling tool for matched tumor-normal samples
+    </description>
+    <macros>
+        <import>citations.xml</import>
+    </macros>    
+    <parallelism method="multi" split_inputs="interval_file" split_mode="to_size" split_size="1" shared_inputs="normal,tumour,config" merge_outputs="snvs,indels"></parallelism>
+    <requirements>
+        <requirement type="set_environment">STRELKA_INSTALL_DIR</requirement>
+        <requirement type="set_environment">STRELKA_REPOSITORY_DIR</requirement>
+        <requirement type="package" version="1.0.14">strelka</requirement>
+    </requirements>
+    <stdio>
+        <regex match="INFO: Scanning reference genome" source="stderr" level="warning" description="Strelka verbose to stderr, not an error"/>
+        <regex match="INFO: Scanning reference genome complete" source="stderr" level="warning" description="Strelka verbose to stderr, not an error"/>
+    </stdio>    
+    <command>
+  
+    <!-- LINK BAM INDEX -->
+    ln -s $normal normal.bam;
+    ln -s $normal.metadata.bam_index normal.bam.bai;
+    ln -s $tumour tumour.bam;
+    ln -s $tumour.metadata.bam_index tumour.bam.bai;
+
+    <!-- CREATE CONFIG FILE -->
+    touch config.ini;
+    #if #depthfilters == "genome":
+       echo "isSkipDepthFilters = 0" >> config.ini;
+       echo "maxInputDepth = 10000" >> config.ini;
+       echo "depthFilterMultiple = 3.0" >> config.ini;
+    #elif #depthfilters == "exome":
+       echo "isSkipDepthFilters = 1" >> config.ini;
+       echo "maxInputDepth = 10000" >> config.ini;
+       echo "depthFilterMultiple = 3.0" >> config.ini;
+    #elif #depthfilters == "targeted":
+       echo "isSkipDepthFilters = 1" >> config.ini;
+       echo "maxInputDepth = 10000" >> config.ini;
+       echo "depthFilterMultiple = 3.0" >> config.ini;
+    #else:
+       echo "isSkipDepthFilters = "$isSkipDepthFilters >> config.ini;
+       echo "maxInputDepth = "$maxInputDepth >> config.ini;
+       echo "depthFilterMultiple = "$depthFilterMultiple >> config.ini;
+    #end if
+    echo "snvMaxFilteredBasecallFrac = "$advancedsettings.snvMaxFilteredBasecallFrac >> config.ini;
+    echo "snvMaxSpanningDeletionFrac = "$advancedsettings.snvMaxSpanningDeletionFrac >> config.ini;
+    echo "indelMaxRefRepeat = "$advancedsettings.indelMaxRefRepeat >> config.ini;
+    echo "indelMaxWindowFilteredBasecallFrac = "$advancedsettings.indelMaxWindowFilteredBasecallFrac >> config.ini;
+    echo "indelMaxIntHpolLength = "$advancedsettings.indelMaxIntHpolLength >> config.ini;
+    echo "ssnvPrior = "$advancedsettings.ssnvPrior >> config.ini;
+    echo "sindelPrior = "$advancedsettings.sindelPrior >> config.ini;
+    echo "ssnvNoise = "$advancedsettings.ssnvNoise >> config.ini;
+    echo "sindelNoise = "$advancedsettings.sindelNoise >> config.ini;
+    echo "ssnvNoiseStrandBiasFrac = "$advancedsettings.ssnvNoiseStrandBiasFrac >> config.ini;
+    echo "minTier1Mapq = "$advancedsettings.minTier1Mapq >> config.ini;
+    echo "minTier2Mapq = "$advancedsettings.minTier2Mapq >> config.ini;
+    echo "ssnvQuality_LowerBound = "$advancedsettings.ssnvQuality_LowerBound >> config.ini;
+    echo "sindelQuality_LowerBound = "$advancedsettings.sindelQuality_LowerBound >> config.ini;
+    echo "isWriteRealignedBam = 0" >> config.ini;
+    echo "binSize = 25000000" >> config.ini;
+    echo "extraStrelkaArguments = " >> config.ini;
+
+    <!-- INDEX GENOME IF HISTORY -->
+    #if $reference_source == "history":
+        ln -s $reference_source.ref_file ref.fa;
+        samtools faidx ref.fa;
+    #end if
+
+    <!-- CREATE ORIGINAL STRELKA MAKEFILE -->
+    \$STRELKA_INSTALL_DIR/bin/configureStrelkaWorkflow.pl
+    --normal \$(pwd)/normal.bam
+    --tumor \$(pwd)/tumour.bam
+    #if $reference_source == "history":
+        --ref ref.fa
+    #else:
+        --ref ${reference_source.ref_file.fields.path}
+    #end if
+    --config \$(pwd)/config.ini
+
+    #if $interval_file
+        
+        <!-- CREATE SUB-MAKEFILE IF PARALLELISM TURNED ON -->
+        cp ./strelkaAnalysis/Makefile ./;
+
+        \$REPOSITORY_STRELKA_DIR/parse_strelka_makefile.py 
+        --makefile Makefile
+        --chrom \$(cat $interval_file | cut -f1)
+        --output ./strelkaAnalysis/Makefile;
+
+    #end if
+
+    <!-- RUN STRELKA -->
+    cd strelkaAnalysis;
+    make -j \${GALAXY_SLOTS:-1};
+
+    #if $interval_file
+
+        <!-- OUTPUT FOR PARALLEL OPTION - TO BE MERGED -->
+        cat ./chromosomes/\$(cat $interval_file | cut -f1)/all.somatic.snvs.vcf > $snvs;
+        cat ./chromosomes/\$(cat $interval_file | cut -f1)/all.somatic.indels.vcf > $indels;
+    
+    #else
+
+        <!-- OUTPUT FOR NORMAL OPTION - ALREADY MERGED -->
+        cat ./results/all.somatic.snvs.vcf > $snvs;
+        cat ./results/all.somatic.indels.vcf > $indels; 
+
+    #end if
+    </command>
+    <inputs>
+        <conditional name="reference_source">
+            <param label="Choose the source for the reference files" name="reference_source_selector" type="select">
+                <option value="cached">Locally Cached</option>
+                <option value="history">History</option>
+            </param>
+            <when value="cached">
+                <param label="Genome" name="ref_file" type="select">
+                    <options from_data_table="fasta_indexes"/>
+                </param>
+            </when>
+            <when value="history">
+                <param label="Genome" name="ref_file" type="data" format="fasta"/>
+            </when>
+        </conditional>
+        <param type="data" format="bam" name="normal" label="Normal Alignment File"/>
+        <param type="data" format="bam" name="tumour" label="Tumour Alignment File"/>
+        <param type="data" format="txt" optional="true" name="interval_file" label="Inteval file" help="Created by make parallel, only use when parallelism is turned on"/>
+        <conditional type="depthfilters">
+            <param type="select" name="seqType" label="What Type of Sequencing?">
+                <option value="genome" selected="true">Whole Genome</option>
+                <option value="exome">Exome</option>
+                <option value="targeted">Targeted</option>
+                <option value="other">What are you hiding from me?</option>
+            </param>
+            <when value="other">
+                <param name="isSkipDepthFilters" type="boolean" label="Skip Reads Above Depth Threshold?" help="Should we skip reads if they exist above the chromosome average depth multiplied by the Depth Filter Multiple? Should only be true for Whole Genome Sequencing." checked="true" truevalue="0" falsevalue="1"/>
+                <param name="depthFilterMultiple" type="float" label="Depth Filter Multiple" value="3.0"/>
+                <param name="maxInputDepth" type="integer" label="Max Input Depth" value="10000" help="The upper bound on input depth to load into memory. This filter should not occur with Deep Targeted Sequencing but should occur with Exome or Whole Genome Sequencing. Set to 0 to turn off" min="0"/>
+            </when>
+        </conditional>
+        <section name="advancedsettings" title="Advanced Settings" expanded="False">
+            <param type="float"   name="snvMaxFilteredBasecallFrac"         value="0.4"       label="SNV Max Filtered Basecall Fraction" help="Filter SNV calls when greater than this fraction of basecalls have been removed by a mismatch density filter in either sample."/> 
+            <param type="float"   name="snvMaxSpanningDeletionFrac"         value="0.75"      label="SNV Max Spanning Deletion Fraction" help="Filter SNV calls at sites where greater than this fraction of overlapping reads contain deletions which span the SNV call site."/>
+            <param type="integer" name="indelMaxRefRepeat"                  value="8"         label="Indel Max Reference Homopolymer Length" help="Filter Indel calls if they represent an expansion or contraction of a repeated pattern with a repeat count greater than this value in the reference."/>
+            <param type="float"   name="indelMaxWindowFilteredBasecallFrac" value="0.3"       label="Indel Max Window Filtered Basecall Fraction" help="Filter Indel calls if greater than this fraction of basecalls in a window extending 50 bases to each side of the indel's call positions have been removed by the mismatch density filter."/>
+            <param type="integer" name="indelMaxIntHpolLength"              value="14"        label="Indel Max Interrupted Homopolymers Length" help="Filter Indel calls if the longest homopolymer which can be found intersecting or adjacent to the called indel when a single non-homopolymer base is allowed is greater than this length."/>
+            <param type="float"   name="ssnvPrior"                          value="0.000001"  label="SNV Prior Probability"/>
+            <param type="float"   name="sindelPrior"                        value="0.000001"  label="Indel Prior Probability"/>
+            <param type="float"   name="ssnvNoise"                          value="0.0000005" label="SNV Noise Probability"/>
+            <param type="float"   name="sindelNoise"                        value="0.000001"  label="Indel Noise Probability"/>
+            <param type="float"   name="ssnvNoiseStrandBiasFrac"            value="0.5"       label="SNV Noise Fraction Attributed to Strand Bias"/>
+            <param type="integer" name="minTier1Mapq"                       value="20"        label="Min Tier1 Mapping Quality"/>
+            <param type="integer" name="minTier2Mapq"                       value="5"         label="Min Tier2 Mapping Quality"/>
+            <param type="integer" name="ssnvQuality_LowerBound"             value="15"        label="SNV Quality Score Lower Bound"/>
+            <param type="integer" name="sindelQuality_LowerBound"           value="30"        label="Indel Quality Score Lower Bound"/>
+        </section>
+    </inputs>
+    <outputs>
+        <data format="vcf" name="snvs"/>
+        <data format="vcf" name="indels"/>
+    </outputs>
+    <tests>
+        <test>
+            <param name="normal" value="test.normal.bam"/>
+            <param name="tumour" value="test.tumour.bam"/>
+            <param name="reference_source" value="history"/>
+            <param name="ref_file" value="test.fa"/>
+            <output name="snvs" ftype="vcf" file="all.somatic.snvs.vcf" lines_diff="2"/>
+            <output name="indels" ftype="vcf" file="all.somatic.indels.vcf" lines_diff="2"/>
+        </test>
+    </tests>
+    <help>
+
+This tool generates VCF files by calling Strelka, a Somatic Nucleotide Variant Caller, on Tumour Normal Pairs.
+
+    </help>    
+    <citations>
+        <expand macro="morinlab_citation"/>
+        <expand macro="galaxy_citation"/>
+        <expand macro="strelka_citation"/>
+    </citations>
+</tool>
