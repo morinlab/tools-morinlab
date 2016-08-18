@@ -4,7 +4,7 @@
             @unpublished{
             albuquerque2016galaxy,
             author = "Marco Albuquerque and Bruno Grande and Elie Ritch and Martin Krzywinski and Prasath Pararajalingam and Selin Jessa and Paul Boutros and Sohrab Shah and Ryan Morin",
-            title = "A Galaxy Toolbox for the Analysis of Cancer Genomes",
+            title = "A Suite of Galaxy Tools for Cancer Mutational Analysis",
             note = "Unpublished Manuscript",
             year = "2016"
             }
