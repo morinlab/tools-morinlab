@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<tool_dependency>
+  <package name="strelka" version="1.0.14">
+    <repository name="package_strelka_1_0_14"/>
+  </package>
+</tool_dependency>
