@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<tool_dependency>
+	<package name="morinlab_scripts" version="14.2">
+		<install version="1.0">
+			<actions>
+				<action type="download_by_url">
+					https://github.com/morinlab/lab_scripts/archive/14.2.tar.gz
+				</action>
+
+				<action type="move_directory_files">
+           			<source_directory>.</source_directory>
+           			<destination_directory>$INSTALL_DIR</destination_directory>
+       			 </action>
+
+				<action type="set_environment">
+					<environment_variable action="set_to" name="MORINLAB_SCRIPTS">$INSTALL_DIR</environment_variable>
+				</action>
+
+			</actions>
+		</install>
+		<readme>
+			Downloads and extracts the lab_scripts repository from the Morin Lab (https://github.com/morinlab/lab_scripts) which contains wrappers for useful tools for cancer mutational analysis.
+		</readme>
+	</package>
+</tool_dependency>
