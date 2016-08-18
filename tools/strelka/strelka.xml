@@ -6,6 +6,7 @@
         <import>citations.xml</import>
     </macros>
     <requirements>
+        <requirement type="package" version="1.0.14">strelka</requirement>
         <requirement type="set_environment">STRELKA_INSTALL_DIR</requirement>
         <requirement type="set_environment">STRELKA_REPOSITORY_DIR</requirement>
     </requirements>
