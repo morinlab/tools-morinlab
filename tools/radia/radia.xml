@@ -1,0 +1,91 @@
+<tool id="radia" name="RADIA" version="1.1.3">
+	<description>
+    identifies DNA variants in tumour/normal pairs
+	</description>
+  <macros>
+    <import>citations.xml</import>
+  </macros>
+  <requirements>
+    <requirement type="package" version="1.1.3">radia</requirement>
+  </requirements>
+  <command>
+
+		<!-- Linking BAM Indexs to current working directory -->
+    ln -s $normal normal.bam;
+    ln -s $normal.metadata.bam_index normal.bam.bai;
+    ln -s $tumour tumour.bam;
+    ln -s $tumour.metadata.bam_index tumour.bam.bai;
+
+    <!-- Index Reference if from History -->
+    #if $reference_source.reference_source_selector == "history":
+        ln -s $reference_source.ref_file ref.fa;
+        samtools faidx ref.fa;
+    #end if
+
+		<!-- Run RADIA -->
+    #if $interval:
+      for i in \$(cat $interval); do
+    #else:
+      for i in \$(samtools view -H normal.bam | cut -f2 | tail -n+2 | cut -c4- ); do
+    #end if
+
+    python \$RADIA_INSTALL_DIR/radia_src/scripts/radia.py
+      test
+      \$i
+      -n normal.bam
+      -t tumour.bam
+      #if $reference_source.reference_source_selector == "history":
+        -f ref.fa
+      #else
+        -f ${reference_source.ref_file.fields.path}
+      #end if
+      -o \$i.output; done ;
+
+    grep ^# \$i.output > $output;
+
+    #if $interval:
+      for i in \$(cat $interval); do
+    #else:
+      for i in \$(samtools view -H normal.bam | cut -f2 | tail -n+2 | cut -c4- ); do
+    #end if   
+
+    grep -v ^# \$i.output >> $output;
+
+    done
+
+	</command>
+	<inputs>
+    <conditional name="reference_source">>
+      <param label="Choose the source for the reference genome" name="reference_source_selector" type="select">
+        <option value="cached">Use a built-in genome</option>
+        <option value="history">Use a genome from the history</option>
+      </param>
+      <when value="cached">
+        <param label="Reference Genome File" name="ref_file" type="select" >
+          <options from_data_table="fasta_indexes"/>
+        </param>
+      </when>
+      <when value="history">
+        <param label="Reference Genome File" name="ref_file" type="data" format="fasta" />
+      </when>
+    </conditional>
+    <param type="data" format="bam" name="normal" label="Normal Alignment File" />
+    <param type="data" format="bam" name="tumour" label="Tumour Alignment File" />
+    <param type="data" format="txt" name="interval" optional="true" label="Chromosomes" help="Restrict SNV calls to the following list of chromosomes (one per line)" />
+  </inputs>
+	<outputs>
+		<data format="vcf" name="output" label="RADIA SNVs" />
+	</outputs>
+  <help>
+    <![CDATA[
+      RADIA outputs any differences compared to the reference and the normal DNA which could be potential somatic mutations.
+
+      See the RADIA documentation at https://github.com/aradenbaugh/radia/blob/master/README.md
+    ]]>
+  </help>
+  <citations>
+    <expand macro="morinlab_citation" />
+    <expand macro="galaxy_citation" />
+    <expand macro="radia_citation" />
+  </citations>
+</tool>

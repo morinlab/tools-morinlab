@@ -43,4 +43,22 @@
         }
         </citation>
     </xml>
+    <xml name="radia_citation">
+        <citation type="bibtex">
+            @article{
+            Radenbaugh2014-tj,
+            title={RADIA: RNA and DNA integrated analysis for somatic
+            mutation detection},
+            author={Radenbaugh, Amie J and Ma, Singer and Ewing, Adam and Stuart,
+            Joshua M and Collisson, Eric A and Zhu, Jingchun and Haussler,
+            David},
+            journal={PLoS One},
+            volume={9},
+            number={11},
+            pages={e111516},
+            year={2014},
+            publisher={PLoS}
+            }
+        </citation>
+    </xml>
 </macros>
