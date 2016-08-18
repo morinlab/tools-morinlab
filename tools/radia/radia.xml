@@ -1,0 +1,83 @@
+<tool id="radia" name="RADIA" version="1.1.3">
+	<description>
+	   SNV Caller	
+	</description>
+  <macros>
+    <import>citations.xml</import>
+  </macros>
+  <requirements>
+    <requirement type="package" version="1.1.3">radia</requirement>
+  </requirements>
+  <command>
+
+		<!-- Linking BAM Indexs to current working directory -->
+    ln -s $normal normal.bam;
+    ln -s $normal.metadata.bam_index normal.bam.bai;
+    ln -s $tumour tumour.bam;
+    ln -s $tumour.metadata.bam_index tumour.bam.bai;
+
+    <!-- Index Reference if from History -->
+    #if $reference_source.reference_source_selector == "history":
+        ln -s $reference_source.ref_file ref.fa;
+        samtools faidx ref.fa;
+    #end if
+
+		<!-- Run Mutation Seq -->
+    #if $interval:
+      for i in \$(cat $interval); do
+    #else:
+      for i in \$(samtools view -H normal.bam | cut -f2 | tail -n+2 | cut -c4- ); do
+    #end if
+
+    python \$RADIA_INSTALL_DIR/radia_src/scripts/radia.py
+      test
+      \$i
+      -n normal.bam
+      -t tumour.bam
+      #if $reference_source.reference_source_selector == "history":
+        -f ref.fa
+      #else
+        -f ${reference_source.ref_file.fields.path}
+      #end if
+      -o \$i.output; done ;
+
+    grep ^# \$i.output > $output;
+
+    #if $interval:
+      for i in \$(cat $interval); do
+    #else:
+      for i in \$(samtools view -H normal.bam | cut -f2 | tail -n+2 | cut -c4- ); do
+    #end if   
+
+    grep -v ^# \$i.output >>q $output;
+
+    done
+
+	</command>
+	<inputs>
+    <conditional name="reference_source">
+      <param label="Choose the source for the reference files" name="reference_source_selector" type="select">
+        <option value="cached">Locally Cached</option>
+        <option value="history">History</option>
+      </param>
+      <when value="cached">
+        <param label="Genome" name="ref_file" type="select">
+          <options from_data_table="fasta_indexes"/>
+        </param>
+      </when>
+      <when value="history">
+        <param label="Genome" name="ref_file" type="data" format="fasta"/>
+      </when>
+    </conditional>
+    <param type="data" format="bam" name="normal" label="Normal Alignment File"/>
+    <param type="data" format="bam" name="tumour" label="Tumour Alignment File"/>
+    <param type="data" format="txt" optional="true" name="interval" label="Specify Interval"/>    
+  </inputs>
+	<outputs>
+		<data format="vcf" name="output"/>
+	</outputs>
+  <citations>
+    <expand macro="morinlab_citation"/>
+    <expand macro="galaxy_citation"/>
+    <expand macro="radia_citation"/>
+</tool>
