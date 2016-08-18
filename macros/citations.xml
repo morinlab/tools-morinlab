@@ -2,41 +2,45 @@
     <xml name="morinlab_citation">
         <citation type="bibtex">
             @unpublished{
-            albuquerque2015galaxy,
-            author = {Marco Albuquerque and Bruno Grande and Elie Ritch and Jasleen Grewal and Paul Boutros and Sohrab Shah and Ryan Morin},
-            title = {A Galaxy Toolbox for Analysis of Cancer Genomes},
-            note = {Unpublished Manuscript},
-            year = {2015}
+            albuquerque2016galaxy,
+            author = "Marco Albuquerque and Bruno Grande and Elie Ritch and Martin Krzywinski and Prasath Pararajalingam and Selin Jessa and Paul Boutros and Sohrab Shah and Ryan Morin",
+            title = "A Galaxy Toolbox for the Analysis of Cancer Genomes",
+            note = "Unpublished Manuscript",
+            year = "2016"
             }
         </citation>
     </xml>
     <xml name="galaxy_citation">
         <citation>
-            @article{
-            goecks2010galaxy,
-            title={Galaxy: a comprehensive approach for supporting accessible, reproducible, and transparent computational research in the life sciences},
-            author={Goecks, Jeremy and Nekrutenko, Anton and Taylor, James and others},
-            journal={Genome Biol},
-            volume={11},
-            number={8},
-            pages={R86},
-            year={2010}
-            }
+        @ARTICLE{Goecks2010-ra,
+          title    = "Galaxy: a comprehensive approach for supporting accessible,
+                      reproducible, and transparent computational research in the life
+                      sciences",
+          author   = "Goecks, Jeremy and Nekrutenko, Anton and Taylor, James and
+                      {Galaxy Team}",
+          journal  = "Genome Biol.",
+          volume   =  11,
+          number   =  8,
+          pages    = "R86",
+          month    =  "25~" # aug,
+          year     =  2010
+        }
         </citation>
     </xml>
     <xml name="strelka_citation">
         <citation type="bibtex">
-            @article{
-            saunders2012strelka,
-            title={Strelka: accurate somatic small-variant calling from sequenced tumor--normal sample pairs},
-            author={Saunders, Christopher T and Wong, Wendy SW and Swamy, Sajani and Becq, Jennifer and Murray, Lisa J and Cheetham, R Keira},
-            journal={Bioinformatics},
-            volume={28},
-            number={14},
-            pages={1811--1817},
-            year={2012},
-            publisher={Oxford Univ Press}
-            }
+        @ARTICLE{Saunders2012-nh,
+          title    = "Strelka: accurate somatic small-variant calling from sequenced
+                      tumor-normal sample pairs",
+          author   = "Saunders, Christopher T and Wong, Wendy S W and Swamy, Sajani and
+                      Becq, Jennifer and Murray, Lisa J and Cheetham, R Keira",
+          journal  = "Bioinformatics",
+          volume   =  28,
+          number   =  14,
+          pages    = "1811--1817",
+          month    =  "15~" # jul,
+          year     =  2012
+        }
         </citation>
     </xml>
 </macros>
