@@ -20,6 +20,26 @@ Appropriate citations should be included in the `citations.xml` file and importe
 
 A short description of the tool should be included in the wrapper's README section. This can be quoted from the underlying tool's website; make sure it is referenced properly. Whether or not you quote the description, you should include a link to the tool website for the user's convenience. 
 
+### Toolshed Items
+
+#### Package Synopsis (Tool Dependency Repository)
+
+"Contains a tool dependency definition that downloads and compiles $tool version $tool_version"
+
+$tool = RADIA, EXPANDS, Strelka, ProDuSe (proper caps)
+$tool_version = 0.1.2, 1.0.14, etc.
+
+#### Tool Synopsis
+
+A single sentence explaining the purpose of the tool.
+
+e.g. Identifies SNVs from tumour/normal BAMs 
+
+#### Detailed Description
+
+Not necessary, include at your leisure if you think text isn't redundant. 
+
 ## Tool Polishing for Main Toolshed
 
 TBD.
+
