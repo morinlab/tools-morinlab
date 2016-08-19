@@ -1,0 +1,121 @@
+<tool id="somatic_sniper" name="SomaticSniper" version="1.0">
+	<description>Identify single nucleotide positions that are different between tumor and normal</description>
+	<requirements>
+		<requirement type="package" version="1.0.5.0">somatic_sniper</requirement>	
+		<requirement type="set_environment">SOMATICSNIPER_DIR</requirement>
+	</requirements> 
+	<command detect_errors="aggressive">
+<![CDATA[
+		##link bams with index
+		ln -s $normal normal.bam;
+		ln -s $normal.metadata.bam_index normal.bam.bai;
+		ln -s $tumor tumor.bam;
+		ln -s $tumor.metadata.bam_index tumor.bam.bai;
+		
+		##BUILD CONDITIONAL COMMAND LINE 
+		\$SOMATICSNIPER_DIR/bin/bam-somaticsniper
+
+		#if $advancedsettings.q
+ 			-q $advancedsetting.q
+		#end if
+
+		#if $advancedsettings.Q
+			-Q $advancedsettings.Q
+		#end if
+
+		#if $advancedsettings.T
+			-T $advancedsettings.T
+		#end if
+
+		#if $advancedsettings.N
+			-N $advancedsettings.N
+		#end if
+
+		#if $advancedsettings.r
+			-r $advancedsettings.r
+		#end if
+
+		#if $advancedsettings.n
+			-n $advancedsettings.n
+		#end if
+
+		#if $advancedsettings.t
+			-t $advancedsettings.t
+		#end if
+
+		#if $advancedsettings.L == "-L"
+			-L 
+		#end if
+
+		#if $advancedsettings.G == "-G"
+			-G 
+		#end if
+
+		#if $advancedsettings.p == "-p"
+			-p
+		#end if
+
+		-F $outputop
+
+		##REFERENCE TYPE FROM DATA TABLE WITH INDEX IF CUSTOM THEN MUST USE SAMTOOLS FAIDX INDEX
+		#if $ref.ref_options == "cached"
+			-f ${ref.index.fields.path}
+		#else
+			-f ${ref.ownFile}
+		#end if
+
+		tumor.bam
+		normal.bam
+		snvoutput;
+
+		cat ./snvoutput > $snp_output
+		
+]]>
+	</command>
+	<inputs>
+		<conditional name="ref">
+			<param name="ref_options" type="select" label="Choose the source for the reference genome">
+				<option value="cached" selected="True">Use a built-in genome</option>
+				<option value="history">Use a genome from the history</option>
+			</param>
+			<when value="cached">
+				<param name="index" type="select" label="Reference Genome File" >
+					<options from_data_table="all_fasta" />
+				</param>
+      			</when>
+      			<when value="history">
+        			<param format="fasta" name="ownFile" type="data" metadata_name="dbkey" label="Reference Genome File" />
+      			</when>
+		</conditional>
+		<param format="bam" name="normal" type="data" label="Normal Alignment File" />
+		<param format="bam" name="tumor" type="data" label="Tumour Alignment File" />
+		<param name="outputop" type="select" label="Output Type">
+			<option value="vcf" selected="True">VCF</option>
+			<option value="classic">Classic</option>
+			<option value="bed">BED</option>
+		</param>
+		<section name="advancedsettings" title="Advanced Settings" expanded="False" >
+			<param name="q" type="integer" value="0" label="filtering reads with mapping quality less than INT [0]"/>
+			<param name="Q" type="integer" value="15" label="filtering somatic snv output with somatic quality less than  INT [15]"/>
+			<param name="T" type="float" value="0.850000" label="theta in maq consensus calling model (for -c/-g) [0.850000]"/>
+			<param name="N" type="integer" value="2" label="number of haplotypes in the sample (for -c/-g) [2]"/>
+			<param name="r" type="float" value="0.001000" label="prior of a difference between two haplotypes (for -c/-g) [0.001000]"/>
+			<param name="n" type="text" value="NORMAL" label="normal sample id (for VCF header) [NORMAL]"/>
+			<param name="t" type="text" value="TUMOR" label="STRING tumor sample id (for VCF header) [TUMOR]"/>
+  			<param name="L" type="boolean" truevalue="-L" falsevalue="" checked="true" label="do not report LOH variants as determined by genotypes" />
+  			<param name="G" type="boolean"  truevalue="-G" falsevalue="" checked="true" label="do not report Gain of Reference variants as determined by genotypes" />
+  			<param name="p" type="boolean"  truevalue="-p" falsevalue="" checked="true" label="disable priors in the somatic calculation. Increases sensitivity for solid tumors" />
+		</section>
+	</inputs>
+	<outputs>
+		<data name="snp_output" format="text" label="SomaticSniper SNVs" />
+	</outputs>
+	<help>
+		http://gmt.genome.wustl.edu/packages/somatic-sniper/
+	</help>
+	<citations>
+		<expand macro="morinlab_citation" />
+		<expand macro="galaxy_citation" />
+		<expand macro="somatic_sniper_citation" />
+	</citations>
+</tool>
