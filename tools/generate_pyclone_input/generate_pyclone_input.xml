@@ -4,9 +4,9 @@
 	</description>
 	
 	<requirements>
+		<requirement type="package" version="1.0">generate_pyclone_input</requirement>
 		<requirement type="package" version="14.2">morinlab_scripts</requirement>
 		<requirement type="set_environment">MORINLAB_SCRIPTS</requirement>
-		<requirement type="package" version="1.7.2">expands</requirement>
 	</requirements>
 
 	<stdio>
