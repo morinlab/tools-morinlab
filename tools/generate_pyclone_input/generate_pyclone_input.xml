@@ -1,0 +1,49 @@
+<tool id="generate_pyclone_input" name="Generate PyClone input" version="14.2">
+	<description>
+		Generate PyClone input files from SNV and copy number data
+	</description>
+	
+	<requirements>
+		<requirement type="package" version="14.2">morinlab_scripts</requirement>
+		<requirement type="set_environment">MORINLAB_SCRIPTS</requirement>
+		<requirement type="package" version="1.7.2">expands</requirement>
+	</requirements>
+
+	<stdio>
+	   <exit_code range="1:" level="warning" />
+	   <exit_code range=":-1" level="warning" />
+	   <regex match="Error:" />
+	   <regex match="Exception:" />
+	</stdio>
+
+	<command>
+		Rscript \$MORINLAB_SCRIPTS/generate_pyclone_input/generate_pyclone_input.R
+		$segments $segments_mode $maf $sample_id .;
+
+		mv ./${sample_id}_pyclone_in.tsv $pyclone_input;
+	</command>
+
+	<inputs>
+		<!-- Required inputs -->
+		<param type="data" name="segments" format="tabular" label="Sequenza, Titan, OncoSNP, or IGV-friendly segments file"/>
+		<param name="segments_mode" label="Specify the source of the segments file" type="select">
+			<option value="S">Sequenza</option>
+			<option value="T">Titan</option>
+			<option value="I">IGV-friendly</option>
+		</param>
+		<param type="data" name="maf" format="tabular" label="Patient MAF file"/>
+		<param type="text" name="sample_id" size="20" label="Sample ID"/>
+	</inputs>
+
+	<outputs>
+		<data format="tabular" name="pyclone_input"/>
+	</outputs>
+
+	<tests>
+	</tests>
+
+	<help>
+	</help>
+
+</tool>
+

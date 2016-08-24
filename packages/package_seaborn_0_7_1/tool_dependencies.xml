@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<tool_dependency>
+    <package name="python" version="2.7.10">
+        <repository name="package_python_2_7_10" owner="morinlab" prior_installation_required="True" />
+    </package>
+
+    <package name="numpy" version="1.9">
+        <repository name="package_numpy_1_9" owner="iuc" prior_installation_required="True"/>
+    </package>
+
+    <package name="scipy" version="0.16">
+        <repository name="package_python_2_7_scipy_0_16" owner="iuc" prior_installation_required="True"/>
+    </package>
+
+    <package name="matplotlib" version="1.4">
+        <repository name="package_python_2_7_matplotlib_1_4" owner="iuc" prior_installation_required="True"/>
+    </package>
+
+    <package name="pandas" version="0.16">
+        <repository name="package_python_2_7_pandas_0_16" owner="iuc" prior_installation_required="True" />
+    </package>
+
+    <package name="seaborn" version="0.7.1">
+      <install version="1.0">
+
+          <actions>
+
+              <action type="setup_python_environment">
+                  <repository name="package_python_2_7_10" owner="morinlab">
+                        <package name="python" version="2.7.10" />
+                    </repository>
+
+                    <repository name="package_python_2_7_numpy_1_9" owner="iuc">
+                        <package name="numpy" version="1.9" />
+                    </repository>
+
+                    <repository name="package_python_2_7_scipy_0_16" owner="iuc">
+                        <package name="scipy" version="0.16" />
+                    </repository>
+
+                    <repository name="package_python_2_7_matplotlib_1_4" owner="iuc">
+                        <package name="matplotlib" version="1.4" />
+                    </repository>
+
+                    <repository name="package_python_2_7_pandas_0_16" owner="iuc">
+                        <package name="pandas" version="0.16" />
+                    </repository>
+
+                    <package md5sum="ef07e29e0f8a1f2726abe506c1a36e93">
+                        https://pypi.python.org/packages/ed/dc/f168ff9db34f8c03c568987b4f81603cd3df40dd8043722d526026381a91/seaborn-0.7.1.tar.gz
+                    </package>
+
+                </action>
+
+                <action type="set_environment">
+                    <environment_variable action="prepend_to" name="PYTHONPATH">$INSTALL_DIR</environment_variable>
+                    <environment_variable action="prepend_to" name="PYTHONPATH">$INSTALL_DIR/lib/python</environment_variable>
+                    <environment_variable action="prepend_to" name="PATH">$INSTALL_DIR</environment_variable>
+                    <environment_variable action="prepend_to" name="PATH">$INSTALL_DIR/bin</environment_variable>
+                    <environment_variable action="set_to" name="PYTHONPATH_SEABORN">$INSTALL_DIR</environment_variable>
+                    <environment_variable action="set_to" name="SEABORN_ROOT_DIR">$INSTALL_DIR</environment_variable>
+                </action>
+
+            </actions>
+        </install>
+
+        <readme>
+            Seaborn is a Python visualization library based on matplotlib. 
+            It provides a high-level interface for drawing attractive statistical graphics.
+        </readme>
+    </package>
+
+</tool_dependency>

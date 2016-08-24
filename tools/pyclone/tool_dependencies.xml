@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<tool_dependency>
+
+    <package name="morinlab_scripts" version="14.2">
+    	<repository changeset_revision="d3b1909ae69b" name="package_morinlab_scripts_14_2" owner="morinlab" toolshed="http://galaxy-morinlab.mbb.sfu.ca:9009" />
+  	</package>
+
+	<package name="pyclone" version="0.13.0.01762d9">
+		<repository name="package_pyclone_0_13_0_01762d9" owner="morinlab"/>
+	</package>
+
+</tool_dependency>
