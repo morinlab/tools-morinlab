@@ -39,10 +39,6 @@
 		<repository name="package_morinlab_scripts_14_2" owner="morinlab" prior_installation_required="True"/>
 	</package>
 
-	<package name="expands" version="1.7.2">
-		<repository name="package_expands_1_7_2" owner="morinlab" prior_installation_required="True"/>
-	</package>
-
 	<!-- Install PyClone -->
 	<package name="pyclone" version="0.13.0.01762d9">
 		<install version="1.0">
