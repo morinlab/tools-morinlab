@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<tool_dependency>
+
+	<!-- R -->
+	<package name="R" version="3.1.2">
+		<repository name="package_r_3_1_2_rjava" owner="morinlab" prior_installation_required="True" />	
+	</package>
+
+	<!-- Morinlab scripts with EXPANDS wrapper script -->
+	<package name="morinlab_scripts" version="14.2">
+		<repository name="package_morinlab_scripts_14_2" owner="morinlab" prior_installation_required="True"/>
+	</package>
+	
+	<!-- EXPANDS and other R packages -->
+	<package name="expands" version="1.7.2">
+
+		<install version="1.0">
+		<actions>
+
+			<action type="set_environment_for_install">
+				<repository name="package_r_3_1_2_rjava" owner="morinlab">
+					<package name="R" version="3.1.2"/>
+				</repository>
+			</action>
+
+			<action type="shell_command">R CMD javareconf -e</action>
+
+ 			<action type="setup_r_environment">
+				<repository name="package_r_3_1_2_rjava" owner="morinlab">	
+					<package name="R" version="3.1.2" />	
+				</repository>
+				<package>https://cran.r-project.org/src/contrib/modeltools_0.2-21.tar.gz</package>
+				<package>https://cran.r-project.org/src/contrib/mclust_5.2.tar.gz</package>
+				<package>https://cran.r-project.org/src/contrib/Archive/nnet/nnet_7.3-11.tar.gz</package>
+				<package>https://cran.r-project.org/src/contrib/flexmix_2.3-13.tar.gz</package>
+				<package>https://cran.r-project.org/src/contrib/Archive/nlme/nlme_3.1-122.tar.gz</package>
+				<package>https://cran.r-project.org/src/contrib/ape_3.5.tar.gz</package>
+				<package>https://cran.r-project.org/src/contrib/permute_0.9-0.tar.gz</package>
+				<package>https://cran.r-project.org/src/contrib/moments_0.14.tar.gz</package>
+				<package>https://cran.r-project.org/src/contrib/lattice_0.20-33.tar.gz</package>
+				<package>https://cran.r-project.org/src/contrib/argparser_0.4.tar.gz</package>
+				<package>https://cran.r-project.org/src/contrib/matlab_1.0.2.tar.gz</package>
+				<package>https://cran.r-project.org/src/contrib/magrittr_1.5.tar.gz</package>
+				<package>https://cran.r-project.org/src/contrib/Archive/digest/digest_0.6.9.tar.gz</package>
+				<package>https://cran.r-project.org/src/contrib/gtable_0.2.0.tar.gz</package>
+				<package>https://cran.r-project.org/src/contrib/Archive/Rcpp/Rcpp_0.12.5.tar.gz</package>
+				<package>https://cran.r-project.org/src/contrib/Archive/plyr/plyr_1.8.3.tar.gz</package>
+				<package>https://cran.r-project.org/src/contrib/Archive/stringi/stringi_1.0-1.tar.gz</package>
+				<package>https://cran.r-project.org/src/contrib/Archive/stringr/stringr_0.6.2.tar.gz</package>
+				<package>https://cran.r-project.org/src/contrib/Archive/reshape2/reshape2_1.4.tar.gz</package>
+				<package>https://cran.r-project.org/src/contrib/RColorBrewer_1.1-2.tar.gz</package>
+				<package>https://cran.r-project.org/src/contrib/dichromat_2.0-0.tar.gz</package>
+				<package>https://cran.r-project.org/src/contrib/colorspace_1.2-6.tar.gz</package>
+				<package>https://cran.r-project.org/src/contrib/Archive/munsell/munsell_0.4.tar.gz</package>
+				<package>https://cran.r-project.org/src/contrib/labeling_0.3.tar.gz</package>
+				<package>https://cran.r-project.org/src/contrib/Archive/scales/scales_0.3.0.tar.gz</package>
+				<package>https://cran.r-project.org/src/contrib/ggplot2_2.1.0.tar.gz</package>
+				<package>https://cran.r-project.org/src/contrib/ggrepel_0.5.tar.gz</package>
+				<package>https://cran.r-project.org/src/contrib/assertthat_0.1.tar.gz</package>
+				<package>https://cran.r-project.org/src/contrib/lazyeval_0.2.0.tar.gz</package>
+				<package>https://cran.r-project.org/src/contrib/tibble_1.1.tar.gz</package>
+				<package>https://cran.r-project.org/src/contrib/Archive/DBI/DBI_0.4-1.tar.gz</package>
+				<package>https://cran.r-project.org/src/contrib/Archive/R6/R6_2.1.1.tar.gz</package>
+				<package>https://cran.r-project.org/src/contrib/Archive/BH/BH_1.60.0-1.tar.gz</package>
+				<package>https://cran.r-project.org/src/contrib/dplyr_0.5.0.tar.gz</package>
+				<package>https://cran.r-project.org/src/contrib/expands_1.7.2.tar.gz</package>
+			</action>
+		</actions>
+
+		</install>
+
+	</package>
+	<readme>
+	Expanding Ploidy and Allele Frequency on Nested Subpopulations (EXPANDS) characterizes coexisting subpopulations in a single tumor sample using copy number and allele frequencies derived from exome- or whole genome-sequencing input data.
+	</readme>
+</tool_dependency>

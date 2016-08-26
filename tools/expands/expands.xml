@@ -1,0 +1,153 @@
+<tool id="expands" name="EXPANDS" version="1.7.2">
+	<description>
+		Expanding Ploidy and Allele Frequency on Nested Subpopulations (expands) characterizes coexisting subpopulations in a single tumor sample using copy number and allele frequencies derived from exome- or whole genome sequencing input data.
+	</description>
+
+	<requirements>
+		<requirement type="set_environment">MORINLAB_SCRIPTS</requirement>
+		<requirement type="package" version="14.2">morinlab_scripts</requirement>
+		<requirement type="set_environment">R_SCRIPT_PATH</requirement>
+		<requirement type="package" version="1.7.2">expands</requirement>
+    </requirements>
+
+	<macros>
+        <import>citation_macros.xml</import>
+    </macros>    
+
+	<stdio>
+       <exit_code range="1:" level="warning" />
+       <exit_code range=":-1" level="warning" />
+       <regex match="Error:" />
+       <regex match="Exception:" />
+   	</stdio>
+
+	<command>
+		Rscript \$MORINLAB_SCRIPTS/expands_wrapper/run_expands.R $segments $segments_mode $maf $sample_id .
+		--loh $advanced_expands_options.loh
+		--max_score $advanced_expands_options.max_score
+		--precision $advanced_expands_options.precision
+		--cn_style $advanced_expands_options.cn_style
+		--plot_custom
+		#if $plotting_options.genes
+			--genes $plotting_options.genes
+		#end if
+		#if $plotting_options.effects
+			--effects $plotting_options.effects
+		#end if
+		--orderBy $plotting_options.orderBy;
+
+		mv ./expands_custom_raw_*.pdf $rawplot;
+		mv ./expands_custom_adj_*.pdf $adjplot;
+		mv ./expands_mutations_*.tsv $snvs;
+		mv ./expands_sps_*.tsv $subpops;
+	</command>
+
+	<inputs>
+		<!-- Required inputs -->
+		<param type="data" name="segments" format="tabular" label="Sequenza, Titan, OncoSNP, or IGV-friendly segments file"/>
+		<param name="segments_mode" label="Specify the source of the segments file" type="select">
+			<option value="S">Sequenza</option>
+			<option value="T">Titan</option>
+			<option value="I">IGV-friendly</option>
+		</param>
+		<param type="data" name="maf" format="tabular" label="Patient MAF file"/>
+		<param type="text" name="sample_id" size="20" label="Sample ID"/>
+
+		<!-- Advanced options supplied to EXPANDS -->
+		<section name="advanced_expands_options" title="Advanced EXPANDS Options" expanded="False">
+			<param type="select"    name="loh"       optional="true" value="1" label="How should LOH events be handled?">
+				<option value="0">Ignore LOH events</option>
+				<option value="1">Include all copy-neutral LOH segments and their BAF in clustering</option>
+				<option value="2">Include deletion LOH only</option>
+				<option value="3">Include all LOH</option>
+			</param>
+			<param type="float"     name="max_score" optional="true" value="2.25" label="Upper threshold for noise score of SP detection. Identified SPs with score below this value are."/>
+			<param type="float"     name="precision" optional="true" value="0.05" label="Precision with which subpopulation size is predicted, a small value reflects a high resolution and can lead to a higher number of predicted subpopulations."/>
+			<param type="select"    name="cn_style"  optional="true" value="1"    label="Style of copy number estimates">
+				<option value="1">Integer copy number estimates</option>
+				<option value="2">Rational copy number estimates</option>
+			</param>
+		</section>
+
+		<!-- Options for custom annotated plots -->
+		<section name="plotting_options" title="Plotting options" expanded="False">
+			<param type="data"      name="genes"     optional="true" format="text" label="Label mutations in these genes (provide a file with one gene per line)"/>
+			<param type="select"    name="effects"   optional="true" multiple="true" label="Select effect criteria to apply to mutations to label" display="checkboxes">
+				<option value="Splice_Site">Splice_Site</option>
+				<option value="Nonsense_Mutation">Nonsense_Mutation</option>
+				<option value="Frame_Shift_Del">Frame_Shift_Del</option>
+				<option value="Frame_Shift_Ins">Frame_Shift_Ins</option>
+				<option value="Nonstop_Mutation">Nonstop_Mutation</option>
+				<option value="Translation_Start_Site">Translation_Start_Site</option>
+				<option value="In_Frame_Ins">In_Frame_Ins</option>
+				<option value="In_Frame_Del">In_Frame_Del</option>
+				<option value="Missense_Mutation">Missense_Mutation</option>
+				<option value="Intron">Intron</option>
+				<option value="Splice_Region">Splice_Region</option>
+				<option value="Silent">Silent</option>
+				<option value="RNA">RNA</option>
+				<option value="5'UTR">5'UTR</option>
+				<option value="3'UTR">3'UTR</option>
+				<option value="IGR">Intergenic/regulatory region</option>
+				<option value="5'Flank">5'Flank</option>
+				<option value="3'Flank">3'Flank</option>
+			</param>
+			<param type="select"    name="orderBy"   optional="true" value="chr" label="How should SNVs be ordered on the x-axis?">
+				<option value="chr">By genomic coordinate (chromosome and start position)</option>
+				<option value="conf">By confidence of subpopulation assignment</option>
+			</param>
+		</section>
+	</inputs>
+
+	<outputs>
+		<data format="pdf" name="rawplot"/>
+		<data format="pdf" name="adjplot"/>
+		<data format="tabular" name="subpops"/>
+		<data format="tabular" name="snvs"/>
+	</outputs>
+
+	<tests>
+	</tests>
+
+	<help>	
+		<![CDATA[
+
+			.. class:: infomark
+
+			**What this tool does**
+
+			Expanding Ploidy and Allele Frequency on Nested Subpopulations (expands) characterizes coexisting subpopulations in a single tumor sample using copy number and allele frequencies derived from exome- or whole genome sequencing input data.
+
+			.. _EXPANDS: https://cran.r-project.org/web/packages/expands/index.html
+
+			-----
+
+			.. class:: infomark
+
+			**Input**
+
+			This tool takes as its data inputs a segments file and a MAF file. The segments file can be generated by the Sequenza or Titan copy number-calling tools. Alternatively, the tool accepts a segments file formatted for IGV
+
+			A Sequenza segments file is expected to have the following tab-separated columns: chromosome, start.pos, end.pos, Bf, N.BAF, sd.BAF, depth.ratio, N.ratio, sd.ratio, CNt, A, B, LPP
+
+			A Titan segments file is expected to have the following tab-separated columns: Sample, Chromosome, Start_Position(bp), End_Position(bp), Length(bp), Median_Ratio, Median_logR, TITAN_state, TITAN_call, Copy_Number, MinorCN, MajorCN, Clonal_Cluster, Clonal_Frequency.
+
+			**Output**
+
+			This tool generates four output files:
+			- a TSV file describing the subpopulations predicted by EXPANDS and their details
+			- a TSV file describing the SNVs input to EXPANDS and their estimated copy states, allele frequency, and subpopulation assignment as inferred by EXPANDS
+			- two PDFs containing plots of the EXPANDS results, one with SNVs plot along with their raw allele frequency, and one with SNVs plot with their frequency adjusted for tumour purity and copy number states
+
+			For more information on the output tables, see the EXPANDS documentation on CRAN.
+
+		]]>
+
+    </help>  
+
+	<citations>
+        <expand macro="morinlab_citation"/>
+        <expand macro="galaxy_citation"/>
+        <expand macro="expands_citation"/>
+    </citations>
+</tool>
