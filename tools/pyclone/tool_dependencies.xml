@@ -9,6 +9,10 @@
 		  <repository name="package_pyclone_0_13_0_01762d9" owner="morinlab"/>
 	  </package>
 
+    <package name="pyclone_dependencies" version="1.0">
+      <repository name="package_pyclone_0_13_0_01762d9" owner="morinlab"/>
+    </package>
+<!-- 
   	<package name="pyyaml" version="3.11">
   		<repository name="package_python_2_7_pyyaml_3_11" owner="iuc"/>
   	</package>
@@ -19,6 +23,6 @@
 
   	<package name="seaborn" version="0.7.1">
   		<repository name="package_seaborn_0_7_1" owner="morinlab"/>
-  	</package>
+  	</package> -->
 
 </tool_dependency>

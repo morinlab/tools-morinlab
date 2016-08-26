@@ -7,9 +7,10 @@
 		<requirement type="set_environment">MORINLAB_SCRIPTS</requirement>
 		<requirement type="package" version="14.2">morinlab_scripts</requirement>
 		<requirement type="package" version="0.13.0.01762d9">pyclone</requirement>
-		<requirement type="package" version="3.11">pyyaml</requirement>
+		<requirement type="package" version="1.0">pyclone_dependencies</requirement>
+		<!-- <requirement type="package" version="3.11">pyyaml</requirement>
 		<requirement type="package" version="0.2.3">pydp</requirement>
-		<requirement type="package" version="0.7.1">seaborn</requirement>
+		<requirement type="package" version="0.7.1">seaborn</requirement> -->
 	</requirements>
 
 	<command>
