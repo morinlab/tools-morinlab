@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<tool_dependency>
+  <package name="cancer_genomics_functions" version="1.0">
+    <repository name="package_cancer_genomics_functions_1_0" owner="morinlab"/>
+  </package>
+  <package name="boutroslab_plotting_general" version="5.3.4">
+    <repository name="package_boutroslab_plotting_general" owner="morinlab"/>
+  </package>
+</tool_dependency>
