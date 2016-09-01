@@ -1,63 +1,32 @@
 <tool id="somatic_sniper" name="SomaticSniper" version="1.0">
-	<description>Identify single nucleotide positions that are different between tumor and normal</description>
+	<description>calls SNVs for tumour-normal pairs.</description>
 	<requirements>
 		<requirement type="package" version="1.0.5.0">somatic_sniper</requirement>	
 		<requirement type="set_environment">SOMATIC_SNIPER_ROOT_DIR</requirement>
 	</requirements> 
-	<command detect_errors="aggressive">
-<![CDATA[
-		##link bams with index
+	<command detect_errors="aggressive"><![CDATA[
+
+		## SYMLINK BAM FILES ALONGSIDE INDEX FILES
 		ln -s $normal normal.bam;
 		ln -s $normal.metadata.bam_index normal.bam.bai;
 		ln -s $tumor tumor.bam;
 		ln -s $tumor.metadata.bam_index tumor.bam.bai;
 		
-		##BUILD CONDITIONAL COMMAND LINE 
+		## BUILD SOMATICSNIPER COMMAND LINE 
 		\$SOMATIC_SNIPER_ROOT_DIR/bin/bam-somaticsniper
 
-		#if $advancedsettings.q
- 			-q $advancedsetting.q
-		#end if
+        -F vcf
+        -q $advancedsettings.q
+        -Q $advancedsettings.q
+        -T $advancedsettings.T
+        -N $advancedsettings.N
+        -r $advancedsettings.r
+        -n $advancedsettings.n
+        -t $advancedsettings.t
+        $advancedsettings.L 
+        $advancedsettings.G 
+        $advancedsettings.p
 
-		#if $advancedsettings.Q
-			-Q $advancedsettings.Q
-		#end if
-
-		#if $advancedsettings.T
-			-T $advancedsettings.T
-		#end if
-
-		#if $advancedsettings.N
-			-N $advancedsettings.N
-		#end if
-
-		#if $advancedsettings.r
-			-r $advancedsettings.r
-		#end if
-
-		#if $advancedsettings.n
-			-n $advancedsettings.n
-		#end if
-
-		#if $advancedsettings.t
-			-t $advancedsettings.t
-		#end if
-
-		#if $advancedsettings.L == "-L"
-			-L 
-		#end if
-
-		#if $advancedsettings.G == "-G"
-			-G 
-		#end if
-
-		#if $advancedsettings.p == "-p"
-			-p
-		#end if
-
-		-F $outputop
-
-		##REFERENCE TYPE FROM DATA TABLE WITH INDEX IF CUSTOM THEN MUST USE SAMTOOLS FAIDX INDEX
 		#if $ref.ref_options == "cached"
 			-f ${ref.index.fields.path}
 		#else
@@ -66,12 +35,9 @@
 
 		tumor.bam
 		normal.bam
-		snvoutput;
+		$variants;
 
-		cat ./snvoutput > $snp_output
-		
-]]>
-	</command>
+	]]></command>
 	<inputs>
 		<conditional name="ref">
 			<param name="ref_options" type="select" label="Choose the source for the reference genome">
@@ -89,26 +55,21 @@
 		</conditional>
 		<param format="bam" name="normal" type="data" label="Normal Alignment File" />
 		<param format="bam" name="tumor" type="data" label="Tumour Alignment File" />
-		<param name="outputop" type="select" label="Output Type">
-			<option value="vcf" selected="True">VCF</option>
-			<option value="classic">Classic</option>
-			<option value="bed">BED</option>
-		</param>
 		<section name="advancedsettings" title="Advanced Settings" expanded="False" >
-			<param name="q" type="integer" value="0" label="filtering reads with mapping quality less than INT [0]"/>
-			<param name="Q" type="integer" value="15" label="filtering somatic snv output with somatic quality less than  INT [15]"/>
+			<param name="q" type="integer" value="0" label="Minimum read mapping quality"/>
+			<param name="Q" type="integer" value="15" label="Minimum somatic variant quality score"/>
 			<param name="T" type="float" value="0.850000" label="theta in maq consensus calling model (for -c/-g) [0.850000]"/>
-			<param name="N" type="integer" value="2" label="number of haplotypes in the sample (for -c/-g) [2]"/>
-			<param name="r" type="float" value="0.001000" label="prior of a difference between two haplotypes (for -c/-g) [0.001000]"/>
-			<param name="n" type="text" value="NORMAL" label="normal sample id (for VCF header) [NORMAL]"/>
-			<param name="t" type="text" value="TUMOR" label="STRING tumor sample id (for VCF header) [TUMOR]"/>
-  			<param name="L" type="boolean" truevalue="-L" falsevalue="" checked="true" label="do not report LOH variants as determined by genotypes" />
-  			<param name="G" type="boolean"  truevalue="-G" falsevalue="" checked="true" label="do not report Gain of Reference variants as determined by genotypes" />
-  			<param name="p" type="boolean"  truevalue="-p" falsevalue="" checked="true" label="disable priors in the somatic calculation. Increases sensitivity for solid tumors" />
+			<param name="N" type="integer" value="2" label="Ploidy (number of haplotypes)"/>
+			<param name="r" type="float" value="0.001000" label="Prior probability for differences between haplotypes"/>
+			<param name="n" type="text" value="NORMAL" label="Normal sample ID"/>
+			<param name="t" type="text" value="TUMOR" label="Tumour sample ID"/>
+  			<param name="L" type="boolean" truevalue="-L" falsevalue="" checked="true" label="Exclude LOH variants from output" />
+  			<param name="G" type="boolean"  truevalue="-G" falsevalue="" checked="true" label="Exclude gain of reference variants from output" />
+  			<param name="p" type="boolean"  truevalue="-p" falsevalue="" checked="true" label="Disable priors in somatic calculation (improved sensitivity for solid tumours)" />
 		</section>
 	</inputs>
 	<outputs>
-		<data name="snp_output" format="text" label="SomaticSniper SNVs" />
+		<data name="variants" format="vcf" label="SomaticSniper SNVs" />
 	</outputs>
 	<help>
 		http://gmt.genome.wustl.edu/packages/somatic-sniper/
