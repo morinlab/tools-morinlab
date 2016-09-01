@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<tool_dependency>
+    <package name="perl" version="5.18.1">
+        <repository name="package_perl_5_18" owner="iuc" prior_installation_required="True" />
+    </package>
+    <package name="R" version="3.2.1">
+        <repository name="package_r_3_2_1" owner="iuc" prior_installation_required="True" />
+    </package>
+    <package name="vardictjava" version="1.4.6">
+        <install version="1.0">
+            <actions>
+                <action type="shell_command">git clone https://github.com/AstraZeneca-NGS/VarDictJava.git vardictjava</action>
+                <action type="shell_command">git checkout tags/v1.4.6; git submodule update --init --recursive</action>
+                <action type="shell_command">bash ./gradlew clean installApp</action>
+                <action type="shell_command">chmod -R 775 .</action>
+                <action type="move_directory_files">
+                    <source_directory>.</source_directory>
+                    <destination_directory>$INSTALL_DIR</destination_directory>
+                </action>
+            </actions>
+        </install>
+    </package>
+</tool_dependency>
