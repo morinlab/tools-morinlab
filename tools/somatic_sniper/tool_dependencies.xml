@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<tool_dependency>
+  <package name="somatic_sniper" version="1.0.5.0">
+    <repository name="package_somatic_sniper_1_0_5_0" owner="morinlab"/>
+  </package>
+</tool_dependency>

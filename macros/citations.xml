@@ -25,6 +25,21 @@
             }
         </citation>
     </xml>
+    <xml name="somatic_sniper_citation">
+        <citation>
+            @article{
+            Larson01022012,
+            author = {Larson, David E. and Harris, Christopher C. and Chen, Ken and Koboldt, Daniel C. and Abbott, Travis E. and Dooling, David J. and Ley, Timothy J. and Mardis, Elaine R. and Wilson, Richard K. and Ding, Li}, 
+            title = {SomaticSniper: identification of somatic point mutations in whole genome sequencing data},
+            volume = {28}, 
+            number = {3}, 
+            pages = {311-317}, 
+            year = {2012}, 
+            doi = {10.1093/bioinformatics/btr665}, 
+            journal = {Bioinformatics} 
+            }
+        </citation>
+    </xml>
     <xml name="galaxy_citation">
         <citation>
         @ARTICLE{Goecks2010-ra,

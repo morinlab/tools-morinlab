@@ -1,0 +1,82 @@
+<tool id="somatic_sniper" name="SomaticSniper" version="1.0">
+	<description>calls SNVs for tumour-normal pairs.</description>
+	<requirements>
+		<requirement type="package" version="1.0.5.0">somatic_sniper</requirement>	
+		<requirement type="set_environment">SOMATIC_SNIPER_ROOT_DIR</requirement>
+	</requirements> 
+	<command detect_errors="aggressive"><![CDATA[
+
+		## SYMLINK BAM FILES ALONGSIDE INDEX FILES
+		ln -s $normal normal.bam;
+		ln -s $normal.metadata.bam_index normal.bam.bai;
+		ln -s $tumor tumor.bam;
+		ln -s $tumor.metadata.bam_index tumor.bam.bai;
+		
+		## BUILD SOMATICSNIPER COMMAND LINE 
+		\$SOMATIC_SNIPER_ROOT_DIR/bin/bam-somaticsniper
+
+        -F vcf
+        -q $advancedsettings.q
+        -Q $advancedsettings.q
+        -T $advancedsettings.T
+        -N $advancedsettings.N
+        -r $advancedsettings.r
+        -n $advancedsettings.n
+        -t $advancedsettings.t
+        $advancedsettings.L 
+        $advancedsettings.G 
+        $advancedsettings.p
+
+		#if $ref.ref_options == "cached"
+			-f ${ref.index.fields.path}
+		#else
+			-f ${ref.ownFile}
+		#end if
+
+		tumor.bam
+		normal.bam
+		$variants;
+
+	]]></command>
+	<inputs>
+		<conditional name="ref">
+			<param name="ref_options" type="select" label="Choose the source for the reference genome">
+				<option value="cached" selected="True">Use a built-in genome</option>
+				<option value="history">Use a genome from the history</option>
+			</param>
+			<when value="cached">
+				<param name="index" type="select" label="Reference Genome File" >
+					<options from_data_table="all_fasta" />
+				</param>
+      			</when>
+      			<when value="history">
+        			<param format="fasta" name="ownFile" type="data" metadata_name="dbkey" label="Reference Genome File" />
+      			</when>
+		</conditional>
+		<param format="bam" name="normal" type="data" label="Normal Alignment File" />
+		<param format="bam" name="tumor" type="data" label="Tumour Alignment File" />
+		<section name="advancedsettings" title="Advanced Settings" expanded="False" >
+			<param name="q" type="integer" value="0" label="Minimum read mapping quality"/>
+			<param name="Q" type="integer" value="15" label="Minimum somatic variant quality score"/>
+			<param name="T" type="float" value="0.850000" label="theta in maq consensus calling model (for -c/-g) [0.850000]"/>
+			<param name="N" type="integer" value="2" label="Ploidy (number of haplotypes)"/>
+			<param name="r" type="float" value="0.001000" label="Prior probability for differences between haplotypes"/>
+			<param name="n" type="text" value="NORMAL" label="Normal sample ID"/>
+			<param name="t" type="text" value="TUMOR" label="Tumour sample ID"/>
+  			<param name="L" type="boolean" truevalue="-L" falsevalue="" checked="true" label="Exclude LOH variants from output" />
+  			<param name="G" type="boolean"  truevalue="-G" falsevalue="" checked="true" label="Exclude gain of reference variants from output" />
+  			<param name="p" type="boolean"  truevalue="-p" falsevalue="" checked="true" label="Disable priors in somatic calculation (improved sensitivity for solid tumours)" />
+		</section>
+	</inputs>
+	<outputs>
+		<data name="variants" format="vcf" label="SomaticSniper SNVs" />
+	</outputs>
+	<help>
+		http://gmt.genome.wustl.edu/packages/somatic-sniper/
+	</help>
+	<citations>
+		<expand macro="morinlab_citation" />
+		<expand macro="galaxy_citation" />
+		<expand macro="somatic_sniper_citation" />
+	</citations>
+</tool>
