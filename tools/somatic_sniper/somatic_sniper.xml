@@ -2,7 +2,7 @@
 	<description>Identify single nucleotide positions that are different between tumor and normal</description>
 	<requirements>
 		<requirement type="package" version="1.0.5.0">somatic_sniper</requirement>	
-		<requirement type="set_environment">SOMATICSNIPER_DIR</requirement>
+		<requirement type="set_environment">SOMATIC_SNIPER_ROOT_DIR</requirement>
 	</requirements> 
 	<command detect_errors="aggressive">
 <![CDATA[
@@ -13,7 +13,7 @@
 		ln -s $tumor.metadata.bam_index tumor.bam.bai;
 		
 		##BUILD CONDITIONAL COMMAND LINE 
-		\$SOMATICSNIPER_DIR/bin/bam-somaticsniper
+		\$SOMATIC_SNIPER_ROOT_DIR/bin/bam-somaticsniper
 
 		#if $advancedsettings.q
  			-q $advancedsetting.q
