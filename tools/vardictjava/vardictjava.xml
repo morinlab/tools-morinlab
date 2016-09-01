@@ -7,7 +7,7 @@
         <requirement type="package" version="5.18.1">perl</requirement>
         <requirement type="package" version="3.2.1">R</requirement>
         <requirement type="package" version="1.4.6">vardictjava</requirement>
-        <requirement type="set_environment">VARDICT_DIR</requirement>
+        <requirement type="set_environment">VARDICTJAVA_ROOT_DIR</requirement>
     </requirements>
 
     <command detect_errors="aggressive"><![CDATA[
@@ -35,7 +35,7 @@
         awk 'BEGIN {FS=OFS="\t"} {print $1, "1", $2}' chromosomes.fa.fai > regions.bed; 
 
         ## BUILD VARDICT COMMAND
-        \$VARDICT_DIR/build/install/VarDict/bin/VarDict
+        \$VARDICTJAVA_ROOT_DIR/build/install/VarDict/bin/VarDict
         -b "./tumor.bam|./normal.bam"
         -G ref.fa
         -z
@@ -63,8 +63,8 @@
         regions.bed
 
         ## POSTPROCESSING
-        | \$VARDICT_DIR/VarDict/testsomatic.R 
-        | \$VARDICT_DIR/VarDict/var2vcf_somatic.pl 
+        | \$VARDICTJAVA_ROOT_DIR/VarDict/testsomatic.R 
+        | \$VARDICTJAVA_ROOT_DIR/VarDict/var2vcf_somatic.pl 
         -f $advancedsettings.f 
 
         > $all_variants;
