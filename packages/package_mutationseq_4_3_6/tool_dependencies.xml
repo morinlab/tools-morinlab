@@ -1,0 +1,29 @@
+<tool_dependency>
+  <package name="boost" version="1.51.0">
+    <repository name="package_boost_1_51_0" owner="morinlab"/>
+  </package>
+  <package name="mutationseq_python_environment" version="4.3.6">
+    <repository name="package_mutationseq_python_environment_4_3_6" owner="morinlab"/>
+  </package>
+  <package name="mutationseq" version="4.3.6">
+    <install version="1.0">
+      <actions>
+        <action type="download_by_url">ftp://ftp.bcgsc.ca/public/shahlab/MutationSeq/museq_4.3.6.tar.gz</action>
+        <action type="set_environment_for_install">
+          <repository name="package_boost_1_51_0" owner="morinlab">
+            <package name="boost" version="1.51.0"/>
+          </repository>
+          <repository name="package_mutationseq_python_environment_4_3_6" owner="morinlab">
+            <package name="mutationseq_python_environment" version="4.3.6"/>
+          </repository>
+        </action>
+        <action type="shell_command">make clean</action>
+        <action type="shell_command">make PYTHON=\${MUTATIONSEQ_PYTHON_ENVIRONMENT_ROOT_DIR} BOOSTPATH=\${BOOST_ROOT_DIR}/include</action>
+        <action type="move_directory_files">
+          <source_directory>.</source_directory>
+          <destination_directory>$INSTALL_DIR</destination_directory>
+        </action>
+      </actions>
+    </install>
+  </package>
+</tool_dependency>

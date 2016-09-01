@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<tool_dependency>
+  <package name="mutationseq_python_environment" version = "4.3.6">
+    <install version="1.0">
+      <actions_group>
+        <actions os="linux" architecture="x86_64">
+          <action type="download_by_url" md5sum="874dbb0d3c7ec665adf7231bbb575ab2" target_filename="Miniconda3-4.1.11-Linux-x86_64.sh">
+            https://repo.continuum.io/miniconda/Miniconda3-4.1.11-Linux-x86_64.sh
+          </action>
+          <action type="shell_command">
+            bash Miniconda3-4.1.11-Linux-x86_64.sh -b -f -p $INSTALL_DIR
+          </action>
+        </actions>
+        <actions os="darwin" architecture="x86_64">
+          <action type="download_by_url" md5sum="870d6f99eda1263c6e857d637e861d20" target_filename="Miniconda3-4.1.11-MacOSX-x86_64.sh">
+            https://repo.continuum.io/miniconda/Miniconda3-4.1.11-MacOSX-x86_64.sh
+          </action>
+          <action type="shell_command">
+            bash Miniconda3-4.1.11-MacOSX-x86_64.sh -b -f -p $INSTALL_DIR
+          </action>
+        </actions>
+        <action type="shell_command">
+          $INSTALL_DIR/bin/conda install --quiet python=2.7 numpy=1.7.1 scipy=0.12.0 scikit-learn=0.14.1 matplotlib=1.2.1
+        </action>
+        <action type="shell_command">
+          $INSTALL_DIR/bin/pip install --quiet intervaltree==2.0.4
+        </action>
+        <action type="set_environment">
+          <environment_variable action="prepend_to" name="PATH">$INSTALL_DIR/bin</environment_variable>
+        </action>
+      </actions_group>
+    </install>
+  </package>
+</tool_dependency>
