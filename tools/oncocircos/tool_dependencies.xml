@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<tool_dependency>
+  <package name="circos_perl_environment" version="0.69">
+    <repository name="package_circos_0_69" owner="morinlab" prior_installation_required="True"/>
+  </package>
+  <package name="circos" version="0.69">
+    <repository name="package_circos_0_69" owner="morinlab" prior_installation_required="True"/>
+  </package>
+</tool_dependency>
