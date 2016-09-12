@@ -4,6 +4,10 @@
     creates a summary matrix plot of cohort wide mutations
   </description>
 
+  <macros>
+      <import>citations.xml</import>
+  </macros>
+
   <requirements>
     <requirement type="binary">Rscript</requirement>    
     <requirement type="package" version="3.2.1">R</requirement>
@@ -158,4 +162,11 @@
   <outputs>
     <data format="pdf" name="output"/>
   </outputs>
+  <help>
+  https://labs.oicr.on.ca/boutros-lab/software/bpg
+  </help>
+  <citations>
+      <expand macro="morinlab_citation"/>
+      <expand macro="galaxy_citation"/>
+  </citations>  
 </tool>
