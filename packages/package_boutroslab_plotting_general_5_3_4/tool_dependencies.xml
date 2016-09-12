@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<tool_dependency>
+  <package name="R" version="3.2.1">
+    <repository name="package_r_3_2_1" owner="iuc" prior_installation_required="True"/>
+  </package>
+  <package name="boutroslab_plotting_general" version="5.3.4">
+    <install version="1.0">
+      <actions>
+        <action type="setup_r_environment">
+          <repository name="package_r_3_2_1" owner="iuc">
+            <package name="R" version="3.2.1" />
+          </repository>
+          <package>https://cran.r-project.org/src/contrib/RColorBrewer_1.1-2.tar.gz</package>
+          <package>https://cran.r-project.org/src/contrib/lattice_0.20-33.tar.gz</package>
+          <package>https://cran.r-project.org/src/contrib/Archive/latticeExtra/latticeExtra_0.6-26.tar.gz</package>
+          <package>https://cran.r-project.org/src/contrib/Archive/R.methodsS3/R.methodsS3_1.7.0.tar.gz</package>
+          <package>https://cran.r-project.org/src/contrib/hexbin_1.27.1.tar.gz</package>
+          <package>http://bpg.oicr.on.ca/src/contrib/BoutrosLab.plotting.general_5.3.4.tar.gz</package>
+          <package>https://cran.r-project.org/src/contrib/proto_0.3-10.tar.gz</package>
+          <package>https://cran.r-project.org/src/contrib/findpython_1.0.1.tar.gz</package>
+          <package>https://cran.r-project.org/src/contrib/getopt_1.20.0.tar.gz</package>
+          <package>https://cran.r-project.org/src/contrib/rjson_0.2.15.tar.gz</package>
+          <package>https://cran.r-project.org/src/contrib/argparse_1.0.1.tar.gz</package>
+          <package>https://cran.r-project.org/src/contrib/assertthat_0.1.tar.gz</package>
+          <package>https://cran.r-project.org/src/contrib/R6_2.1.3.tar.gz</package>
+          <package>https://cran.r-project.org/src/contrib/Rcpp_0.12.6.tar.gz</package>
+          <package>https://cran.r-project.org/src/contrib/lazyeval_0.2.0.tar.gz</package>
+          <package>https://cran.r-project.org/src/contrib/tibble_1.1.tar.gz</package>
+          <package>https://cran.r-project.org/src/contrib/magrittr_1.5.tar.gz</package>
+          <package>https://cran.r-project.org/src/contrib/DBI_0.5.tar.gz</package>
+          <package>https://cran.r-project.org/src/contrib/BH_1.60.0-2.tar.gz</package>
+          <package>https://cran.r-project.org/src/contrib/dplyr_0.5.0.tar.gz</package>
+        </action>
+      </actions>
+    </install>
+  </package>
+</tool_dependency>

@@ -1,0 +1,172 @@
+<tool id="oncoprintplus" name="OncoPrintPlus" version="1.0.0">
+
+  <description>
+    creates a summary matrix plot of cohort wide mutations
+  </description>
+
+  <macros>
+      <import>citations.xml</import>
+  </macros>
+
+  <requirements>
+    <requirement type="binary">Rscript</requirement>    
+    <requirement type="package" version="3.2.1">R</requirement>
+    <requirement type="package" version="1.0">cancer_genomics_functions</requirement>
+    <requirement type="environment" verion="1.0">CANCER_GENOMICS_FUNCTIONS_PATH</requirement>
+    <requirement type="package" version="5.3.4">boutroslab_plotting_general</requirement>
+  </requirements>
+
+  <command detect_errors="aggressive">
+
+    touch output.pdf;
+    Rscript $__tool_directory__/oncoprintplus.R
+      --input_snv $input_maf
+      --cancer_genomics_functions_path \$CANCER_GENOMICS_FUNCTIONS_PATH/
+
+      #if $gene.order.value == "default"
+
+      #else
+        --gene_order $gene.order
+      #end if
+      
+      #if $gene.gene_list
+        --gene_list $gene.gene_list
+      #end if
+      
+      #if $gene.snv_counts
+        --plot_gene_snv_counts
+      #end if
+      
+      #if $gene.mutsig.plot
+        --plot_gene_mutsig
+      #end if
+
+      #if $gene.mutsig.mutsig
+        --gene_mutsig $gene.mutsig.mutsig
+      #end if
+      
+      #if $gene.oncodrive.plot
+        --plot_gene_oncodrive
+      #end if
+
+      #if $gene.oncodrive.oncodrive
+        --gene_oncodrive $gene.oncodrive.oncodrive
+      #end if
+
+      #if $patient.covariates.use_covariates == "no":
+
+        #if $patient.covariates.order.value == "default":
+
+        #else
+          --patient_order snv_counts 
+        #end if
+
+      #else
+        
+        --patient_covariate_data $patient.covariates.covariate_data
+
+        #for $item in $patient.covariates.plot:
+          --plot_patient_covariate $item.covariate_to_plot
+        #end for
+
+        #for $item in $patient.covariates.order:
+            --patient_order $item.covariate_or_internal.order
+        #end for
+
+      #end if
+
+      #if $patient.snv_counts
+        --plot_patient_snv_counts
+      #end if
+
+      #if $patient.snv_distribution
+        --plot_patient_snv_distribution
+      #end if
+
+      --center_plot $center_plot
+      --output ./output.pdf;
+
+      mv output.pdf $output;
+
+  </command>
+
+  <inputs>
+    
+    <param type="data" format="maf" name="input_maf" label="Cohort Wide MAF File"/>
+    
+    <param type="select" name="center_plot" label="Central Plot">
+      <option value="impact" selected="True">VCF2MAF IMPACT</option>
+      <option value="variant_classification">Variant Classification</option>
+    </param>
+
+    <section name="gene" title="Gene Related Inputs" expanded="False">
+      <param type="select" name="order" label="Order of Genes">
+        <option value="default" selected="True">Order in MAF</option>
+        <option value="snv_counts">SNV Counts</option>
+        <option value="mutsig">MutSigCV Data</option>
+        <option value="oncodrive">Oncodrive-FM Data</option>
+      </param>
+      <param type="boolean" name="snv_counts" label="Plot Gene SNV Counts" checked="true"/>
+      <param type="data" format="txt" name="gene_list" label="List of Genes Include" optional="true"/>
+      <section name="mutsig" title="MutsigCV Inputs" expanded="False">
+        <param type="boolean" name="plot" label="Plot MutSigCV Data" checked="false"/>
+        <param type="data" format="txt" name="mutsig" label="Mutsig Input" optional="true"/>
+      </section>
+      <section name="oncodrive" title="Oncodrive-FM Inputs" expanded="False">
+        <param type="boolean" name="plot" label="Plot Oncodrive-FM Data" checked="false"/>
+        <param type="data" format="txt" name="oncodrive" label="Oncodrive-FM Input" optional="true"/>
+      </section>
+    </section>
+    <section name="patient" title="Patient Related Inputs" expanded="False">
+      <conditional name="covariates">
+        <param name="use_covariates" type="select" label="Use Patient Covariates">
+          <option value="no" selected="True">No</option>
+          <option value="yes">Yes</option>
+        </param>
+        <when value="no">
+          <repeat name="order" title="Patient Order" default="1">
+            <param type="select" name="order" label="Order of Patients">
+              <option value="default" selected="True">Order in MAF</option>
+              <option value="snv_counts">SNV Counts</option>
+            </param>
+          </repeat>
+        </when>
+        <when value="yes">
+          <param type="data" format="tabular" name="covariate_data" label="Patient Covariate File"/>
+          <repeat name="plot" title="Plot Patient Covariate" default="1">
+            <param type="text" name="covariate_to_plot" label="Plot Patient Covariate" />
+          </repeat>
+          <repeat name="order" title="Patient Order" default="1">
+            <conditional name="covariate_or_internal">
+             <param name="use_covariate_or_internal" type="select" label="Order on">
+              <option value="cov" selected="True">Covariate</option>
+              <option value="int">Other</option>
+            </param>
+            <when value="cov">
+              <param type="select" name="order" label="Order of Patients">
+                <option value="default" selected="True">Order in MAF</option>
+                <option value="snv_counts">SNV Counts</option>
+              </param>              
+            </when>
+            <when value="int">
+              <param name="order" type="text" title="Order of Patients"/>
+            </when>
+            </conditional>
+          </repeat>
+        </when>
+      </conditional>
+      <param type="boolean" name="snv_counts" label="Plot Patient SNV Counts" checked="true"/>
+      <param type="boolean" name="snv_distribution" label="Plot Patient SNV Distribution" checked="true"/> 
+    </section>
+  </inputs>
+  <outputs>
+    <data format="pdf" name="output"/>
+  </outputs>
+  <help>
+  https://labs.oicr.on.ca/boutros-lab/software/bpg
+  </help>
+  <citations>
+      <expand macro="morinlab_citation"/>
+      <expand macro="galaxy_citation"/>
+  </citations>  
+</tool>
