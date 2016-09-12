@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<tool_dependency>
+  <package name="perl" version="5.18">
+    <repository name="package_perl_5_18" owner="iuc" prior_installation_required="True"/>
+  </package>
+  <package name="libgd" version="2.1.0">
+    <repository name="package_libgd_2_1" owner="morinlab" prior_installation_required="True"/>
+  </package>
+  <package name="circos_perl_environment" version="0.69">
+    <install version="1.0">
+      <actions>
+        <action type="set_environment_for_install">
+          <repository name="package_libgd_2_1" owner="morinlab">
+            <package name="libgd" version="2.1.0" />
+          </repository>
+        </action>
+        <action type="setup_perl_environment">
+          <repository name="package_perl_5_18" owner="iuc">
+            <package name="perl" version="5.18" />
+          </repository>
+          <package>https://cpan.metacpan.org/authors/id/T/TL/TLINDEN/Config-General-2.55.tar.gz</package>
+          <package>https://cpan.metacpan.org/authors/id/M/MH/MHOSKEN/Font-TTF-1.02.tar.gz</package>
+          <package>http://circos.ca/distribution/lib/GD-2.53.tar.gz</package>
+          <package>https://cpan.metacpan.org/authors/id/A/AD/ADAMK/List-MoreUtils-0.33.tar.gz</package>
+          <package>https://cpan.metacpan.org/authors/id/A/AB/ABW/Math-Bezier-0.01.tar.gz</package>
+          <package>https://cpan.metacpan.org/authors/id/G/GR/GROMMEL/Math-Round-0.06.tar.gz</package>
+          <package>https://cpan.metacpan.org/authors/id/A/AS/ASPINELLI/Math-VecStat-0.08.tar.gz</package>
+          <package>https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/Params-Validate-1.07.tar.gz</package>
+          <package>https://cpan.metacpan.org/authors/id/S/SA/SANKO/Readonly-1.04.tar.gz</package>
+          <package>https://cpan.metacpan.org/authors/id/A/AB/ABIGAIL/Regexp-Common-2011121001.tar.gz</package> 
+          <package>https://cpan.metacpan.org/authors/id/S/SW/SWMCD/Set-IntSpan-1.16.tar.gz</package>
+          <package>https://cpan.metacpan.org/authors/id/S/SH/SHLOMIF/Text-Format-0.58.tar.gz</package>
+          <package>SVG</package>
+          <package>Clone</package>
+          <package>Params::Validate</package>
+          <package>Statistics::Basic</package>
+          <package>IO::String</package>
+        </action>
+      </actions>
+    </install> 
+  </package>
+  <package name="circos" version="0.69">
+    <install version="1.0">
+      <actions>
+        <action type="download_by_url">http://circos.ca/distribution/circos-0.69.tgz</action>
+        <action type="move_directory_files">
+          <source_directory>.</source_directory>
+          <destination_directory>$INSTALL_DIR</destination_directory>
+        </action>
+        <action type="set_environment">
+          <environment_variable name="CIRCOS_INSTALL_DIR" action="set_to">$INSTALL_DIR</environment_variable>
+          <environment_variable name="PATH" action="prepend_to">$INSTALL_DIR/bin</environment_variable>
+        </action>
+      </actions>
+    </install>
+  </package>
+</tool_dependency>

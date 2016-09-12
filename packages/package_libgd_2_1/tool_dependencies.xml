@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<tool_dependency>
+    <package name="libpng" version="1.6.7">
+        <repository name="package_libpng_1_6_7" owner="morinlab" prior_installation_required="True" />
+    </package>
+    <package name="libfreetype" version="2.6.5">
+        <repository name="package_libfreetype_2_6_5" owner="morinlab" prior_installation_required="True" />
+    </package>
+    <package name="libgd" version="2.1.0">
+        <install version="1.0">
+            <actions>
+                <action type="download_by_url">https://bitbucket.org/libgd/gd-libgd/downloads/libgd-2.1.0.tar.gz</action>
+                <action type="set_environment_for_install">
+                    <repository name="package_libpng_1_6_7" owner="morinlab">
+                        <package name="libpng" version="1.6.7" />
+                    </repository>
+                    <repository name="package_libfreetype_2_6_5" owner="morinlab">
+                        <package name="libfreetype" version="2.6.5" />
+                    </repository>
+                </action>
+
+                <action type="autoconf">--with-png=$LIBPNG_ROOT_DIR --with-freetype=$LIBFREETYPE_ROOT_DIR</action>
+
+                <action type="set_environment">
+                    <environment_variable action="prepend_to" name="LIBRARY_PATH">$INSTALL_DIR/lib</environment_variable>
+                    <environment_variable action="prepend_to" name="LD_LIBRARY_PATH">$INSTALL_DIR/lib</environment_variable>
+                    <environment_variable action="prepend_to" name="CPLUS_INCLUDE_PATH">$INSTALL_DIR/include</environment_variable>
+                    <environment_variable action="prepend_to" name="C_INCLUDE_PATH">$INSTALL_DIR/include</environment_variable>
+                    <environment_variable action="set_to" name="LIBGD_ROOT_PATH">$INSTALL_DIR</environment_variable>
+                    <environment_variable action="prepend_to" name="PKG_CONFIG_PATH">$INSTALL_DIR/lib/pkgconfig</environment_variable>
+                    <environment_variable action="prepend_to" name="PATH">$INSTALL_DIR/bin</environment_variable>
+                </action>
+            </actions>
+        </install>
+        <readme>
+            Installs and complils libdg.
+            GD is an open source code library for the dynamic creation of images by programmers.
+            GD is written in C, and "wrappers" are available for Perl, PHP and other languages.
+            GD creates PNG, JPEG, GIF, WebP, XPM, BMP images, among other formats.
+            GD is commonly used to generate charts, graphics, thumbnails, and most anything else, on the fly.
+            While not restricted to use on the web, the most common applications of GD involve website development.
+
+            http://libgd.bitbucket.org/
+
+            LIBRARY_PATH, LD_LIBRARY_PATH and CPLUS_INCLUDE_PATH will be set.
+            LIBGD_ROOT_PATH will point to the root path of the installation.
+        </readme>
+    </package>
+</tool_dependency>
