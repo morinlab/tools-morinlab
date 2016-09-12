@@ -49,10 +49,24 @@
         --gene_oncodrive $gene.oncodrive.oncodrive
       #end if
 
-      #if $patient.order.value == "default"
+      #if $patient.covariates.use_covariates == "no":
+
+        #if $patient.covariates.order.value == "default":
+
+        #else
+          --patient_order snv_counts 
+        #end if
 
       #else
-        --patient_order $gene.order
+
+        #for $item in $patient.covariates.plot:
+          --plot_patient_covariate $item
+        #end for
+
+        #for $item in $patient.covaraites.order:
+            --patient_order $item.covariate_or_internal.order
+        #end for
+
       #end if
 
       #if $patient.snv_counts
@@ -79,9 +93,6 @@
       <option value="variant_classification">Variant Classification</option>
     </param>
 
-    <param type="data" format="tabular" name="stuff_data" label="Test Data"/>
-    <param type="select" name="stuff" label="Test" ynamic_options="fetch_patient_covariates( stuff_data )"/>
-
     <section name="gene" title="Gene Related Inputs" expanded="False">
       <param type="select" name="order" label="Order of Genes">
         <option value="default" selected="True">Order in MAF</option>
@@ -100,10 +111,9 @@
         <param type="data" format="txt" name="oncodrive" label="Oncodrive-FM Input" optional="true"/>
       </section>
     </section>
-
     <section name="patient" title="Patient Related Inputs" expanded="False">
-      <conditional name="covariates">
-        <param name="use_covariates" type="select" label="Use Patient Covariates?">
+      <conditional name="covariates">s
+        <param name="use_covariates" type="select" label="Use Patient Covariates">
           <option value="no" selected="True">No</option>
           <option value="yes">Yes</option>
         </param>
@@ -118,10 +128,23 @@
         <when value="yes">
           <param type="data" format="tabular" name="covariate_data" label="Patient Covariate File"/>
           <repeat name="plot" title="Plot Patient Covariate" default="1">
-            <param type="select" name="covariate_to_plot" label="Plot Patient Covariate" dynamic_options="fetch_patient_covariates( covariate_data )"/>
+            <param type="text" name="covariate_to_plot" label="Plot Patient Covariate" />
           </repeat>
           <repeat name="order" title="Patient Order" default="1">
-            <param type="select" name="order" label="Order of Patients" dynamic_options="fetch_patient_covariates( covariate_data )"/>
+            <conditional name="covariate_or_internal">
+             <param name="use_covariate_or_internal" type="select" label="Order on">
+              <option value="cov" selected="True">Covariate</option>
+              <option value="int">Other</option>
+            </param>
+            <when value="cov">
+              <param type="select" name="order" label="Order of Patients">
+                <option value="default" selected="True">Order in MAF</option>
+                <option value="snv_counts">SNV Counts</option>
+              </param>              
+            </when>
+            <when value="int">
+              <param name="order" type="text" title="Order of Patients">
+            </when>
           </repeat>
         </when>
       </conditional>
@@ -129,10 +152,7 @@
       <param type="boolean" name="snv_distribution" label="Plot Patient SNV Distribution" checked="true"/> 
     </section>
   </inputs>
-
   <outputs>
     <data format="pdf" name="output"/>
   </outputs>
-  <options refresh="True"/>
-  <code file="oncoprintplus.py" />
 </tool>
