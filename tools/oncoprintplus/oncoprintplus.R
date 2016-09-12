@@ -234,6 +234,8 @@ if ( is.null(args$patient_order) ) {
 
 } else {
     for (covariate in args$patient_order) {
+        print(covariate)
+        print(colnames(patient_covariate_data))
         current_order <- order(patient_covariate_data[,covariate]);
         patient_covariate_data <- patient_covariate_data[current_order,];
         } 

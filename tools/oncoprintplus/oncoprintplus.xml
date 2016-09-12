@@ -58,12 +58,14 @@
         #end if
 
       #else
+        
+        --patient_covariate_data $patient.covariates.covariate_data
 
         #for $item in $patient.covariates.plot:
-          --plot_patient_covariate $item
+          --plot_patient_covariate $item.covariate_to_plot
         #end for
 
-        #for $item in $patient.covaraites.order:
+        #for $item in $patient.covariates.order:
             --patient_order $item.covariate_or_internal.order
         #end for
 
@@ -112,7 +114,7 @@
       </section>
     </section>
     <section name="patient" title="Patient Related Inputs" expanded="False">
-      <conditional name="covariates">s
+      <conditional name="covariates">
         <param name="use_covariates" type="select" label="Use Patient Covariates">
           <option value="no" selected="True">No</option>
           <option value="yes">Yes</option>
@@ -143,8 +145,9 @@
               </param>              
             </when>
             <when value="int">
-              <param name="order" type="text" title="Order of Patients">
+              <param name="order" type="text" title="Order of Patients"/>
             </when>
+            </conditional>
           </repeat>
         </when>
       </conditional>

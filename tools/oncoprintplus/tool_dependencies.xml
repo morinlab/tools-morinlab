@@ -4,6 +4,6 @@
     <repository name="package_cancer_genomics_functions_1_0" owner="morinlab"/>
   </package>
   <package name="boutroslab_plotting_general" version="5.3.4">
-    <repository name="package_boutroslab_plotting_general" owner="morinlab"/>
+    <repository name="package_boutroslab_plotting_general_5_3_4" owner="morinlab"/>
   </package>
 </tool_dependency>
