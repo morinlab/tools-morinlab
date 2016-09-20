@@ -1,0 +1,32 @@
+<tool id="correct_read_counter" name="correctReadCounter" version="1.8.0">
+  <description>
+    Correct Read Counter for GC content and mappability biases
+  </description>
+  <requirements>
+    <requirement type="binary">Rscript</requirement>    
+    <requirement type="R-module">TitanCNA</requirement>
+    <requirement type="package" version="3.2.1">R</requirement>
+    <requirement type="package" version="1.8.0">titancna</requirement>
+  </requirements>
+  <command>
+
+    Rscript $__tool_directory__/correctReads.R $tumour $normal $gc $map 
+    #if $target:
+      $target 
+    #else:
+      NULL
+    #end if
+    $output 2>&amp;1
+
+  </command>
+  <inputs>
+    <param type="data" format="wig" name="normal" label="Normal Read Counts"/>
+    <param type="data" format="wig" name="tumour" label="Tumour Read Counts"/>
+    <param type="data" format="wig" name="gc" label="GC Wig"/>
+    <param type="data" format="wig" name="map" label="MAP Wig"/>
+    <param type="data" format="txt,bed" name="target" label="Target File" help="Specify Targets if using Exome Data" optional="True"/>
+  </inputs>
+  <outputs>
+    <data format="wig" name="output"/>
+  </outputs>
+</tool>

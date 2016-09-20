@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<tool_dependency>
+  <package name="cmake" version="3.1.0">
+    <repository name="package_cmake_3_1_0" owner="morinlab" prior_installation_required="True"/>
+  </package>
+  <package name="hmmcopy" version="0.1.1">
+    <install version="1.0">
+      <actions>
+        <action type="download_by_url">http://compbio-bccrc.sites.olt.ubc.ca/files/2013/12/HMMcopy.zip</action>
+        <action type="set_environment_for_install">
+          <repository name="package_cmake_3_1_0" owner="morinlab">
+            <package name="cmake" version="3.1.0"/>
+          </repository>
+        </action>
+        <action type="change_directory">./HMMcopy</action>
+        <action type="shell_command">cmake -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR .</action>
+        <action type="shell_command">make</action>
+        <action type="move_directory_files">
+          <source_directory>.</source_directory>
+          <destination_directory>$INSTALL_DIR</destination_directory>
+        </action>
+        <action type="set_environment">
+          <environment_variable action="set_to" name="HMMCOPY_INSTALL_DIR">$INSTALL_DIR</environment_variable>
+          <environment_variable action="prepend_to" name="PATH">$INSTALL_DIR/bin</environment_variable>
+        </action>
+      </actions>
+    </install>
+  </package>
+</tool_dependency>
