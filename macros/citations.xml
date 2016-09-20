@@ -92,7 +92,26 @@
         </citation>
     </xml>
     <xml name="titan_citation">
-
-
+      <citation type="bibtex">
+          @ARTICLE{Ha2014-pu,
+  title       = "{TITAN}: inference of copy number architectures in clonal cell
+                 populations from tumor whole-genome sequence data",
+  author      = "Ha, Gavin and Roth, Andrew and Khattra, Jaswinder and Ho,
+                 Julie and Yap, Damian and Prentice, Leah M and Melnyk,
+                 Nataliya and McPherson, Andrew and Bashashati, Ali and Laks,
+                 Emma and Biele, Justina and Ding, Jiarui and Le, Alan and
+                 Rosner, Jamie and Shumansky, Karey and Marra, Marco A and
+                 Gilks, C Blake and Huntsman, David G and McAlpine, Jessica N
+                 and Aparicio, Samuel and Shah, Sohrab P",
+  journal     = "Genome Res.",
+  publisher   = "Cold Spring Harbor Lab",
+  volume      =  24,
+  number      =  11,
+  pages       = "1881--1893",
+  month       =  "1~" # nov,
+  year        =  2014,
+  keywords    = "computational method"
+}
+      </citation>
     </xml>
 </macros>
