@@ -57,6 +57,25 @@
         }
         </citation>
     </xml>
+    <xml name="mutationseq_citation">
+        <citation type="bibtex">
+@ARTICLE{Ding2012-jq,
+  title    = "Feature-based classifiers for somatic mutation detection in
+              tumour-normal paired sequencing data",
+  author   = "Ding, Jiarui and Bashashati, Ali and Roth, Andrew and Oloumi,
+              Arusha and Tse, Kane and Zeng, Thomas and Haffari, Gholamreza and
+              Hirst, Martin and Marra, Marco A and Condon, Anne and Aparicio,
+              Samuel and Shah, Sohrab P",
+  journal  = "Bioinformatics",
+  volume   =  28,
+  number   =  2,
+  pages    = "167--175",
+  month    =  "15~" # jan,
+  year     =  2012
+}
+        </citation>
+    </xml>
+
     <xml name="strelka_citation">
         <citation type="bibtex">
         @ARTICLE{Saunders2012-nh,

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<tool_dependency>
+  <package name="mutationseq_python_environment" version="4.3.6">
+    <repository name="package_mutationseq_python_environment_4_3_6" owner="morinlab"/>
+  </package>
+  <package name="mutationseq" version="4.3.6">
+    <repository name="package_mutationseq_4_3_6" owner="morinlab"/>
+  </package>
+</tool_dependency>
