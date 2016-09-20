@@ -18,10 +18,15 @@
           </repository>
         </action>
         <action type="shell_command">make clean</action>
-        <action type="shell_command">make PYTHON=\${MUTATIONSEQ_PYTHON_ENVIRONMENT_ROOT_DIR} BOOSTPATH=\${BOOST_ROOT_DIR}/include</action>
+        <action type="shell_command">
+          make PYTHON=\${MUTATIONSEQ_PYTHON_ENVIRONMENT_ROOT_DIR}/bin/python2.7 BOOSTPATH=\${BOOST_ROOT_DIR}/
+        </action>
         <action type="move_directory_files">
           <source_directory>.</source_directory>
           <destination_directory>$INSTALL_DIR</destination_directory>
+        </action>
+        <action type="set_environment">
+          <environment_variable action="prepend_to" name="PATH">$INSTALL_DIR</environment_variable>
         </action>
       </actions>
     </install>
