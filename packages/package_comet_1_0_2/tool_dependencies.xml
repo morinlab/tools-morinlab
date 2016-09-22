@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<tool_dependency>
+  <package name="anaconda2" version="4.0.0">
+    <repository name="package_anaconda2_4_0_0" owner="morinlab" changeset_revision="67def16bd486" prior_installation_required="True" />
+  </package>
+  <package name="comet" version="1.0.2">
+    <install version="1.0">
+      <actions>
+        <action type="download_by_url">https://github.com/raphael-group/comet/archive/54e7e0099e5f40c05695b0c82a7fe97ae6b60c14.tar.gz</action>
+        <action type="set_environment_for_install">
+         <repository name="package_anaconda2_4_0_0" owner="morinlab" changeset_revision="67def16bd486">
+           <package name="anaconda2" version="4.0.0" />
+         </repository>
+        </action>
+        <action type="shell_command">$ANACONDA_ROOT_DIR/bin/python2.7 comet/setup.py build</action>
+        <action type="move_directory_files">
+          <source_directory>.</source_directory>
+          <destination_directory>$INSTALL_DIR</destination_directory>
+        </action>
+        <action type="set_environment">
+          <environment_variable action="set_to" name="COMET_INSTALL_DIR">$INSTALL_DIR</environment_variable>
+          <environment_variable action="prepend_to" name="PYTHONPATH">$INSTALL_DIR/build/lib.linux-x86_64-2.7/</environment_variable>
+        </action>
+      </actions>
+    </install>
+  </package>
+</tool_dependency>

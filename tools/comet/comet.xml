@@ -1,0 +1,113 @@
+<tool id="comet" name="CoMEt" version="1.0.2">
+  <description>
+    CoMEt is a stochastic algorithm for identifying collections of mutually exclusive alterations in cohorts of sequenced tumor samples.
+  </description>
+  <requirements>
+    <requirement type="package" version="1.0.2">comet</requirement>
+    <requirement type="package" version="4.0.0">anaconda2</requirement>
+    <requirement type="set_environment">ANACONDA_ROOT_DIR</requirement>
+    <requirement type="set_environment">COMET_INSTALL_DIR</requirement>
+    <requirement type="set_environment">PYTHONPATH</requirement>
+  </requirements>
+  <command>
+    mkdir outdir;
+    awk 'BEGIN {FS=OFS="\t"} \$37 ~ /p\.[^=]/ &amp;&amp; \$1 != "" {print \$1, \$16}' $maf > mat1.txt;
+    sort -u -k2,2 mat1.txt > mat2.txt;
+    awk 'BEGIN {FS=OFS="\t"} BEGIN {patient=""} \$2 != patient {patient=\$2} \$2 != patient{ printf "\n" patient "\t" \$1} \$2 == patient {printf "\t" \$1}' mat2.txt > mut_mat.txt;
+
+    \$ANACONDA_ROOT_DIR/bin/python2.7 \$COMET_INSTALL_DIR/run_comet_full.py -o outdir -m mut_mat.txt -np $num_perm -ks $gene_set_sizes
+
+    #if $advancedsettings.min_freq
+      -mf $advancedsettings.min_freq
+    #end if
+
+    #if $advancedsettings.patient_file
+      -pf $advancedsettings.patient_file
+    #end if
+
+    #if $advancedsettings.gene_file
+      -gf $advancedsettings.gene_file
+    #end if
+
+    #if $advancedsettings.num_iter
+      -N $advancedsettings.num_iter
+    #end if
+
+    #if $advancedsettings.n_stop
+      -NStop $advancedsettings.num_stop
+    #end if
+
+    #if $advancedsettings.step_length
+      -s $advancedsettings.step_length
+    #end if
+
+    #if $advancedsettings.init_soln
+      -init $advancedsettings.init_soln
+    #end if
+
+    #if $advancedsettings.num_init
+      -r $advancedsettings.num_init
+    #end if
+
+    #if $advancedsettings.dist_cut
+      -tv $advancedsettings.dist_cut
+    #end if
+
+    #if $advancedsettings.exact_cut
+      --exact_cut $advancedsettings.exact_cut
+    #end if
+
+    #if $advancedsettings.binom_cut
+      --binom_cut $advancedsettings.binom_cut
+    #end if
+
+    #if $advancedsettings.co_occur_cut
+      --nt $advancedsettings.co_occur_cut
+    #end if
+    ;
+
+    <!-- Capture output -->
+    mv outdir/comet-results/results/*.tsv $res;
+
+  </command>
+  <inputs>
+    <!-- Required parameters -->
+    <param type="data" format="tabular" name="maf" label="MAF file" help="MAF file containing variants. Non-synonymous variants will be parsed." />
+    <param type="integer" min="1" value="100" max="9999" name="num_perm" label="Number of permutations" help="Number of permuted matrices to use." />
+    <param type="text" name="gene_set_sizes" label="Gene set sizes" help="List of gene set size integers(e.g., 2 3 5)." />
+    <!-- Optional/Advanced parameters -->
+    <section name="advancedsettings" title="Advanced Settings" expanded="false">
+      <param type="integer" name="min_freq" label="Minimum frequency" optional="true" help="Minimum gene mutation frequency." />
+      <param type="data" format="txt" name="patient_file" label="Patient whitelist" optional="true" help="List of patients to be included." />
+      <param type="data" format="txt" name="gene_file" label="Gene whitelist" optional="true" help="List of genes to be included." />
+      <param type="integer" name="num_iter" label="Number of iterations" optional="true" help="Number of iterations of MCMC." />
+      <param type="integer" name="n_stop" label="Maximum number of iterations" optional="true" help="Number of iterations of MCMC to stop the pipeline." />
+      <param type="integer" name="step_length" label="Step length" optional="true" help="Number of iterations between samples." />
+      <param type="text" name="init_soln" label="Initial solutions" optional="true" help="List of initial solutions to use." />
+      <param type="integer" name="num_init" label="Number of initial solutions" optional="true" help="Number of different initial starts to use with MCMC." />
+      <param type="float" name="dist_cut" label="Total distance cutoff" optional="true" help="Stop condition of convergence (total distance)." />
+      <param type="float" name="exact_cut" label="Exact cutoff" optional="true" help="Maximum accumulated table probability to stop exact test." />
+      <param type="float" name="binom_cut" label="Binomial cutoff" optional="true" help="Minimum p-value cutoff for CoMEt to perform binomial test." />
+      <param type="integer" name="co_occur_cut" label="Co-occurrence cutoff" optional="true" help="Maximum co-occurrence cutoff to perform exact test." />
+    </section>
+  </inputs>
+  <outputs>
+    <data format="tabular" name="res" />
+  </outputs>
+  <tests>
+    <test>
+    </test>
+  </tests>
+  <help>
+
+CoMEt is a stochastic algorithm for identifying collections of mutually exclusive alterations in cohorts of sequenced tumor samples. CoMEt is written in Python, with required extensions written in C and Fortran. It was developed by the Raphael research group in the Department of Computer Science and Center for Computational Molecular Biology at Brown University.
+
+CoMEt identifies a collection M of t alteration sets, each of size k, from a binary alteration matrix. CoMEt uses a Markov chain Monte Carlo (MCMC) algorithm to sample collections in proportion to their weight φ(M). The output of CoMEt is a list of collections, each with their sampling frequency, weight, and the weight φ(M) of each alteration set M ∈ M.
+
+  </help>
+  <citations>
+    <expand macro="morinlab_citation" />
+    <expand macro="galaxy_citation" />
+    <expand macro="comet_citation" />
+  </citations>
+</tool>
