@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<tool_dependency>
+  <set_environment>
+    <environment_variable name="GISTIC_SCRIPT_PATH" action="set_to">$REPOSITORY_INSTALL_DIR</environment_variable>
+  </set_environment>
+  <package name="gistic" version="2.0.22">
+    <install version="1.0">
+      <actions>
+        <!-- format of file is not right for walking .tar.gz when uncompress with galaxy py script from download_by_url action. instead try manually to avoid  -->
+        <action type="download_file">ftp://ftp.broadinstitute.org/pub/GISTIC2.0/GISTIC_2_0_22.tar.gz</action>
+        <action type="shell_command">tar -xzvf GISTIC_2_0_22.tar.gz</action>
+        <action type="move_directory_files">
+          <source_directory>.</source_directory>
+          <destination_directory>$INSTALL_DIR</destination_directory>
+        </action>
+        <!-- install matlab.  -->
+        <action type="shell_command">rmdir $INSTALL_DIR/MATLAB_Component_Runtime</action>
+        <action type="shell_command">$INSTALL_DIR/MCRInstaller.bin -P installLocation=$INSTALL_DIR/MATLAB_Component_Runtime -silent</action>
+        <!-- there is a broken link remake it or tool will error.  -->
+        <!-- Also wont work as a link  -->
+        <action type="shell_command">chmod 777 -R $INSTALL_DIR</action>
+        <action type="shell_command">rm $INSTALL_DIR/MATLAB_Component_Runtime/v714/runtime/glnxa64/libmwmclmcrrt.so</action>
+        <action type="shell_command">ln -s $INSTALL_DIR//MATLAB_Component_Runtime/v714/runtime/glnxa64/libmwmclmcrrt.so.7.14 $INSTALL_DIR/MATLAB_Component_Runtime/v714/runtime/glnxa64/libmwmclmcrrt.so</action>
+        <action type="shell_command">export LD_LIBRARY_PATH=$INSTALL_DIR/MATLAB_Component_Runtime/v714/runtime/glnxa64:$INSTALL_DIR/MATLAB_Component_Runtime/v714/sys/os/glnxa64:$INSTALL_DIR/MATLAB_Component_Runtime/v714/sys/java/jre/glnxa64/jre/lib/amd64/native_threads:$INSTALL_DIR/MATLAB_Component_Runtime/v714/sys/java/jre/glnxa64/jre/lib/amd64/server:$INSTALL_DIR/MATLAB_Component_Runtime/v714/sys/java/jre/glnxa64/jre/lib/amd64</action>
+        <action type="shell_command">export XAPPLRESDIR=$INSTALL_DIR/MATLAB_Component_Runtime/v714/X11/app-defaults</action>
+        <action type="set_environment">
+          <environment_variable action="prepend_to" name="LD_LIBRARY_PATH">$INSTALL_DIR/MATLAB_Component_Runtime/v714/runtime/glnxa64</environment_variable>
+          <environment_variable action="prepend_to" name="LD_LIBRARY_PATH">$INSTALL_DIR/MATLAB_Component_Runtime/v714/bin/glnxa64</environment_variable>
+          <environment_variable action="prepend_to" name="LD_LIBRARY_PATH">$INSTALL_DIR/MATLAB_Component_Runtime/v714/sys/os/glnxa64</environment_variable>
+          <environment_variable action="prepend_to" name="LD_LIBRARY_PATH">$INSTALL_DIR/MATLAB_Component_Runtime/v714/sys/java/jre/glnxa64/jre/lib/amd64/native_threads</environment_variable>
+          <environment_variable action="prepend_to" name="LD_LIBRARY_PATH">$INSTALL_DIR/MATLAB_Component_Runtime/v714/sys/java/jre/glnxa64/jre/lib/amd64/server</environment_variable>
+          <environment_variable action="prepend_to" name="LD_LIBRARY_PATH">$INSTALL_DIR/MATLAB_Component_Runtime/v714/sys/java/jre/glnxa64/jre/lib/amd64</environment_variable>
+          <environment_variable action="prepend_to" name="XAPPLRESDIR">$INSTALL_DIR/MATLAB_Component_Runtime/v714/X11/app-defaults</environment_variable>
+          <environment_variable action="prepend_to" name="PATH">$INSTALL_DIR/MATLAB_Component_Runtime</environment_variable>
+          <environment_variable name="GISTIC_DIR" action="set_to">$INSTALL_DIR</environment_variable>
+        </action>
+      </actions>
+    </install>
+    <readme>Downloads and compiles gistic</readme>
+  </package>
+</tool_dependency>

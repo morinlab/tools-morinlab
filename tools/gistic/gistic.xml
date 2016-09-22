@@ -1,0 +1,262 @@
+<tool id="gistc" name="GISTIC2.0" version="2.0.22">
+  <description>The GISTIC module identifies regions of the genome that are significantly amplified or deleted across a set of samples.</description>
+  <requirements>
+    <requirement type="package" version="2.0.22">gistic</requirement>
+    <requirement type="set_environment">GISTIC_SCRIPT_PATH</requirement>
+    <requirement type="set_environment">GISTIC_DIR</requirement>
+  </requirements>
+
+  <stdio>
+    <exit_code range="1:" />
+    <exit_code range=":-1" />
+  </stdio>
+
+  <command>
+    <![CDATA[
+      ##export included matlab paths. This was done in dependencies but seems to need reseting periodically 
+
+      export LD_LIBRARY_PATH=\$GISTIC_DIR/MATLAB_Component_Runtime/v714/runtime/glnxa64:\$GISTIC_DIR/MATLAB_Component_Runtime/v714/sys/os/glnxa64:\$GISTIC_DIR/MATLAB_Component_Runtime/v714/sys/java/jre/glnxa64/jre/lib/amd64/native_threads:\$GISTIC_DIR/MATLAB_Component_Runtime/v714/sys/java/jre/glnxa64/jre/lib/amd64/server:\$GISTIC_DIR/MATLAB_Component_Runtime/v714/sys/java/jre/glnxa64/jre/lib/amd64;
+
+      export XAPPLRESDIR=\$GISTIC_DIR/MATLAB_Component_Runtime/v714/X11/app-defaults;
+
+      ##make directory for results
+      mkdir ./results;
+
+      ##start command line
+      \$GISTIC_DIR/gp_gistic2_from_seg 
+      -b ./results 
+      -seg $segfile 
+      -mk $markersfile 
+      ##reference sequence selector
+      #if str($ref_select) == "hg19":
+        -refgene \$GISTIC_DIR/refgenefiles/hg19.mat
+      #elif str($ref_select) == "hg18":
+        -refgene \$GISTIC_DIR/refgenefiles/hg18.mat
+      #elif str($ref_select) == "hg17":
+        -refgene \$GISTIC_DIR/refgenefiles/hg17.mat
+      #elif str($ref_select) == "hg16":
+        -refgene \$GISTIC_DIR/refgenefiles/hg16.mat
+      #end if
+
+      #if $advanced['a_options'] == "advanced_options":
+        -genegistic $advanced.genegistic 
+        -smallmem $advanced.smallmem 
+        -broad $advanced.broad 
+        -brlen $advanced.brlen 
+        -conf $advanced.conf 
+        -armpeel $advanced.armpeel 
+        -savegene $advanced.savegene 
+        -gcm $advanced.gcm;
+      #end if
+      ;
+
+      ## output selection. gistic puts out a lot of files
+      #if $advanced['a_options'] == "default":
+        cat ./results/all_lesions.conf* > $all_lesions_conf;
+        cat ./results/amp_qplot.pdf > $amp_qplot_pdf;
+        cat ./results/del_qplot.pdf > $del_qplot_pdf;
+        cat ./results/raw_copy_number.pdf > $raw_copy_number_pdf;
+      #end if
+
+      #if $advanced['a_options'] == "advanced_options":
+        #if 'all_data_by_genes.txt' in str($advanced.outputs).split(','): 
+          cat ./results/all_data_by_genes.txt > $all_data_by_genes_txt;
+        #end if
+
+        #if 'all_lesions.conf' in str($advanced.outputs).split(','): 
+          cat ./results/all_lesions.conf* > $all_lesions_conf;
+        #end if
+
+        #if 'all_threshold.by_genes.txt' in str($advanced.outputs).split(','):
+          cat ./results/all_threshold.by_genes.txt > $all_threshold.by_genes_txt;
+        #end if
+
+        #if 'amp_genes.conf' in str($advanced.outputs).split(','):
+          cat ./results/amp_genes.conf* > $amp_genes_conf;
+        #end if
+
+        #if 'amp_qplot.pdf' in str($advanced.outputs).split(','):
+          cat ./results/amp_qplot.pdf > $amp_qplot_pdf;
+        #end if
+
+        #if 'arraylistfile.txt' in str($advanced.outputs).split(','):
+          cat ./results/arraylistfile.txt > $arraylistfile_txt;
+        #end if
+
+        #if 'broad_data_by_genes.txt' in str($advanced.outputs).split(','):
+          cat ./results/broad_data_by_genes.txt > $broad_data_by_genes_txt;
+        #end if
+
+        #if 'broad_significance_results.txt' in str($advanced.outputs).split(','):
+          cat ./results/broad_significance_results.txt > $broad_significance_results_txt;
+        #end if
+
+        #if 'broad_values_by_arm.txt' in str($advanced.outputs).split(','):
+          cat ./results/broad_values_by_arm.txt > $broad_values_by_arm_txt;
+        #end if
+
+        #if 'del_genes.conf' in str($advanced.outputs).split(','):
+          cat ./results/del_genes.conf* > $del_genes_conf;
+        #end if
+
+        #if 'del_qplot.pdf' in str($advanced.outputs).split(','):
+          cat ./results/del_qplot.pdf > $del_qplot_pdf;
+        #end if
+
+        #if 'focal_data_by_genes.txt' in str($advanced.outputs).split(','):
+          cat ./results/focal_data_by_genes.txt > $focal_data_by_genes_txt;
+        #end if
+
+        #if 'freqarms_vs_ngenes.pdf' in str($advanced.outputs).split(','):
+          cat ./results/freqarms_vs_ngenes.pdf > $freqarms_vs_ngenes_pdf;
+        #end if
+
+        #if 'raw_copy_number.pdf' in str($advanced.outputs).split(','):
+          cat ./results/fraw_copy_number.pdf > $raw_copy_number_pdf;
+        #end if
+
+        #if 'regions_track.conf.bed' in str($advanced.outputs).split(','):
+          cat ./results/regions_track.conf > $regions_track_conf;
+        #end if
+
+        #if 'sample_cutoffs.txt' in str($advanced.outputs).split(','):
+          cat ./results/sample_cutoffs.txt > $sample_cutoffs_txt;
+        #end if
+
+        #if 'sample_seg_counts.txt' in str($advanced.outputs).split(','):
+          cat ./results/sample_seg_counts.txt > $sample_seg_counts_txt;
+        #end if
+
+        #if 'scores.gistic' in str($advanced.outputs).split(','):
+          cat ./results/scores.gistic > $scores_gistic;
+        #end if
+
+      #end if
+
+    ]]>
+  </command>  
+
+  <inputs>
+    <param name="segfile" type="data" format="tabular" label="Seg file created using IGV2Gistic tool." />
+    <param name="markersfile" type="data" format="tabular" label="markers file created using IGV2Gistic tool." />
+    <param name="ref_select" type="select" label="Select reference gene file">
+      <option value="hg19" selected="True">hg19</option>
+      <option value="hg18">hg18</option>
+      <option value="hg17">hg17</option>
+      <option value="hg16">hg16</option>
+    </param>
+
+    <conditional name="advanced">
+      <param name="a_options" type="select" label="advanced options" help="Non-default settings and advanced options.">
+        <option value="default" selected="True">default</option>
+        <option value="advanced_options">advanced_options</option>
+      </param>
+      <when value="default"></when>
+      <when value="advanced_options">
+        <param name="outputs" type="select" label="Select desired output files" multiple="true" display="checkboxes">
+          <option value="all_data_by_genes.txt">all_data_by_genes.txt</option>
+          <option value="all_lesions.conf">all_lesions.conf_*</option>
+          <option value="all_threshold.by_genes.txt">all_threshold.by_genes.txt</option>
+          <option value="amp_genes.conf">amp_genes.conf</option>
+          <option value="amp_qplot.pdf">amp_qplot.pdf</option>
+          <option value="arraylistfile.txt">arraylistfile.txt</option>
+          <option value="broad_data_by_genes.txt">broad_data_by_genes.txt</option>
+          <option value="broad_significance_results.txt">broad_significance_results.txt</option>
+          <option value="broad_values_by_arm.txt">broad_values_by_arm.txt</option>
+          <option value="del_genes.conf">del_genes.conf</option>
+          <option value="del_qplot.pdf">del_qplot.pdf</option>
+          <option value="focal_data_by_genes.txt">focal_data_by_genes.txt</option>
+          <option value="freqarms_vs_ngenes.pdf">freqarms_vs_ngenes.pdf</option>
+          <option value="raw_copy_number.pdf">raw_copy_number.pdf</option>
+          <option value="regions_track.conf">regions_track.conf.bed</option>
+          <option value="sample_cutoffs.txt">sample_cutoffs.txt</option>
+          <option value="sample_seg_counts.txt">sample_seg_counts.txt</option>
+          <option value="scores.gistic">scores.gistic</option>
+        </param>
+        <param name="genegistic" type="integer" value="1" label="Set to 0 to disable local realignment"/>
+        <param name="smallmem" type="integer" value="1" label="The minimum # of variance reads"/>
+        <param name="broad" type="integer" value="1" label="The minimum # of reads to determine strand bias"/>
+        <param name="brlen" type="float" value="0.5" label="Reads with mapping quality less than INT will be filtered and ignored"/>
+        <param name="conf" type="float" value="0.90" label="The phred score for a base to be considered a good call. 25 is recommended for Illumina. For PGM, set it to ~15, as PGM tends to under estimate base quality"/>
+        <param name="armpeel" type="integer" value="1" label="reads with mismatches more than INT will be filtered and ignored. Gaps are not counted as mismatches"/>
+        <param name="savegene" type="integer" value="1" label="Trim bases after [INT] bases in the reads"/>
+        <param name="gcm" type="text" value="extreme" label="Extension of bp to look for mismatches after insersion or deletion"/>
+      </when>
+    </conditional>
+  </inputs>
+
+  <outputs>
+    <data name="all_data_by_genes_txt" label="${tool.name} all_data_by_genes.txt on ${on_string}" format="txt">
+      <filter>advanced['a_options'] == "advanced_options" and 'all_data_by_genes.txt' in advanced['outputs']</filter>
+    </data>
+    <data name="all_lesions_conf" label="${tool.name} all_lesions.conf on ${on_string}" format="txt">
+      <filter>advanced['a_options'] == "default" or (advanced['a_options'] == "advanced_options" and 'all_lesions.conf' in advanced['outputs'])</filter>
+    </data>
+    <data name="all_threshold_by_genes_txt" label="${tool.name} all_threshold.by_genes.txt on ${on_string}" format="txt">
+      <filter>advanced['a_options'] == "advanced_options" and 'all_threshold.by_genes.txt' in advanced['outputs']</filter>
+    </data>
+    <data name="amp_genes_conf" label="${tool.name} amp_genes.conf on ${on_string}" format="txt">
+      <filter>advanced['a_options'] == "advanced_options" and 'all_threshold.by_genes.txt' in advanced['outputs']</filter>
+    </data>
+    <data name="amp_qplot_pdf" label="${tool.name} amp_qplot.pdf on ${on_string}" format="pdf">
+      <filter>advanced['a_options'] == "default" or (advanced['a_options'] == "advanced_options" and 'amp_qplot.pdf' in advanced['outputs'])</filter>
+    </data>
+    <data name="arraylistfile_txt" label="${tool.name} arraylistfile.txt on ${on_string}" format="txt">
+      <filter>advanced['a_options'] == "advanced_options" and 'arraylistfile.txt' in advanced['outputs']</filter>
+    </data>
+    <data name="broad_data_by_genes_txt" label="${tool.name} broad_data_by_genes.txt on ${on_string}" format="txt">
+      <filter>advanced['a_options'] == "advanced_options" and 'broad_data_by_genes.txt' in advanced['outputs']</filter>
+    </data>
+    <data name="broad_significance_results_txt" label="${tool.name} broad_significance_results.txt on ${on_string}" format="txt">
+      <filter>advanced['a_options'] == "advanced_options" and 'broad_significance_results.txt' in advanced['outputs']</filter>
+    </data>
+    <data name="broad_values_by_arm_txt" label="${tool.name} broad_values_by_arm.txt on ${on_string}" format="txt">
+      <filter>advanced['a_options'] == "advanced_options" and 'broad_values_by_arm.txt' in advanced['outputs']</filter>
+    </data>
+    <data name="del_genes_conf" label="${tool.name} del_genes.conf on ${on_string}" format="txt">
+      <filter>advanced['a_options'] == "advanced_options" and 'del_genes.conf' in advanced['outputs']</filter>
+    </data>
+    <data name="del_qplot_pdf" label="${tool.name} del_qplot.pdf on ${on_string}" format="pdf">
+      <filter>advanced['a_options'] == "default" or (advanced['a_options'] == "advanced_options" and 'del_qplot.pdf' in advanced['outputs'])</filter>
+    </data>
+    <data name="focal_data_by_genes_txt" label="${tool.name} focal_data_by_genes.txt on ${on_string}" format="txt">
+      <filter>advanced['a_options'] == "advanced_options" and 'focal_data_by_genes.txt' in advanced['outputs']</filter>
+    </data>
+    <data name="freqarms_vs_ngenes_pdf" label="${tool.name} freqarms_vs_ngenes.pdf on ${on_string}" format="pdf">
+      <filter>advanced['a_options'] == "advanced_options" and 'freqarms_vs_ngenes.pdf' in advanced['outputs']</filter>
+    </data>
+    <data name="raw_copy_number_pdf" label="${tool.name} raw_copy_number.pdf on ${on_string}" format="pdf">
+      <filter>advanced['a_options'] == "default" or (advanced['a_options'] == "advanced_options" and 'raw_copy_number.pdf' in advanced['outputs'])</filter>
+    </data>
+    <data name="regions_track_conf" label="${tool.name} regions_track.bed on ${on_string}" format="bed">
+      <filter>advanced['a_options'] == "advanced_options" and 'regions_track.bed' in advanced['outputs']</filter>
+    </data>
+    <data name="sample_cutoffs_txt" label="${tool.name} sample_cutoffs.txt on ${on_string}" format="txt">
+      <filter>advanced['a_options'] == "advanced_options" and 'sample_cutoffs.txt' in advanced['outputs']</filter>
+    </data>
+    <data name="sample_seg_counts_txt" label="${tool.name} sample_seg_counts.txt on ${on_string}" format="txt">
+      <filter>advanced['a_options'] == "advanced_options" and 'sample_seg_counts.txt' in advanced['outputs']</filter>
+    </data>
+    <data name="scores_gistic" label="${tool.name} scores.gistic on ${on_string}" format="txt">
+      <filter>advanced['a_options'] == "advanced_options" and 'scores.gistic' in advanced['outputs']</filter>
+    </data>
+  </outputs>
+  <tests>
+    <test>
+      <param name="seg_file" value="MCL_all_cohorts.diagnostic.opt_clone.hg19.gistic.seg" />
+      <param name="markersfile" value="MCL_all_cohorts.diagnostic.opt_clone.hg19.markers.txt" />
+      <param name="ref_select" value="hg19" />
+      <output name="all_lesions_conf" value="all_lesions.conf_90.txt" lines_diff="2" />
+    </test>
+  </tests>
+  <help>
+
+The GISTIC module identifies regions of the genome that are significantly amplified or deleted across a set of samples.  Each aberration is assigned a G-score that considers the amplitude of the aberration as well as the frequency of its occurrence across samples.  False Discovery Rate q-values are then calculated for the aberrant regions, and regions with q-values below a user-defined threshold are considered significant.  For each significant region, a “peak region” is identified, which is the part of the aberrant region with greatest amplitude and frequency of alteration.  In addition, a “wide peak” is determined using a leave-one-out algorithm to allow for errors in the boundaries in a single sample. The “wide peak” boundaries are more robust for identifying the most likely gene targets in the region. Each significantly aberrant region is also tested to determine whether it results primarily from broad events (longer than half a chromosome arm), focal events, or significant levels of both.  The GISTIC module reports the genomic locations and calculated q-values for the aberrant regions.  It identifies the samples that exhibit each significant amplification or deletion, and it lists genes found in each “wide peak” region.
+
+  </help>
+  <citations>
+    <expand macro="morinlab_citation" />
+    <expand macro="galaxy_citation" />
+    <expand macro="gistic_citation" />
+  </citations>
+</tool>
