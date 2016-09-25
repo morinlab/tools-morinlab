@@ -1,0 +1,174 @@
+<tool id="mutationseq" name="MutationSeq" version="4.3.6">
+  <description>
+    a feature based classifier for somatic mutation detection
+  </description>
+  <requirements>
+    <requirement type="package" version="4.3.6">mutationseq</requirement>
+    <requirement type="package" version="4.3.6">mutationseq_python_environment</requirement>
+  </requirements>
+  <macros>
+    <import>citations.xml</import>
+  </macros>  
+  <command>
+
+  <!-- Linking BAM Indexs to current working directory -->
+  #if $model_source.model_source_selector == "standard" or $model_source.model_source_selector == "solid" or $model_source.model_source_selector == "deepseq" or $model_source.model_source_selector == "titan_mode"
+    ln -s $model_source.normal normal.bam;
+    ln -s $model_source.normal.metadata.bam_index normal.bam.bai;
+    ln -s $model_source.tumour tumour.bam;
+    ln -s $model_source.tumour.metadata.bam_index tumour.bam.bai;
+
+  #else
+    ln -s $model_source.input input.bam;
+    ln -s $model_source.input.metadata.bam_index input.bam.bai;
+
+  #end if
+
+  <!-- Index Reference if from History -->
+  #if $reference_source.reference_source_selector == "history":
+    ln -s $reference_source.ref_file ref.fa;
+    samtools faidx ref.fa;
+  #end if
+
+  <!-- Run Mutation Seq -->
+  #if $interval:
+    for i in \$(cat $interval); do
+  #end if
+
+  #if $model_source.model_source_selector == "titan_mode":
+    \$MUTATIONSEQ_PYTHON_ENVIRONMENT_ROOT_DIR/bin/python2.7 \$MUTATIONSEQ_ROOT_DIR/preprocess.py
+  #else:
+    \$MUTATIONSEQ_PYTHON_ENVIRONMENT_ROOT_DIR/bin/python2.7 \$MUTATIONSEQ_ROOT_DIR/classify.py
+  #end if
+
+  #if $reference_source.reference_source_selector == "history":
+    reference:ref.fa
+  #else:
+    reference:${reference_source.ref_file.fields.path}
+  #end if
+
+  #if $model_source.model_source_selector == "titan_mode":
+    normal:normal.bam
+    tumour:tumour.bam
+    model:\$MUTATIONSEQ_ROOT_DIR/model_single_v4.0.2.npz
+    --single
+
+  #elif $model_source.model_source_selector == "standard"
+    normal:normal.bam
+    tumour:tumour.bam
+    model:\$MUTATIONSEQ_ROOT_DIR/model_v4.1.2.npz
+
+  #elif $model_source.model_source_selector == "standard_single"
+    normal:input.bam
+    model:\$MUTATIONSEQ_ROOT_DIR/model_single_v4.0.2.npz
+    --single
+
+  #elif $model_source.model_source_selector == "solid"
+    normal:normal.bam
+    tumour:tumour.bam
+    model:\$MUTATIONSEQ_ROOT_DIR/model_solid_v4.1.2.npz
+
+  #elif $model_source.model_source_selector == "deepseq"
+    normal:normal.bam
+    tumour:tumour.bam
+    model:\$MUTATIONSEQ_ROOT_DIR/model_deep_v0.2.npz
+    --deep
+
+  #elif $model_source.model_source_selector == "deepseq_single"
+    normal:input.bam
+    model:\$MUTATIONSEQ_ROOT_DIR/model_deep_single_v0.2.npz
+    --single
+    --deep
+
+  #end if
+
+  #if $advancedsettings.filter.value == "all"
+    --all
+  #elif $advancedsettings.filter.value == "no_filter"
+    --no_filter
+  #end if
+
+  #if $interval
+    -i \$i 
+  #end if
+
+  #if $advancedsettings.positions:
+    -f $advancedsettings.positions
+  #end if
+    
+  --threshold $advancedsettings.filter_prob
+
+  | grep -v ".*no somatic mutation calls.*" >> $output
+
+  #if $interval
+    ; done
+  #end if
+  ;
+  </command>
+  <inputs>
+    <conditional name="reference_source">
+      <param label="Choose the source for the reference genome" name="reference_source_selector" type="select">
+        <option value="cached">Use a built-in genome</option>
+        <option value="history">Use a genome from the history</option>
+      </param>
+      <when value="cached">
+        <param label="Reference Genome File" name="ref_file" type="select">
+          <options from_data_table="fasta_indexes"/>
+        </param>
+      </when>
+      <when value="history">
+        <param label="Reference Genome File" name="ref_file" type="data" format="fasta"/>
+      </when>
+    </conditional>
+    <conditional name="model_source">
+      <param type="select" name="model_source_selector" label="Choose the model for MutationSeq">
+        <option value="standard" selected="true">Matched Sample Illumina Model</option>
+        <option value="solid">Matched Sample Solid Model</option>
+        <option value="deepseq">Matched Sample Deepseq Model</option>
+        <option value="standard_single">Single Sample Illumina Model</option>
+        <option value="deepseq_single">Single Sample Deepseq Model</option>
+        <option value="titan_mode">TITAN Mode</option>
+      </param>
+      <when value="standard">
+        <param type="data" format="bam" name="normal" label="Normal Alignment File"/>
+        <param type="data" format="bam" name="tumour" label="Tumour Alignment File"/>
+      </when>
+      <when value="solid">
+        <param type="data" format="bam" name="normal" label="Normal Alignment File"/>
+        <param type="data" format="bam" name="tumour" label="Tumour Alignment File"/>
+      </when>
+      <when value="deepseq">
+        <param type="data" format="bam" name="normal" label="Normal Alignment File"/>
+        <param type="data" format="bam" name="tumour" label="Tumour Alignment File"/>
+      </when>
+      <when value="standard_single">
+        <param type="data" format="bam" name="input" label="Sequence Alignment File"/>
+      </when>
+      <when value="deepseq_single">
+        <param type="data" format="bam" name="input" label="Sequence Alignment File"/>
+      </when>
+      <when value="titan_mode">
+        <param type="data" format="bam" name="normal" label="Normal Alignment File"/>
+        <param type="data" format="bam" name="tumour" label="Tumour Alignment File"/> 
+      </when>
+    </conditional>
+    <param type="data" format="txt" optional="true" name="interval" label="Specify Interval"/>    
+    <section name="advancedsettings" title="Advanced Settings" expanded="false">
+      <param type="select" name="filter" label="Filter Method">
+        <option value="standard" selected="true">Print Probablistic Positions</option>
+        <option value="all">Print Positions Regardless of Classified Probabilitly</option>
+        <option value="no_filter">Print Positions Regardless of Initial Criteira</option>
+      </param>
+      <param type="data" format="txt" optional="true" name="positions" label="Positions File"/>
+      <param type="float" value="0.85" min="0" max="1" name="filter_prob" label="Probabililty Filter Threshold"/>
+    </section>
+  </inputs>
+  <outputs>
+    <data format="vcf" name="output"/>
+  </outputs>
+  <citations>
+    <expand macro="morinlab_citation" />
+    <expand macro="galaxy_citation" />
+    <expand macro="mutationseq_citation" />
+  </citations>
+</tool>

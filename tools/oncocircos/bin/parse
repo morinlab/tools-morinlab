@@ -1,0 +1,453 @@
+#!/bin/env perl
+
+=pod
+
+=head1 NAME
+
+parse - parse Ryan's MAF and CNV files and generate a summary table of all genes and their mutations and CNV status
+
+=head1 SYNOPSIS
+
+  # automatically load etc/parse.conf
+  bin/parse 
+
+  # if config file is elsewhere
+  bin/parse -conf elsewhere/my.conf
+
+=head1 DESCRIPTION
+
+See etc/parse.conf for all settings.
+
+=head1 OPTIONS
+
+=cut
+
+use strict;
+use warnings FATAL=>"all";
+
+use Carp;
+use Config::General;
+use Cwd qw(getcwd abs_path);
+use Data::Dumper;
+use File::Basename;
+use FindBin;
+use Getopt::Long;
+use Math::Round qw(round nearest);
+use Math::VecStat qw(sum min max average);
+use Pod::Usage;
+use Time::HiRes qw(gettimeofday tv_interval);
+use Statistics::Basic qw(median);
+use Storable;
+use lib "$FindBin::RealBin";
+use lib "$FindBin::RealBin/../lib";
+use lib "$FindBin::RealBin/lib";
+
+our (%OPT,%CONF,$conf);
+our @COMMAND_LINE = ("file=s",
+										 "configfile=s",
+										 "help",
+										 "cdump",
+										 "man",
+										 "debug");
+our $VERSION = 0.02;
+
+# common and custom module imports below
+#use Regexp::Common;
+#use IO::File;
+#use List::Util;
+#use List::MoreUtils;
+use Set::IntSpan;
+#use Statistics::Descriptive;
+
+# read and parse configuration file
+parse_config();
+
+sub validateconfiguration {
+}
+
+################################################################
+# get files
+my $sv    = read_file($CONF{files}{sv}  ,"sv"   );
+my $genes = read_file($CONF{files}{mart},"genes");
+my $cnv   = read_file($CONF{files}{cnv} ,"cnv"  );
+
+################################################################
+# traverse all genes from biomart and determine number
+# of SV and CNV events across samples
+for my $chr (keys %$genes) {
+	next if $CONF{filter}{chr} && $chr ne $CONF{filter}{chr};
+	printdebug("processing",$chr);
+	for my $gene (@{$genes->{$chr}}) {
+		my $id = $gene->{id};
+		# filter out by presence and number of SV events
+		next if $CONF{filter}{sv} && ! $sv->{$id};
+		# number of samples that have SV event
+		my @samples_sv  = keys %{$sv->{$id}};
+		next if $CONF{filter}{sv_num} && @samples_sv < $CONF{filter}{sv_num};
+
+		$gene->{affected} = 1;
+
+		# register SV events
+		my $pos;
+		for my $sample (@samples_sv) {
+			for my $sv (sort {$b->{weight} <=> $a->{weight}} @{$sv->{$id}{$sample}}) {
+				$gene->{sv}{ $sv->{type} }++;
+				$gene->{sv}{ "*" }++;
+				$pos->{ $sv->{aa} }++; # register the protein position of the SV
+				next if $CONF{sv}{top_damage_only};
+			}
+		}
+		# top SV event
+		if($gene->{sv}) {
+			my ($sv_top) = sort {$gene->{sv}{$b} <=> $gene->{sv}{$a}} grep($_ ne "*",keys %{$gene->{sv}});
+			$gene->{sv_top}{$sv_top} = $gene->{sv}{$sv_top};
+		}
+		for my $aa (sort {$pos->{$b} <=> $pos->{$a}} keys %$pos) {
+			#next unless $pos->{$aa} > 1;
+			my $n = $pos->{$aa};
+			$gene->{svaa_top}{$aa} = $n if ! defined $gene->{svaa_top};
+			$gene->{svaa}{"*"}      += $n;
+			$gene->{svaa}{$aa}       = $n;
+		}
+		# register CNV events
+		my @samples_cnv = keys %$cnv;
+		# lookup any CNV events -- this can take a bit of time
+		# we can bin the CNV hash later if needed
+		for my $sample (@samples_cnv) {
+			my $chr = $gene->{chr};
+			next unless $cnv->{$sample}{$chr};
+			for my $cnv (@{$cnv->{$sample}{$chr}}) {
+				my $int = $cnv->{set}->intersect($gene->{set})->cardinality;
+				next unless $int;
+				push @{$gene->{cnv}{$cnv->{category}}{$sample}}, $cnv->{avg};
+			}
+		}
+	}
+}
+
+################################################################
+# report
+my $i = 0;
+for my $chr (1..22,"X","Y") {
+	next unless $genes->{$chr};
+	for my $gene (sort {$a->{start} <=> $b->{start}} @{$genes->{$chr}}) {
+		next unless $gene->{affected};
+		my @report = ($i++,@{$gene}{qw(id name chr start end size)});
+		if($gene->{sv}) {
+			push @report, sprintf("sv_top:%s:%d",keys %{$gene->{sv_top}},values %{$gene->{sv_top}});
+			for my $type (sort keys %{$gene->{sv}}) {
+				push @report, sprintf("sv:%s:%d",$type,$gene->{sv}{$type});
+			}
+		}
+		if($gene->{svaa}) {
+			push @report, sprintf("svaa_top:%s:%d",keys %{$gene->{svaa_top}},values %{$gene->{svaa_top}});
+			for my $aa (sort {$gene->{svaa}{$b} <=> $gene->{svaa}{$a}} keys %{$gene->{svaa}}) {
+				push @report, sprintf("svaa:%s:%d",$aa,$gene->{svaa}{$aa});
+			}
+		}
+		if($gene->{cnv}) {
+			my $type_count;
+			my $delins_count;
+			my $values_by_type;
+			for my $type (sort keys %{$gene->{cnv}}) {
+				my @sample_avg;
+				for my $sample (keys %{$gene->{cnv}{$type}}) {
+					# number of samples with this kind of CNV event
+					$type_count->{$type}++;
+					my @values = @{$gene->{cnv}{$type}{$sample}};
+					push @sample_avg, average(@values);
+					push @{$values_by_type->{$type}}, @values;
+				}
+				push @report, sprintf("cnv:%s:%d:%f:%f:%f:%f",
+															$type,
+															int(@sample_avg),
+															scalar(min(@sample_avg)),
+															average(@sample_avg),
+															median(@sample_avg)->query,
+															scalar(max(@sample_avg)));
+			}
+			my ($top_type) = sort {$type_count->{$b} <=> $type_count->{$a}} keys %$type_count;
+			push @report, sprintf("cnv_top:%s:%d:%f:%f:%f:%f",
+														$top_type,
+														$type_count->{$top_type},
+														scalar(min(@{$values_by_type->{$top_type}})),
+														average(@{$values_by_type->{$top_type}}),
+														median(@{$values_by_type->{$top_type}})->query,
+														scalar(max(@{$values_by_type->{$top_type}})));
+		}
+		printinfo(@report);
+	}
+}
+
+exit;
+
+sub read_file {
+	my ($file,$type) = @_;
+	open(F,$file) || die "Could not open file [$file] for reading";
+	my $data;
+
+	my @fields  = grep(/\d/,keys %{$CONF{fields}{$type}});
+	my @keys    = split(",",$CONF{fields}{$type}{key});
+
+	my $i;
+	while(<F>) {
+		chomp;
+		next if /^\#/;
+		my @tok = split "\t";
+		my $entry = {class=>$type};
+		for my $col (@fields) {
+			my ($field_name,$field_transform) = split(":",$CONF{fields}{$type}{$col});
+			my $value = $tok[$col];
+			if($field_transform) {
+				$value = lc $value if $field_transform =~ /lc/;
+			}
+			$entry->{ $field_name } = $value;
+		}
+		# skip mutation types that are not important
+		next if $CONF{sv}{filter} && $type eq "sv" && exists $entry->{type} && ! $CONF{sv}{types}{$entry->{type}};
+		next if $CONF{cnv}{filter} && $type eq "cnv" && exists $entry->{category} && ! $CONF{cnv}{types}{$entry->{category}};
+		if($type eq "sv") {
+			$entry->{weight} = $CONF{sv}{types}{$entry->{type}};
+		}
+		$entry->{chr} = "X" if $entry->{chr} eq 23;
+		$entry->{chr} = "Y" if $entry->{chr} eq 24;
+		next unless grep($entry->{chr} eq $_, (1..22,"X","Y"));
+		$entry->{set} = span(@{$entry}{qw(start end)}) if $entry->{start};
+		$entry->{size} = $entry->{set}->cardinality;
+		#printdumper($entry);
+		$i++;
+		if(@keys == 1) {
+			push @{$data->{$entry->{$keys[0]}}}, $entry;
+		} elsif (@keys == 2) {
+			push @{$data->{$entry->{$keys[0]}}{$entry->{$keys[1]}}}, $entry;
+		}
+	}
+	printdebug("got",$i,$type);
+	return $data;
+}
+
+sub list2hash {
+	my %h;
+	map {$h{$_}=1} @_;
+	return %h;
+}
+
+sub span {
+	my ($x,$y) = @_;
+	if($x==$y) {
+		return Set::IntSpan->new($x);
+	} else {
+		return Set::IntSpan->new("$x-$y");
+	}
+}
+
+sub get_handle {
+	my $h;
+	if(my $file = $CONF{file}) {
+		die "No such file [$file]" unless -e $file;
+		open(FILE,$file);
+		$h = \*FILE;
+	} else {
+		$h = \*STDIN;
+	}
+	return $h;
+}
+
+# HOUSEKEEPING ###############################################################
+
+sub dump_config {
+	printdumper(\%OPT,\%CONF);
+}
+
+sub parse_config {
+  my $dump_debug_level = 3;
+  GetOptions(\%OPT,@COMMAND_LINE);
+  pod2usage() if $OPT{help};
+  pod2usage(-verbose=>2) if $OPT{man};
+  loadconfiguration($OPT{configfile});
+  populateconfiguration();	# copy command line options to config hash
+  validateconfiguration(); 
+  if ($CONF{cdump}) {
+    $Data::Dumper::Indent    = 2;
+    $Data::Dumper::Quotekeys = 0;
+    $Data::Dumper::Terse     = 0;
+    $Data::Dumper::Sortkeys  = 1;
+    $Data::Dumper::Varname = "OPT";
+    printdumper(\%OPT);
+    $Data::Dumper::Varname = "CONF";
+    printdumper(\%CONF);
+    exit;
+  }
+}
+
+sub populateconfiguration {
+  for my $var (keys %OPT) {
+    $CONF{$var} = $OPT{$var};
+  }
+  repopulateconfiguration(\%CONF);
+}
+
+sub repopulateconfiguration {
+  my ($node,$parent_node_name) = shift;
+  return unless ref($node) eq "HASH";
+  for my $key (keys %$node) {
+		my $value = $node->{$key};
+		if (ref($value) eq "HASH") {
+			repopulateconfiguration($value,$key);
+		} elsif (ref($value) eq "ARRAY") {
+			for my $item (@$value) {
+				repopulateconfiguration($item,$key);
+			}
+		} elsif (defined $value) {
+			my $new_value = parse_field($value,$key,$parent_node_name,$node);
+			$node->{$key} = $new_value;
+		}
+	}
+}
+
+sub parse_field {
+	my ($str,$key,$parent_node_name,$node) = @_;
+	# replace configuration field
+	# conf(LEAF,LEAF,...)
+	while ( $str =~ /(conf\(\s*(.+?)\s*\))/g ) {
+		my ($template,$leaf) = ($1,$2);
+		if (defined $template && defined $leaf) {
+			my @leaf         = split(/\s*,\s*/,$leaf);
+			my $new_template;
+			if (@leaf == 2 && $leaf[0] eq ".") {
+				$new_template = $node->{$leaf[1]};
+			} else {
+				$new_template = fetch_conf(@leaf);
+			}
+			$str =~ s/\Q$template\E/$new_template/g;
+		}
+	}
+	if ($str =~ /\s*eval\s*\(\s*(.+)\s*\)/) {
+		my $fn = $1;
+		$str = eval $fn;
+		if ($@) {
+			die "could not parse configuration parameter [$@]";
+		}
+	}
+	return $str;
+}
+
+sub fetch_configuration {
+	my @config_path = @_;
+	my $node        = \%CONF;
+	if(! @config_path) {
+		return \%CONF;
+	}
+	for my $path_element (@config_path) {
+		if (! exists $node->{$path_element}) {
+	    return undef;
+		} else {
+	    $node = $node->{$path_element};
+		}
+	}
+	return $node;
+}
+
+sub fetch_conf {
+	return fetch_configuration(@_);
+}
+
+sub loadconfiguration {
+  my $file = shift;
+  if (defined $file) {
+    if (-e $file && -r _) {
+      # provided configuration file exists and can be read
+      $file = abs_path($file);
+    } else {
+      confess "The configuration file [$file] passed with -configfile does not exist or cannot be read.";
+    }
+  } else {
+    # otherwise, try to automatically find a configuration file
+    my ($scriptname,$path,$suffix) = fileparse($0);
+    my $cwd     = getcwd();
+    my $bindir  = $FindBin::RealBin;
+    my $userdir = $ENV{HOME};
+    my @candidate_files = (
+													 "$cwd/$scriptname.conf",
+													 "$cwd/etc/$scriptname.conf",
+													 "$cwd/../etc/$scriptname.conf",
+													 "$bindir/$scriptname.conf",
+													 "$bindir/etc/$scriptname.conf",
+													 "$bindir/../etc/$scriptname.conf",
+													 "$userdir/.$scriptname.conf",
+													);
+    my @additional_files = ();
+    for my $candidate_file (@additional_files,@candidate_files) {
+			#printinfo("configsearch",$candidate_file);
+			if (-e $candidate_file && -r _) {
+				$file = $candidate_file;
+				#printinfo("configfound",$candidate_file);
+				last;
+			}
+    }
+  }
+  if (defined $file) {
+    $OPT{configfile} = $file;
+    $conf = new Config::General(
+																-ConfigFile=>$file,
+																-IncludeRelative=>1,
+																-IncludeAgain=>1,
+																-ExtendedAccess=>1,
+																-AllowMultiOptions=>"yes",
+																#-LowerCaseNames=>1,
+																-AutoTrue=>1
+															 );
+    %CONF = $conf->getall;
+  }
+}
+
+sub printdebug {
+	printinfo("debug",@_) if defined $CONF{debug};
+}
+
+sub printinfo {
+	print join(" ",map { defined $_ ? $_ : "_undef_" } @_),"\n";
+}
+
+sub printfinfo {
+	my ($fmt,@args) = @_;
+	@args = map { defined $_ ? $_ : "_undef_" } @args;
+	printf("$fmt\n",@args);
+}
+
+sub printerr {
+	print STDERR join(" ",map { defined $_ ? $_ : "_undef_" } @_),"\n";
+}
+
+sub printdumper {
+	print Dumper(@_);
+}
+
+=pod 
+
+=head1 HISTORY
+
+=over
+
+=item * 30 Nov 2015
+
+Started.
+
+=back 
+
+=head1 AUTHOR
+
+Martin Krzywinski
+
+=head1 CONTACT
+
+Martin Krzywinski
+Genome Sciences Center
+BC Cancer Research Center
+100-570 W 7th Ave
+Vancouver BC V5Z 4S6
+
+mkweb.bcgsc.ca
+martink@bcgsc.ca
+
+=cut

@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<tool_dependency>
+  <package name="R" version="3.2.1">
+    <repository name="package_r_3_2_1" owner="iuc" prior_installation_required="True"/>
+  </package>
+  <package name="titancna" version="1.8.0">
+    <install version="1.0">
+      <actions>
+        <action type="setup_r_environment">
+          <repository name="package_r_3_2_1" owner="iuc">
+            <package name="R" version="3.2.1" />
+          </repository>
+          <package>https://cran.r-project.org/src/contrib/iterators_1.0.8.tar.gz</package>
+          <package>http://cran.fhcrc.org/src/contrib/foreach_1.4.3.tar.gz</package>
+          <package>https://github.com/marcoalbuquerque-sfu/bioconductor-galaxy-cancer-genomics-toolbox/raw/master/zlibbioc_1.16.0.tar.gz</package>
+          <package>https://cran.fhcrc.org/src/contrib/bitops_1.0-6.tar.gz</package>
+          <package>https://github.com/marcoalbuquerque-sfu/bioconductor-galaxy-cancer-genomics-toolbox/raw/master/BiocGenerics_0.16.1.tar.gz</package>
+          <package>https://github.com/marcoalbuquerque-sfu/bioconductor-galaxy-cancer-genomics-toolbox/raw/master/S4Vectors_0.8.1.tar.gz</package>
+          <package>https://github.com/marcoalbuquerque-sfu/bioconductor-galaxy-cancer-genomics-toolbox/raw/master/IRanges_2.4.1.tar.gz</package>
+          <package>https://github.com/marcoalbuquerque-sfu/bioconductor-galaxy-cancer-genomics-toolbox/raw/master/GenomeInfoDb_1.6.1.tar.gz</package>
+          <package>https://github.com/marcoalbuquerque-sfu/bioconductor-galaxy-cancer-genomics-toolbox/raw/master/XVector_0.10.0.tar.gz</package>
+          <package>https://github.com/marcoalbuquerque-sfu/bioconductor-galaxy-cancer-genomics-toolbox/raw/master/GenomicRanges_1.22.1.tar.gz</package>
+          <package>https://github.com/marcoalbuquerque-sfu/bioconductor-galaxy-cancer-genomics-toolbox/raw/master/Biostrings_2.38.0.tar.gz</package>
+          <package>https://cran.r-project.org/src/contrib/Archive/lambda.r/lambda.r_1.1.7.tar.gz</package>
+          <package>https://cran.r-project.org/src/contrib/futile.options_1.0.0.tar.gz</package>
+          <package>https://cran.r-project.org/src/contrib/Archive/futile.logger/futile.logger_1.4.1.tar.gz</package>
+          <package>https://cran.r-project.org/src/contrib/snow_0.4-1.tar.gz</package>
+          <package>https://github.com/marcoalbuquerque-sfu/bioconductor-galaxy-cancer-genomics-toolbox/raw/master/BiocParallel_1.4.0.tar.gz</package>
+          <package>https://github.com/marcoalbuquerque-sfu/bioconductor-galaxy-cancer-genomics-toolbox/raw/master/Rsamtools_1.22.0.tar.gz</package>
+          <package>https://github.com/marcoalbuquerque-sfu/bioconductor-galaxy-cancer-genomics-toolbox/raw/master/TitanCNA_1.8.0.tar.gz</package>
+          <package>https://cran.r-project.org/src/contrib/doMC_1.3.4.tar.gz</package>
+        </action>
+      </actions>
+    </install>
+  </package>
+</tool_dependency>

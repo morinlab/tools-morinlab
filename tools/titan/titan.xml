@@ -1,0 +1,106 @@
+<tool id="titan" name="TITAN" version="0.1.3">
+
+  <description>
+    Estimate Cellular Prevalence and Call Copy Number Aberations
+  </description>
+
+  <requirements>
+    <requirement type="binary">Rscript</requirement>    
+    <requirement type="R-module">TitanCNA</requirement>
+    <requirement type="package" version="3.2.1">R</requirement>
+    <requirement type="package" version="1.8.0">titancna</requirement>
+  </requirements>
+
+  <command>
+
+    mkdir parameters;
+    mkdir outputs;
+    mkdir rdatas;
+    #for $numClusters in range($numClustersMin, $numClustersMax):
+    
+    Rscript $__tool_directory__/titan.R 
+
+    <!-- id             -->   #if $sampleid_source.sampleid_selector == "bamfile":
+                                \$(basename $sampleid_source.id | sed 's/.bam$//g' )
+                              #else:
+                                $sampleid_source.id
+                              #end if
+
+    <!-- tc_het_file    -->  $tc_het_file
+    <!-- cnfile         -->  $cnfile
+    <!-- map            -->  $map
+    <!-- numClusters    -->  $numClusters
+    <!-- numCores       -->  \${GALAXY_SLOTS:-1}
+    <!-- ploidy         -->  $advancedsettings.ploidy
+    <!-- outfile        -->  ./outputs/samp${numClusters}.txt
+    <!-- outparam       -->  ./parameters/samp${numClusters}.txt
+    <!-- myskew         -->  $advancedsettings.myskew 
+    <!-- boolEstPloidy  -->  TRUE
+    <!-- n_zero         -->  0.5
+    <!-- normEstMeth    -->  map
+    <!-- maxI           -->  50
+    <!-- pseudo_counts  -->  1e-300
+    <!-- txn_exp_len    -->  1e16
+    <!-- txn_z_strength -->  1e6
+    <!-- alphaK         -->  $advancedsettings.alphaK
+    <!-- alphaHigh      -->  $advancedsettings.alphaHigh
+    <!-- maxCN          -->  $advancedsettings.maxCN
+    <!-- sym            -->  TRUE
+    <!-- outobj         -->  ./rdatas/samp${numClusters}.RData
+    <!-- genometype     -->  NCBI
+    <!-- chrom          -->  NULL
+    <!-- y_threshold    -->  20
+    2>&amp;1 ;
+    #end for
+
+    grep ".*S_Dbw validity index (Both).*" ./parameters/* | cut -f2 > vals.txt;
+    grep ".*Clonal cluster cellular prevalence.*" ./parameters/* | sed 's/.*Z=//g' | sed 's/:.*//g' > clusters.txt;
+    paste --delimiters='\t' vals.txt clusters.txt | sort | head -n 1 > optimal.txt;
+    
+    cp ./outputs/samp\$(cat optimal.txt | cut -f2).txt $optimal_output;
+    cp ./parameters/samp\$(cat optimal.txt | cut -f2).txt $optimal_parameter;
+    cp ./rdatas/samp\$(cat optimal.txt | cut -f2).RData $optimal_rdata;
+
+  </command>
+
+  <inputs>
+    <conditional name="sampleid_source">
+      <param label="Choose the source to open the Sample Id" name="sampleid_selector" type="select">
+        <option value="bamfile">BAM File Name</option>
+        <option value="manual">Manual</option>
+      </param>
+      <when value="manual">
+        <param name="id" type="text" label="Tumour ID (Name)"/>
+      </when>
+      <when value="bamfile">
+        <param type="data" format="bam" name="id" label="Sequence Alignment File"/>
+      </when>
+    </conditional>
+    <param type="data" format="wig,txt" name="tc_het_file" label="Normal SNP Counts"/>
+    <param type="data" format="wig,txt" name="cnfile" label="Corrected Reads Counts"/>
+    <param type="data" format="wig,txt" name="map" label="Map Wig"/>
+    <param type="integer" min="1" max="10" value="1" name="numClustersMin" label="The Min Number of Clusters"/>
+    <param type="integer" min="2" max="10" value="5" name="numClustersMax" label="The Max Number of Clusters" help="All Clusters will be computed for all k within the min and max values"/>
+    <section name="advancedsettings" title="Advanced Settings" expanded="false">
+      <param type="integer" min="1" value="2" name="ploidy" label="Ploidy of Organism"/>
+      <param type="float" min="-3" max="3" value="0" name="myskew" label="Skew"/>
+      <param type="integer" value="15000" min="1" name="alphaK" label="alpha K"/>
+      <param type="integer" value="20000" min="1" name="alphaHigh" label="alpha High"/>
+      <param type="integer" value="8" min="1" name="maxCN" label="The Maximum Copy Number"/>
+    </section>
+  </inputs>
+  <outputs>
+    <data format="txt" name="optimal_output"/>
+    <data format="txt" name="optimal_parameter"/>
+    <data format="txt" name="optimal_rdata"/>
+    <collection name="list_output1" type="list" label="TITAN Output File" description="TITAN Output Files">
+      <discover_datasets pattern="__name_and_ext__" directory="outputs"/>
+    </collection>
+    <collection name="list_output2" type="list" label="TITAN Parameter File" description="TITAN Parameter Files">
+      <discover_datasets pattern="__name_and_ext__" directory="parameters"/>
+    </collection>
+    <collection name="list_output3" type="list" label="TITAN RData File" description="TITAN RData Files">
+      <discover_datasets pattern="__name_and_ext__" directory="rdatas"/>
+    </collection> 
+  </outputs>
+</tool>

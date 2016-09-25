@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<tool_dependency>
+	<package name="cmake" version="3.1.0">
+		<repository name="package_cmake_3_1_0" owner="morinlab" prior_installation_required="True"/>
+	</package>
+	<package name="somatic_sniper" version="1.0.5.0">
+		<install version="1.0">
+			<actions>
+				<action type="download_by_url">https://github.com/genome/somatic-sniper/archive/v1.0.5.0.tar.gz</action>
+				<action type="set_environment_for_install">
+					<repository name="package_cmake_3_1_0" owner="morinlab">
+            					<package name="cmake" version="3.1.0"/>
+          				</repository>
+        			</action>
+				<action type="make_directory">./build</action>
+                                <action type="change_directory">./build</action>
+				<action type="shell_command">cmake ../</action>
+				<action type="shell_command">make deps</action>
+				<action type="shell_command">make -j</action>
+				<action type="shell_command">make test</action>
+				<action type="move_directory_files">
+					<source_directory>.</source_directory>
+					<destination_directory>$INSTALL_DIR</destination_directory>
+				</action>
+			</actions>
+		</install>
+		<readme>
+			Somatic-sniper compiled version.
+        	</readme>
+	</package>
+</tool_dependency>

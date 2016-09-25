@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<tool_dependency>
+  <package name="titancna" version="1.8.0">
+    <repository name="package_titancna_1_8_0" owner="morinlab" prior_installation_required="True"/>
+  </package>
+</tool_dependency>

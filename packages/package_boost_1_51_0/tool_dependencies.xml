@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<tool_dependency>
+    <package name="boost" version="1.51.0">
+        <install version="1.0">
+            <actions>
+                <action type="download_by_url">http://downloads.sourceforge.net/project/boost/boost/1.51.0/boost_1_51_0.tar.gz</action>
+                <action type="move_directory_files">
+                    <source_directory>./boost_1_51_0</source_directory>
+                    <destination_directory>$INSTALL_DIR</destination_directory>
+                </action>
+                <action type="set_environment">
+                    <environment_variable action="set_to" name="BOOST_ROOT_DIR">$INSTALL_DIR</environment_variable>
+                    <environment_variable action="prepend_to" name="LD_LIBRARY_PATH">$INSTALL_DIR/boost/lib/</environment_variable>
+                    <environment_variable action="prepend_to" name="LIBRARY_PATH">$INSTALL_DIR/boost/lib/</environment_variable>
+                    <environment_variable action="prepend_to" name="CPLUS_INCLUDE_PATH">$INSTALL_DIR/boost/include</environment_variable>
+                    <environment_variable action="prepend_to" name="C_INCLUDE_PATH">$INSTALL_DIR/boost/include</environment_variable>
+                </action>
+            </actions>
+        </install>
+    </package>
+</tool_dependency>

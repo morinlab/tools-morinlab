@@ -1,0 +1,42 @@
+<tool id="calc_cnsegments" name="calc_cnsegements" version="0.0.1">
+  <description>
+    Calculate Copy Number Segments from TITAN output
+  </description>
+  <command>
+    <![CDATA[
+    perl $__tool_directory__/calc_cnsegements_titan.pl
+
+      #if $sampleid_source.sampleid_selector == "bamfile":
+        -id \$(basename $sampleid_source.sample_id | sed 's/.bam$//g' )
+      #else:
+        -id $sampleid_source.sample_id
+      #end if
+
+     -o $outfile
+     -s $symmetric
+     -igv $outIGV
+     -i $infile
+
+    ]]>
+  </command>
+  <inputs>
+    <conditional name="sampleid_source">
+      <param label="Choose the source to open the Sample Id" name="sampleid_selector" type="select">
+        <option value="bamfile">Bam File Name</option>
+        <option value="manual">Manual</option>
+      </param>
+      <when value="bamfile">
+        <param type="data" format="bam" name="sample_id" label="Sequence Alignment File"/>
+      </when>
+      <when value="manual">
+        <param name="sample_id" type="text" label="Sample ID (Name)"/>
+      </when>
+    </conditional>
+    <param type="data" format="txt" name="infile" label="SNP Summary Information (TITAN Output)"/>
+    <param type="boolean" name="symmetric" label="Symmetric" checked="yes" truevalue="1" falsevalue="0"/>
+  </inputs>
+  <outputs>
+    <data format="txt" name="outfile"/>
+    <data format="seg" name="outIGV"/>
+  </outputs>
+</tool>

@@ -1,0 +1,39 @@
+<tool id="read_counter" name="readCounter" version="0.1.1">
+  <description>
+    Get Binned Read Distribution for a Sequence Alignment File
+  </description>
+  <requirements>
+    <requirement type="package" version="0.1.1">hmmcopy</requirement>
+  </requirements>
+  <command>
+    <![CDATA[
+    
+    ln -s $input_bam input.bam;
+    ln -s $input_bam.metadata.bam_index input.bam.bai;
+    
+    #if $interval
+    for i in \$( cat $interval ); do
+    #end if
+    
+    readCounter 
+
+    #if $interval
+    -c \$i 
+    #end if
+
+    input.bam >> $output
+
+    #if $interval
+    ; done 
+    #end if 
+
+    ]]>
+  </command>
+  <inputs>
+    <param type="data" format="bam" name="input_bam" label="Specify BAM Alignment File"/>
+    <param type="data" format="bed,txt" name="interval" label="Specify Interval" optional="true"/>
+  </inputs>
+  <outputs>
+    <data format="wig" name="output"/>
+  </outputs>
+</tool>

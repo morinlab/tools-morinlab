@@ -11,4 +11,4 @@ clean:
 
 ${TARBALLS_DIR}/%.tar.gz: %
 	@mkdir -p $(@D)
-	tar -L --directory $< --create --gzip --file $@ .
+	tar --dereference --directory $< --create --gzip --file $@ .

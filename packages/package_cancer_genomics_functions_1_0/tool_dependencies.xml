@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<tool_dependency>
+  <package name="R" version="3.2.1">
+    <repository name="package_r_3_2_1" owner="iuc" prior_installation_required="True"/>
+  </package>
+	<package name="cancer_genomics_functions" version="1.0">
+	  <install version="1.0">
+		  <actions>
+			  <action type="download_by_url">https://raw.githubusercontent.com/marcoalbuquerque-sfu/cancer_genomics_functions/master/functions.R</action>
+        <action type="setup_r_environment">
+          <repository name="package_r_3_2_1" owner="iuc">
+            <package name="R" version="3.2.1" />
+          </repository>
+          <package>https://cran.r-project.org/src/contrib/proto_0.3-10.tar.gz</package>
+          <package>https://cran.r-project.org/src/contrib/findpython_1.0.1.tar.gz</package>
+          <package>https://cran.r-project.org/src/contrib/getopt_1.20.0.tar.gz</package>
+          <package>https://cran.r-project.org/src/contrib/rjson_0.2.15.tar.gz</package>
+          <package>https://cran.r-project.org/src/contrib/argparse_1.0.1.tar.gz</package>
+        </action>
+        <action type="move_file">
+          <source>functions.R</source>
+          <destination>$INSTALL_DIR</destination>
+        </action>
+				<action type="set_environment">
+				  <environment_variable action="set_to" name="CANCER_GENOMICS_FUNCTIONS_PATH">$INSTALL_DIR</environment_variable>
+			  </action>
+			</actions>
+		</install>
+	</package>
+</tool_dependency>
