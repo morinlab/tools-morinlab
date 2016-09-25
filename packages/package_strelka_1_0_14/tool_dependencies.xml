@@ -3,7 +3,7 @@
   <package name="strelka" version="1.0.14">
     <install version="1.0">
       <actions>
-        <action type="download_by_url">ftp://strelka@ftp.illumina.com/v1-branch/v1.0.14/strelka_workflow-1.0.14.tar.gz</action>
+        <action type="download_by_url">https://github.com/marcoalbuquerque-sfu/bioconductor-galaxy-cancer-genomics-toolbox/raw/master/strelka_workflow-1.0.14.tar.gz</action>
         <action type="shell_command">./configure --prefix=$INSTALL_DIR</action>
         <action type="shell_command">make</action>
         <action type="shell_command">make install</action>
