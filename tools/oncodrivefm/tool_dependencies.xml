@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<tool_dependency>
+  <package name="oncodrivefm" version="0.6.0">
+    <repository name="package_oncodrivefm_0_6_0" owner="morinlab"/>
+  </package>
+</tool_dependency>

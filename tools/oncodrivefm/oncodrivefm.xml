@@ -1,0 +1,80 @@
+<tool id="oncodrivefm" name="OncodriveFM">
+  <description>
+  an approach to uncover driver genes or gene modules
+  </description>
+  <requirements>
+    <requirement type="package" version="2.0.1">requests</requirement>
+    <requirement type="package" version="0.6.0">oncodrivefm</requirement>
+  </requirements>
+  <command detect_errors="aggressive">
+  
+  <!-- make directory and name for multiple output -->
+  mkdir ./out;
+  ln -s $input_maf ./odfm;
+	
+  <!-- run program with pathway file options -->
+  oncodrivefm 
+    -o ./out
+    -N $advancedsettings.samplings 
+    -e $advancedsettings.estimator 
+    --gt $advancedsettings.gthreshold 
+    --pt $advancedsettings.pthreshold 
+    -s $advancedsettings.slices 
+    #if $advancedsettings.mapoption.mapfile=="custom":
+      -m "${mapoption.mpath}" 
+    #elif $advancedsettings.mapoption.mapfile=="included_file":   
+      -m $__tool_directory__/ensg_kegg.tsv
+    #end if
+    ./odfm;
+    
+  cat ./out/odfm-pathways.tsv >> $out_file2;
+  cat ./out/odfm-genes.tsv >> $out_file1;
+
+  pwd >> $out_file2;
+  ls ./out/* >> $out_file2;
+  
+  </command>
+  <inputs>
+    <param name="input_maf" format="tabular" type="data" label="Input MAF File" />
+    <section name="advancedsettings" title="Advanced Settings" expanded="false">
+      <param name="samplings" type="integer" label="Samplings" help="Number of samplings to compute the FM bias pvalue" value="10000"/>
+      <param name="estimator" type="select" label="Estimator" help="Test estimator for computation" optional="true">
+        <option value="median" selected="true">Median</option>
+        <option value="mean">Mean</option>
+      </param>
+      <param name="gthreshold" type="integer" label="Gene Threshold" help="Minimum number of mutations per gene to compute the FM bias" value="2"/>
+      <param name="pthreshold" type="integer" label="Pathway Threshold" help="Minimum number of mutations per pathway to compute the FM bias" value="10" />
+      <param name="slices" type="text" label="Slices" help="Slices to process separated by commas(slices=SIFT,PolyPhen,MA)" value="SIFT,PolyPhen"/>
+      <conditional name="mapoption">
+        <param name="mapfile" type="select" label="Choose the source for the OncodriveFM Mapping File">
+          <option value="included_file" selected="true">Use hg19 mapping file</option>
+          <option value="custom">Use a mapping file from the history</option>
+          <option value="no_file">Use no mapping file</option>
+        </param>
+        <when value="custom">
+          <param name="mpath" type="data" format="tabular" label="OncodriveFM Mapping File"/>
+        </when>
+      </conditional>
+    </section>
+  </inputs>
+  <outputs>
+    <data format="tabular" name="out_file1" label="oncodrivefm-genes.tsv" />
+    <data format="tabular" name="out_file2" label="oncodrivefm-pathways.tsv" >
+      <filter>(mapoption['mapfile'] == "included_file") or (mapoption['mapfile'] == "custom")</filter>
+    </data>
+  </outputs>
+  <help>
+        Oncodrive-fm is an approach to uncover driver genes or gene modules.
+        It computes a metric of functional impact using three well-known methods (SIFT, PolyPhen2 and MutationAssessor)
+        and assesses how the functional impact of variants found in a gene across several tumor samples deviates from
+        a null distribution. It is thus based on the assumption that any bias towards the accumulation of variants
+        with high functional impact is an indication of positive selection and can thus be used to detect candidate
+        driver genes or gene modules. 
+		
+	See url for more information: http://bg.upf.edu/group/projects/oncodrive-fm.php
+      
+        If you use this Galaxy tool in work leading to a scientific publication please cite:
+        Gonzalez-Perez A and Lopez-Bigas N. 2012. Functional impact bias reveals cancer drivers. Nucleic Acids Res., 10.1093/nar/gks743.
+  </help>
+</tool>
+
