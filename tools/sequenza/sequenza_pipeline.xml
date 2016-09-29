@@ -1,0 +1,60 @@
+<tool id="sequenza_pipeline" name="Analyze Seqz File" version="2.1.2">
+  <description>
+  using general R sequenza pipeline
+  </description>
+  <requirements>
+    <requirement type="package" version="2.1.2">sequenza</requirement>
+    <requirement type="set_environment" version="2.1.2">SEQUENZA_INSTALL_DIR</requirement>
+  </requirements>
+<command>
+
+Rscript $__tool_directory__/sequenza_pipeline.R $input
+
+    #if $sampleid_source.sampleid_selector == "bamfile":
+      \$(basename $sampleid_source.id | sed 's/.bam$//g' )
+    #else:
+      $sampleid_source.id
+    #end if
+
+    output
+    
+    #if $choose_fit_option.fit_option == "manual":
+    
+      $ploidy $cellularity
+    
+    #end if
+     
+    2>&amp;1 ;
+
+  cat ./output/*segments.txt > $output;
+
+  </command>
+<inputs>
+    <conditional name="sampleid_source">
+      <param label="Choose the source to open the Sample Id" name="sampleid_selector" type="select">
+        <option value="bamfile">BAM File Name</option>
+        <option value="manual">Manual</option>
+      </param>
+      <when value="manual">
+        <param name="id" type="text" label="Tumour ID (Name)"/>
+      </when>
+      <when value="bamfile">
+        <param type="data" format="bam" name="id" label="Sequence Alignment File"/>
+      </when>
+    </conditional>
+    <conditional name="choose_fit_option">
+    <param label="Use the best fit or manually set the ploidy and cellularity" name="fit_option" type="select">
+      <option value="bestfit">Best fit</option>
+      <option value="manual">Manually specify</option>
+    </param>
+    <when value="manual">
+      <param name="ploidy" type="float" label="ploidy" value="2" />
+      <param name="cellularity" type="float" label="cellularity" value="1" />
+    </when>
+    </conditional>
+    <param name="input" format="txt,tabular" type="data" label="Input Sequenza Seqz File"/>
+  </inputs>
+  <outputs>
+    <data name="output" format="seg,txt"/>
+  </outputs>
+</tool>
