@@ -1,0 +1,149 @@
+<tool id="delly" name="DELLY" version="0.6.1">
+
+        <description>structural variant discovery by integrated paired-end and split-read analysis</description>
+	
+	<macros>
+		<import>citations.xml</import>
+	</macros>
+
+	<requirements>
+		<requirement type="package" version="1.55.0">boost</requirement>
+		<requirement type="package" version="0.6.1">delly</requirement>
+		<requirement type="set_environment">DELLY_DIR</requirement>
+		<requirement type="set_environment">BOOST_ROOT_DIR"</requirement>
+		<requirement type="set_environment">LD_LIBRARY_PATH"</requirement>
+		<requirement type="set_environment">LIBRARY_PATH"</requirement>
+		<requirement type="set_environment">CPLUS_INCLUDE_PATH"</requirement>
+		<requirement type="set_environment">C_INCLUDE_PATH"</requirement>
+	</requirements>
+
+	<command detect_errors="aggressive"> 
+
+		<!-- BAM and BAI linking, (1) link BAM to new BAM file & (2) link BAM metadata to new BAI file -->
+		#for $i, $s in enumerate( $repeatBam )
+			ln -s $s.sortedBam ./input$(i).bam;
+			ln -s $s.sortedBam.metadata.bam_index ./input$(i).bam.bai;
+		#end for		
+
+		<!-- Sets args to a list of types selected -->
+		#if not isinstance( $variant_source_selector_param.value, list ):
+			#set $args = [ $variant_source_selector_param.value ]
+		#else:
+			#set $args = $variant_source_selector_param.value
+		#end if
+
+		<!-- Run Delly Jobs for each type selected -->
+		#for $option in $args
+			\$DELLY_DIR/src/delly 
+			  -t $option 
+			  -o ./output.$(option).vcf 
+			  -q $advancedsettings.mapQual 
+			  -s $advancedsettings.madCutoff 
+			
+			#if $option == "DEL":
+			  -m $advancedsettings.minFlank 
+			#end if 
+			
+			-u $advancedsettings.genoQual 
+
+			#if $advancedsettings.vcfgeno
+			  -v $advancedsettings.vcfgeno
+			#end if
+                        
+			#if $reference_source.reference_source_selector_param == "cached":
+				-g "${reference_source.reference.fields.path}"
+			#else:
+				-g $reference_source.reference
+			#end if
+
+			<!-- add each input bam to command -->
+			#for $i, $s in enumerate( $repeatBam ):
+				./input$(i).bam	
+			#end for
+			;
+  		#end for
+
+		<!-- Combine VCF Files and Sort Lexographically -->
+		#set $option = $args[0]
+		grep ^\# output.$(option).vcf > $outfile;
+		grep ^\# -v output.$(option).vcf > variants.txt;
+		
+		<!-- If we called more than a single variant type, concatenate all the other types variant output -->
+		#if isinstance( $variant_source_selector_param.value, list ):
+			#for $option in $args[1:]
+				grep ^\# -v output.$(option).vcf >> variants.txt;
+			#end for
+		#end if
+		
+		<!-- Sort all variant output, assuming that it will sort lexographically by chromosome, then position, ID  -->
+		<!-- In future, maybe develop a script to sort by bam header -->
+		sort -k1,1d -k2,2n -k3,3d variants.txt > sortedVariants.txt;
+		
+		<!-- Filter Variants that have Passed Quality Checks -->
+		#if $filterCalls
+			awk '{if ($7 == "PASS") print $0;}' sortedVariants.txt >> $outfile;
+		#else
+			cat sortedVariants.txt >> $outfile;
+		#end if
+		
+	</command>
+ 
+	<inputs>
+
+		<!-- REFERENCE OPTIONS -->
+		<conditional name="reference_source">
+			<param type="select" name="reference_source_selector_param" label="Choose the source for the reference genome">
+				<option value="cached" selected="True">Use a built-in genome</option>
+				<option value="history">Use a genome from the history</option>
+			</param> 
+			<when value="cached">
+				<param type="select" name="reference" label="Genome">
+					<options from_data_table="all_fasta"/>
+				</param>
+			</when>
+			<when value="history">
+				<param type="data" format="fasta" name="reference" label="Genome"/>
+			</when>
+		</conditional>
+
+		<!-- VARIANT OPTIONS -->
+		<param type="select" multiple="True" name="variant_source_selector_param" label="Select variants to identify in samples">
+			<option value="DEL" selected="true">Deletions</option>
+			<option value="DUP">Duplications</option>
+			<option value="INV">Inversions</option>
+			<option value="TRA">Translocations</option>
+		</param>
+                <!--
+		<param name="interval_file" type="data" format="txt" optional="true" label="Interval file" help="Created by make parallel, only use when parallelism is turned on, note interchromosomal and intrachromosomal events have different interval files"/>
+		-->
+		<repeat name="repeatBam" title="Bam Alignment" min="1" default="1" >	
+			<param format="bam" name="sortedBam" type="data" label="File" />		
+		</repeat>
+		<!-- <param name="excludeFile" type="data" format="bed" optional="true" label="Chromosomes to Exclude"/> -->
+		<param name="filterCalls" type="boolean" value="false" label="Filter Poor Variant Calls"/>
+		
+                <section name="advancedsettings" title="Advanced Settings" expanded="false">
+		<!-- Paired End Options -->
+		<param name="mapQual" type="integer" value="0" min="0" max="255" label="PE - Minimum Mapping Quality" />
+		<param name="madCutoff" type="integer" value="9" min="0" max="255" label="PE - Insert Size Cutoff" />
+
+		<!-- SR Options -->
+		<param name="minFlank" type="integer" value="13" label="SR - Minimum Flanking Sequence" />
+
+		<!-- Genotyping Options -->
+		<param format="vcf" name="vcfgeno" type="data" optional="true" label="GT - Input VCF" />
+		<param name="genoQual" type="integer" value="20" min="0" max="255" label="GT - Minimum Mapping Quality" />
+                </section>
+	</inputs>
+  
+	<outputs>
+		<data format="vcf" name="outfile" />
+	</outputs>
+	
+	<citations>
+		<expand macro="morinlab_citation"/>
+		<expand macro="galaxy_citation"/>
+		<expand macro="delly_citation"/>
+	</citations>
+  
+</tool>

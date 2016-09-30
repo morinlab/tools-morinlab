@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+	<tool_dependency>
+		<package name="boost" version="1.55.0">
+			<repository name="package_boost_1_55_0" owner="morinlab"/>
+		</package>
+		<package name="delly" version="0.6.1">
+			<repository name="package_delly_0_6_1" owner="morinlab"/>
+		</package>
+	</tool_dependency>
