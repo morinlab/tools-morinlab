@@ -1,43 +1,81 @@
 <tool id="somatic_sniper" name="SomaticSniper" version="1.0">
-	<description>calls SNVs for tumour-normal pairs.</description>
-	<requirements>
-		<requirement type="package" version="1.0.5.0">somatic_sniper</requirement>	
-		<requirement type="set_environment">SOMATIC_SNIPER_ROOT_DIR</requirement>
-	</requirements> 
-	<command detect_errors="aggressive"><![CDATA[
+  <description>calls SNVs for tumour-normal pairs.</description>
+  <requirements>
+    <requirement type="package" version="1.0.5.0">somatic_sniper</requirement>	
+    <requirement type="set_environment">SOMATIC_SNIPER_ROOT_DIR</requirement>
+  </requirements> 
+  <command detect_errors="aggressive"><![CDATA[
 
-		## SYMLINK BAM FILES ALONGSIDE INDEX FILES
-		ln -s $normal normal.bam;
-		ln -s $normal.metadata.bam_index normal.bam.bai;
-		ln -s $tumor tumor.bam;
-		ln -s $tumor.metadata.bam_index tumor.bam.bai;
-		
-		## BUILD SOMATICSNIPER COMMAND LINE 
-		\$SOMATIC_SNIPER_ROOT_DIR/bin/bam-somaticsniper
+  ## SYMLINK BAM FILES ALONGSIDE INDEX FILES
+  ln -s $normal normal.bam;
+  ln -s $normal.metadata.bam_index normal.bam.bai;
+  ln -s $tumor tumor.bam;
+  ln -s $tumor.metadata.bam_index tumor.bam.bai;
 
-        -F vcf
-        -q $advancedsettings.q
-        -Q $advancedsettings.q
-        -T $advancedsettings.T
-        -N $advancedsettings.N
-        -r $advancedsettings.r
-        -n $advancedsettings.n
-        -t $advancedsettings.t
-        $advancedsettings.L 
-        $advancedsettings.G 
-        $advancedsettings.p
+  #if $interval:
 
-		#if $ref.ref_options == "cached"
-			-f ${ref.index.fields.path}
-		#else
-			-f ${ref.ownFile}
-		#end if
+  for i in \$(cut -f1 $interval); do
 
-		tumor.bam
-		normal.bam
-		$variants;
+  #end if
 
-	]]></command>
+	
+  ## BUILD SOMATICSNIPER COMMAND LINE 
+  \$SOMATIC_SNIPER_ROOT_DIR/bin/bam-somaticsniper
+    -F vcf
+    -q $advancedsettings.q
+    -Q $advancedsettings.Q
+    -T $advancedsettings.T
+    -N $advancedsettings.N
+    -r $advancedsettings.r
+    -n $advancedsettings.n
+    -t $advancedsettings.t
+    $advancedsettings.L 
+    $advancedsettings.G 
+    $advancedsettings.p
+
+    #if $ref.ref_options == "cached"
+      -f ${ref.index.fields.path}
+    #else
+      -f ${ref.ownFile}
+    #end if
+
+    #if $interval:
+    
+    <(samtools view -b tumor.bam \$i)
+    <(samtools view -b normal.bam \$i)
+    
+    #else:
+      tumor.bam
+      normal.bam
+
+    #end if
+
+    #if $interval:
+      tmp_\$i.txt
+    #else:
+      $variants
+    #end if
+    ;
+
+    #if $interval:
+
+      done;
+    
+      for i in \$(cut -f1 $interval); do
+      
+      if [ \$i == \$(cut -f1 $interval | head -n1) ] ; then
+        cat tmp_\$i.txt > $variants;
+      else
+        grep -v ^#.* tmp_\$i.txt >> $variants;
+      fi ;
+
+      done;  
+
+    #end if
+
+
+
+    ]]></command>
 	<inputs>
 		<conditional name="ref">
 			<param name="ref_options" type="select" label="Choose the source for the reference genome">
@@ -55,6 +93,7 @@
 		</conditional>
 		<param format="bam" name="normal" type="data" label="Normal Alignment File" />
 		<param format="bam" name="tumor" type="data" label="Tumour Alignment File" />
+                <param type="data" format="txt" optional="true" name="interval" label="Specify Inteval"/>
 		<section name="advancedsettings" title="Advanced Settings" expanded="False" >
 			<param name="q" type="integer" value="0" label="Minimum read mapping quality"/>
 			<param name="Q" type="integer" value="15" label="Minimum somatic variant quality score"/>
