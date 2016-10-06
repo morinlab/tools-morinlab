@@ -1,0 +1,71 @@
+<tool id="mutsigcv" name="MutsigCV" version="1.4">
+  <description>MutSigCV analyzes lists of mutations discovered in DNA sequencing, to identify genes that were mutated more often than expected by chance given background mutation processes.</description>
+  <requirements>
+    <requirement type="package" version="8.1">mcr</requirement>
+    <requirement type="package" version="1.4">mutsigcv</requirement>
+    <requirement type="set_environment">MCR_ROOT</requirement>
+    <requirement type="set_environment">MUTSIGCV_DIR</requirement>
+  </requirements>
+  <command>
+  <!-- MutSig commands based on mode selection -->	
+
+  #if $modes.mode_select == "morincoverage"
+			
+    sh \$MUTSIGCV_DIR/run_MutSigCV.sh \$MCR_ROOT/v81 $modes.maf_file $__tool_directory__/updated_coverage.txt $__tool_directory__/updated_covariate.txt output.txt  $__tool_directory__/mutation_type_dictionary_file.txt \$MUTSIGCV_DIR/chr_files_hg19;
+		
+  #elif $modes.mode_select == "custom"
+		
+    sh \$MUTSIGCV_DIR/run_MutSigCV.sh \$MCR_ROOT/v81 $modes.mutations_maf  $modes.coverage_txt $modes.gene_covariates_txt output.txt \$FILE_PATH/mutation_type_dictionary_file.txt \$MUTSIGCV_DIR/chr_files_hg19;
+		
+  #elif $modes.mode_select == "old"
+
+    sh \$MUTSIG_DIR/run_MutSigCV.sh \$MCR_ROOT/v81 $modes.tcga_maf  \$MUTSIG_DIR/exome_full192.coverage.txt \$MUTSIG_DIR/gene.covariates.txt output.txt \$MUTSIG_DIR/mutation_type_dictionary_file.txt \$MUTSIG_DIR/chr_files_hg19;
+		
+  #end if
+		
+  <!-- produce galaxy output add output selection of other files later -->
+  cat output.txt.sig_genes.txt >> $output;
+
+  </command>  
+  <inputs>
+    <conditional name="modes">
+      <param name="mode_select" type="select" label="Select mode to run MutSig with preferred file set.">
+        <option value="morincoverage" selected="True">1) Assume full exome  coverage with updated file. </option>
+        <option value="custom" >2) Use custom files from history. </option>
+        <option value="old" >3) Use original MutsigCV file set. </option>
+      </param>
+      <when value="morincoverage">
+        <!-- Input parameters needed -->
+        <param name="maf_file" type="data" format="tabular" label="Mutations.maf file." />
+      </when>	
+      <when value="custom">
+        <param name="mutations_maf" type="data" format="tabular" label="Mutations.maf file." />		
+        <param name="coverage_txt" type="data" format="tabular"  label="Coverage.txt file." />
+        <param name="gene_covariates_txt" type="data" format="tabular" label="Gene_covariates.txt file." />
+      </when>
+      <when value="old">
+        <!-- Input parameters needed -->
+        <param name="tcga_maf" type="data" format="tabular" label="Mutations.maf file." />
+      </when>	
+    </conditional>
+  </inputs>
+  <outputs>
+    <data name="output" label="MutsigCV significant genes" format="txt"/>
+  </outputs>
+  <help>
+Reference:
+-----------------
+
+Lawrence MS, Stojanov P, Polak P, Kryukov GV, et al. Mutational heterogenieity in cancer and the search for new cancer genes.  Nature. 2013 Jun 16. doi: 10.1038/nature12213
+
+For More Information:
+----------------------------------
+Files used by MutsigCV can be downloaded at: http://www.broadinstitute.org/cancer/cga/mutsig_run#reference_files
+
+More detailed information about these files can be found at:
+http://www.broadinstitute.org/cancer/software/genepattern/modules/docs/MutSigCV/1?print=yes
+
+  </help>
+</tool>
+
+
