@@ -1,0 +1,7 @@
+categories:
+- Variant Analysis
+description: Calculates copy number segments from TITAN output 
+name: calc_cnsegments
+owner: morinlab
+remote_repository_url: https://github.com/morinlab/tools-morinlab/tree/master/tools/calc_cnsegments
+type: unrestricted

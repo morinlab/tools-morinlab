@@ -1,0 +1,7 @@
+categories:
+- Variant Analysis
+description: TITAN - Estimate Cellular Prevalence and Call Copy Number Aberations 
+name: titan
+owner: morinlab
+remote_repository_url: https://github.com/morinlab/tools-morinlab/tree/master/tools/titan
+type: unrestricted

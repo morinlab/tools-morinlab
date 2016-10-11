@@ -1,0 +1,7 @@
+categories:
+- Tool Dependency Packages
+description: Contains a tool dependency definition that downloads and compiles bamtools version 2.3.0
+name: package_bamtools_2_3_0
+owner: morinlab
+remote_repository_url: https://github.com/morinlab/tools-morinlab/tree/master/packages/package_bamtools_2_3_0
+type: tool_dependency_definition

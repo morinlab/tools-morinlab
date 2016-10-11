@@ -1,0 +1,7 @@
+categories:
+- Tool Dependency Packages
+description: Contains a tool dependency definition that downloads and compiles BOOST version 1.51.0
+name: package_boost_1_51_0
+owner: morinlab
+remote_repository_url: https://github.com/morinlab/tools-morinlab/tree/master/packages/package_boost_1_51_0
+type: tool_dependency_definition

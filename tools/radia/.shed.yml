@@ -1,0 +1,7 @@
+categories:
+- Variant Analysis
+description: RADIA - identifies DNA variants in tumour/normal pairs 
+name: radia
+owner: morinlab
+remote_repository_url: https://github.com/morinlab/tools-morinlab/tree/master/tools/radia
+type: unrestricted

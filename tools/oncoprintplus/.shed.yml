@@ -1,0 +1,7 @@
+categories:
+- Variant Analysis
+description: Oncoprintplus - creates a summary matrix plot of cohort wide mutations 
+name: oncoprintplus
+owner: morinlab
+remote_repository_url: https://github.com/morinlab/tools-morinlab/tree/master/tools/oncoprintplus
+type: unrestricted

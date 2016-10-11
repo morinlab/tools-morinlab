@@ -7,7 +7,7 @@
     <repository name="package_deseq2_1_10_0" owner="iuc" prior_installation_required="True" />
   </package>
   <package name="pypy" version="5.4.1">
-    <repository name="package_pypy_5_4_1" owner="morinlab />
+    <repository name="package_pypy_5_4_1" owner="morinlab" />
   </package>
   <package name="sequenza" version="2.1.2">
     <install version="1.0">

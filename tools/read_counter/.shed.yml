@@ -1,0 +1,7 @@
+categories:
+- Variant Analysis
+description: Get Binned Read Distribution for a Sequence Alignment File 
+name: read_counter
+owner: morinlab
+remote_repository_url: https://github.com/morinlab/tools-morinlab/tree/master/tools/read_counter
+type: unrestricted

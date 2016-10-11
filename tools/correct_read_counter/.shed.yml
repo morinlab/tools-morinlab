@@ -1,0 +1,7 @@
+categories:
+- Variant Analysis
+description: Correct read counter for GC content and mappability biases 
+name: correct_read_counter
+owner: morinlab
+remote_repository_url: https://github.com/morinlab/tools-morinlab/tree/master/tools/correct_read_counter
+type: unrestricted

@@ -1,0 +1,7 @@
+categories:
+- Variant Analysis
+description: VardictJava - calls SNVs and indels for tumour-normal pairs 
+name: vardictjava
+owner: morinlab
+remote_repository_url: https://github.com/morinlab/tools-morinlab/tree/master/tools/vardictjava
+type: unrestricted

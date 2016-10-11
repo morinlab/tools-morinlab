@@ -1,0 +1,7 @@
+categories:
+- Variant Analysis
+description: MutationSeq - a feature based classifier for somatic mutation detection 
+name: mutationseq
+owner: morinlab
+remote_repository_url: https://github.com/morinlab/tools-morinlab/tree/master/tools/mutationseq
+type: unrestricted

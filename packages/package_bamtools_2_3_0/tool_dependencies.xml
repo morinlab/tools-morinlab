@@ -12,7 +12,7 @@
 				<action type="download_by_url">https://github.com/pezmaster31/bamtools/archive/v2.3.0.tar.gz</action>
 		
 				<action type="set_environment_for_install">
-					<repository name="package_cmake_3_1_0" owner="marcoalbuquerque">
+					<repository name="package_cmake_3_1_0" owner="morinlab">
 						<package name="cmake" version="3.1.0"/>
 					</repository>
 				</action>

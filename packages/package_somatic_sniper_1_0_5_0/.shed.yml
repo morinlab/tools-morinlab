@@ -1,0 +1,7 @@
+categories:
+- Tool Dependency Packages
+description: Contains a tool dependency definition that downloads and compiles somatic sniper version 1.0.5.0
+name: package_somatic_sniper_1_0_5_0
+owner: morinlab
+remote_repository_url: https://github.com/morinlab/tools-morinlab/tree/master/packages/package_somatic_sniper_1_0_5_0
+type: tool_dependency_definition

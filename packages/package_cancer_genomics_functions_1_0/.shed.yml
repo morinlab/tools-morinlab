@@ -1,0 +1,7 @@
+categories:
+- Tool Dependency Packages
+description: Contains a tool dependency definition that downloads and compiles Cancer Genomics Functions version 1.0
+name: package_cancer_genomics_functions_1_0
+owner: morinlab
+remote_repository_url: https://github.com/morinlab/tools-morinlab/tree/master/packages/package_cancer_genomics_functions_1_0
+type: tool_dependency_definition

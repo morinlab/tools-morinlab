@@ -1,0 +1,7 @@
+categories:
+- Variant Analysis
+description: SomaticSniper - calls SNVs for tumour-normal pairs 
+name: somatic_sniper
+owner: morinlab
+remote_repository_url: https://github.com/morinlab/tools-morinlab/tree/master/tools/somatic_sniper
+type: unrestricted

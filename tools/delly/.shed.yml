@@ -1,0 +1,7 @@
+categories:
+- Variant Analysis
+description: DELLY - structural variant discovery by integrated paired-end and split-read analysis 
+name: delly
+owner: morinlab
+remote_repository_url: https://github.com/morinlab/tools-morinlab/tree/master/tools/delly
+type: unrestricted

@@ -1,0 +1,7 @@
+categories:
+- Tool Dependency Packages
+description: Contains a tool dependency definition that downloads and compiles cmake version 3.1.0
+name: package_cmake_3_1_0
+owner: morinlab
+remote_repository_url: https://github.com/morinlab/tools-morinlab/tree/master/packages/package_cmake_3_1_0
+type: tool_dependency_definition

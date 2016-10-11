@@ -1,0 +1,7 @@
+categories:
+- Variant Analysis
+description: Strelka - detects somatic SNVs and small indels in tumour/normal pairs 
+name: strelka
+owner: morinlab
+remote_repository_url: https://github.com/morinlab/tools-morinlab/tree/master/tools/strelka
+type: unrestricted
