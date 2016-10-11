@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<tool_dependency>
+  <package name="lumpy" version="0.2.9">
+    <repository name="package_lumpy_0_2_9" owner="morinlab"/>
+  </package>
+</tool_dependency>
