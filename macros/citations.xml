@@ -42,7 +42,7 @@
     </xml>
     <xml name="galaxy_citation">
         <citation>
-        @ARTICLE{Goecks2010-ra,
+          @ARTICLE{Goecks2010-ra,
           title    = "Galaxy: a comprehensive approach for supporting accessible,
                       reproducible, and transparent computational research in the life
                       sciences",
@@ -52,10 +52,27 @@
           volume   =  11,
           number   =  8,
           pages    = "R86",
-          month    =  "25~" # aug,
+          month    =  "25~",
           year     =  2010
         }
         </citation>
+    </xml>
+
+    <xml name="delly_citation">
+      <citation>
+      @ARTICLE{Rausch2012-yi,
+  title    = "{DELLY}: structural variant discovery by integrated paired-end
+              and split-read analysis",
+  author   = "Rausch, Tobias and Zichner, Thomas and Schlattl, Andreas and
+              St{\"{u}}tz, Adrian M and Benes, Vladimir and Korbel, Jan O",
+  journal  = "Bioinformatics",
+  volume   =  28,
+  number   =  18,
+  pages    = "i333--i339",
+  month    =  "15~",
+  year     =  2012
+}
+      </citation>
     </xml>
     <xml name="mutationseq_citation">
         <citation type="bibtex">
