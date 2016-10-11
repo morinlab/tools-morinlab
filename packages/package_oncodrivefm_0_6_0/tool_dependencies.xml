@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<tool_dependency>
+  <package name="requests" version="2.0.1">
+    <repository name="package_requests_2_0_1" owner="morinlab" />
+  </package>
+  <package name="oncodrivefm" version="0.6.0">
+    <install version="1.0">
+      <actions>
+        <action type="setup_virtualenv">numpy==1.7.1</action>
+        <action type="setup_virtualenv">scipy==0.12.0</action>
+        <action type="setup_virtualenv">pandas==0.12.0</action>
+        <action type="setup_virtualenv">statsmodels==0.4.3</action>
+        <action type="setup_virtualenv">oncodrivefm==0.6.0</action>
+      </actions>
+    </install>
+  </package>
+</tool_dependency>
+

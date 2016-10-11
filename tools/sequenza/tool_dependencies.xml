@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<tool_dependency>
+  <package name="sequenza" version="2.1.2">
+    <repository name="package_sequenza_2_1_2" owner="morinlab" />
+  </package>
+</tool_dependency>

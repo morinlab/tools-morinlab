@@ -1,0 +1,140 @@
+<tool id="create_seqz_file" name="Create Seqz File" version="2.1.2">
+<description>
+    extracts the common positions containing A and B allele frequencies
+</description>
+<requirements>
+  <requirement type="package" version="2.1.2">sequenza</requirement>
+  <requirement type="package" version="5.4.1">pypy</requirement>
+  <requirement type="set_environment" version="2.1.2">SEQUENZA_INSTALL_DIR</requirement>
+</requirements>
+<command><![CDATA[
+
+    ln -s $normal normal.bam;
+    ln -s $normal.metadata.bam_index normal.bam.bai;
+    ln -s $tumour tumour.bam;
+    ln -s $tumour.metadata.bam_index tumour.bam.bai;
+  
+
+    #if $reference_source.reference_source_selector == "history":
+      ln -s $reference_source.ref_file reference.fa;
+      samtools faidx reference.fa;
+    #elif $reference_source.reference_source_selector == "cached":
+      ln -s ${reference_source.ref_file.fields.path} reference.fa;	
+    #end if
+
+    EXEC=python;
+    if [ $(which pypy)!="" ] ; then
+      EXEC=pypy;
+    fi ;
+
+    #if $interval
+      #if $gzip.gzip_selector == "yes"
+        echo 1 >> $bytes;
+      #end if
+      for int in \$( cat $interval ); do
+    #end if
+
+    #if $interval and $order_file
+      if [ "\$int" != "\$( cat $order_file | head -n1)" ] ; then
+        skip=2;
+      else
+        skip=1;
+      fi ;
+    #end if
+
+    \$EXEC \$SEQUENZA_INSTALL_DIR/sequenza/exec/sequenza-utils.py bam2seqz 
+      -n normal.bam 
+      -t tumour.bam
+      -gc $gc_file
+      -F reference.fa 
+
+      #if $interval
+        -C \$int
+      #end if
+
+      --hom $geno.hom
+      --het $geno.het
+      -q $qual.qlimit
+      -f $qual.qformat
+      -N $qual.depth
+      
+    | \$EXEC \$SEQUENZA_INSTALL_DIR/sequenza/exec/sequenza-utils.py seqz-binning
+      -s -
+      -w $window
+    
+    | awk '{ if (\$4 >= $min_depth && \$5 >= $min_depth) print \$_ }'
+      
+    #if $gzip.gzip_selector == "yes":
+      #if $order_file and $interval:
+        | tail -n+\$skip | gzip >> $output_gzip;
+      #else
+        | gzip >> $output_gzip;
+      #end if
+
+      #if $interval:
+        echo \$(( \$( wc -c < $output_gzip ) + 1 )) >> $bytes;
+      #end if
+
+    #else:
+      >> $output;
+    #end if
+      
+    #if $interval
+      done;
+    #end if
+  
+]]></command>
+<inputs>
+<conditional name="reference_source">
+<param label="Choose the source for the reference files" name="reference_source_selector" type="select">
+<option value="cached">Locally Cached</option>
+<option value="history">History</option>
+</param>
+<when value="cached">
+<param label="Genome" name="ref_file" type="select">
+<options from_data_table="fasta_indexes"/>
+</param>
+</when>
+<when value="history">
+<param label="Genome" name="ref_file" type="data" format="fasta"/>
+</when>
+</conditional>
+<param name="normal" label="Normal Alignment File (BAM)" type="data" format="data"/>
+<param name="tumour" label="Tumour Alignment File (BAM)" type="data" format="data"/>
+<param label="GC Window File" name="gc_file" type="data" format="tabular"/>
+<param label="Bin Output by Window" name="window" type="integer" min="1" max="50" value="50"/>
+<param name="min_depth" label="Minimum coverage for variant to be used in model" type="integer" min="1" max="50" value="12"/>
+    <conditional name="gzip">
+      <param label="Should the output be gzipped" name="gzip_selector" type="select">
+        <option value="yes" selected="true">Yes</option>
+        <option value="no">No</option>
+      </param>
+    </conditional>
+    <param name="interval" optional="true" label="Restrict Computation to a particular Interval" help="Must be present in the BAM" 
+type="data" format="txt"/>
+<param name="order_file" optional="true" label="Order File" help="Should be Present with Interval File" type="data" format="txt"/>
+    <section name="geno" title="Genotyping Options" expanded="False">
+<param name="hom" label="Threshold to Select Homozygous Positions" type="float" value="0.9" min="0" max="1"/>
+<param name="het" label="Threshold to Select Heterozygous Positions" type="float" value="0.25" min="0" max="1"/>
+</section>
+<section name="qual" title="Quality Threshold Options" expanded="False">
+<param name="depth" label="Treshold to Filter Positions" help="The sum of read depth in both samples" value="20" type="integer"/>
+<param name="qlimit" label="Minimum Nucleotide Quality Score" value="20" type="integer"/>
+<param name="qformat" label="Quality Format" type="select">
+<option value="sanger">Sanger</option>
+<option value="illumina">Illumina</option>
+</param>
+</section>
+</inputs>
+<outputs>
+<data format="tabular" name="output" label="Seqz File">
+      <filter>gzip['gzip_selector'] == "no"</filter>
+    </data>
+    <data format="txt" name="output_gzip" label="Gzipped Seqz File">
+      <filter>gzip['gzip_selector'] == "yes"</filter>
+    </data>
+    <data format="txt" name="bytes" label="Gzip Block Locations">
+      <filter>gzip['gzip_selector'] == "yes"</filter>
+    </data>
+</outputs>
+</tool>
