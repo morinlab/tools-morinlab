@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<tool_dependency>
+    <package name="perl" version="5.18.1">
+        <repository name="package_perl_5_18" owner="morinlab" />
+    </package>
+    <package name="mysql" version="6.1.0">
+        <repository name="package_mysql_6_1_0" owner="morinlab" />
+    </package>
+    <package name="ensembl_vep_perl_env" version="1">
+        <repository name="package_ensembl_vep_84" owner="morinlab" />
+    </package>
+    <package name="ensembl_vep" version="84">
+        <repository name="package_ensembl_vep_84" owner="morinlab" />
+    </package>
+</tool_dependency>
