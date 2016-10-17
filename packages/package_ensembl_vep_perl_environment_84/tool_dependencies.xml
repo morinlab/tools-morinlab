@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<tool_dependency>
+    <package name="perl" version="5.18.1">
+        <repository name="package_perl_5_18" owner="iuc" prior_installation_required="True"/>
+    </package>
+    <package name="mysql" version="6.1.0">
+        <repository name="package_mysql_6_1_0" owner="morinlab" prior_installation_required="True"/>
+    </package>
+    <package name="ensembl_vep_perl_env" version="84">
+        <install version="1.0">
+            <actions>
+                <action type="set_environment_for_install">
+                     <repository name="package_mysql_6_1_0" owner="morinlab">
+                          <package name="mysql" version="6.1.0" />
+                     </repository>
+                </action>
+                <action type="setup_perl_environment">
+                  <repository name="package_perl_5_18" owner="iuc">
+                    <package name="perl" version="5.18.1" />
+                  </repository>
+                  <package>LWP::Simple</package>
+                  <package>http://search.cpan.org/CPAN/authors/id/P/PH/PHRED/Archive-Zip-1.59.tar.gz</package>
+                  <package>http://search.cpan.org/CPAN/authors/id/T/TI/TIMB/DBI-1.636.tar.gz</package>
+                  <package>http://search.cpan.org/CPAN/authors/id/M/MI/MICHIELB/DBD-mysql-4.037.tar.gz</package>
+                  <package>http://search.cpan.org/CPAN/authors/id/D/DM/DMUEY/File-Copy-Recursive-0.38.tar.gz</package>
+               </action>
+            </actions>
+        </install>
+    </package>
+</tool_dependency>

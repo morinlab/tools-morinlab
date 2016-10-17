@@ -2,6 +2,9 @@
     <description>
       Download and Index Genomes using Ensemble VEP
     </description>
+    <requirements>
+        <requirement type="package" version="84">ensembl_vep</requirement>
+    </requirements>    
     <command>
 	perl \$ENSEMBL_VEP_84_INSTALL_DIR/INSTALL.pl 
 		--AUTO cf 
@@ -13,7 +16,7 @@
 
 	samtools faidx \$ENSEMBL_VEP_84_INSTALL_DIR/cache/\$(echo $species_select.value | sed 's/#/\t/g' | cut -f1 | sed 's/\ /_/g')/*\$(echo $species_select.value | sed 's/#/\t/g' | cut -f2)/*.fa;
 	
-	echo "DOWNLOAD DONE" > $output;
+	env > $output;
    </command>
     <inputs>
       <expand macro="genome_list" />
@@ -24,10 +27,6 @@
     <stdio>
         <exit_code range="1:" level="fatal" description="Failure" />
     </stdio>
-    <requirements>
-        <requirement type="package" version="76">ensembl_vep</requirement>
-    	<requirement type="package" version="5.18.1">perl</requirement>
-    </requirements>
     <macros>
       <import>ensembl_vep_macros.xml</import>
     </macros>

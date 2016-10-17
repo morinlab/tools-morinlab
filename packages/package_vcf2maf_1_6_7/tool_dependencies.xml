@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<tool_dependency>
+  <package name="ensembl_vep" version="84">
+    <repository name="package_ensembl_vep_84" owner="morinlab" />
+  </package>
+  <package name="vcf2maf" version="1.6.7">
+    <install version="1.0">
+      <actions>
+        <action type="download_by_url">https://github.com/mskcc/vcf2maf/archive/v1.6.7.tar.gz</action>
+        <action type="move_directory_files">
+          <source_directory>.</source_directory>
+          <destination_directory>$INSTALL_DIR</destination_directory>
+        </action>
+        <action type="set_environment">
+          <environment_variable action="set_to" name="VCF2MAF_SCRIPT_PATH">$INSTALL_DIR</environment_variable>
+        </action>
+      </actions>
+    </install>
+  </package>
+</tool_dependency>

@@ -12,4 +12,7 @@
     <package name="ensembl_vep" version="84">
         <repository name="package_ensembl_vep_84" owner="morinlab" />
     </package>
+    <package name="vcf2maf" version="1.6.7">
+        <repository name="package_vcf2maf_1_6_7" owner="morinlab" />
+    </package>
 </tool_dependency>

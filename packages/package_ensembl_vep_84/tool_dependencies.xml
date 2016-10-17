@@ -1,34 +1,20 @@
 <?xml version="1.0"?>
 <tool_dependency>
     <package name="perl" version="5.18.1">
-        <repository name="package_perl_5_18" owner="morinlab" prior_installation_required="True"/>
+        <repository name="package_perl_5_18" owner="iuc" prior_installation_required="True"/>
     </package>
-    <package name="mysql" version="6.1.0">
-        <repository name="package_mysql_6_1_0" owner="morinlab" prior_installation_required="True"/>
-    </package>
-    <package nemo="ensembl_vep_perl_env" version="1">
-        <install version="1.0">
-            <actions>
-                <action type="set_environment_for_intall">
-                     <repository name="package_mysql_6_1_0" owner="morinlab">
-                          <package name="mysql" version="6.1.0" />
-                     </repository>
-                </action>
-                <action type="setup_perl_environment">
-                    <repository name="package_perl_5_18" owner="morinlab">
-                        <package name="perl" version="5.18.1" />
-                    </repository>
-                    <package>LWP::Simple</package>
-                    <package>Archive::Zip</package>
-                    <package>DBD::mysql</package>
-                </action>
-            </actions>
-        </install>
+    <package name="ensembl_vep_perl_env" version="84">
+        <repository name="package_ensembl_vep_perl_environment_84" owner="morinlab" prior_installation_required="True"/>
     </package>
     <package name="ensembl_vep" version="84">
         <install version="1.0">
             <actions>
                 <action type="download_by_url">http://github.com/Ensembl/ensembl-tools/tarball/release/84.tar.gz</action>
+                <action type="set_environment_for_install">
+                     <repository name="package_ensembl_vep_perl_environment_84" owner="morinlab">
+                          <package name="ensembl_vep_perl_env" version="84" />
+                     </repository>
+                </action>
 		<action type="shell_command">
 mkdir $INSTALL_DIR/cache; mkdir $INSTALL_DIR/cache/tmp; chmod 777 $INSTALL_DIR/cache; chmod 777 $INSTALL_DIR/cache/tmp; perl scripts/variant_effect_predictor/INSTALL.pl --CACHEDIR $INSTALL_DIR/cache --DESTDIR ./scripts/variant_effect_predictor/ --AUTO a
                 </action>
