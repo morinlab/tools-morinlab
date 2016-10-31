@@ -8,13 +8,15 @@
     <command>
 	perl \$ENSEMBL_VEP_84_INSTALL_DIR/INSTALL.pl 
 		--AUTO cf 
-		--SPECIES \$(echo $species_select.value | sed 's/#/\t/g' | cut -f1) 
+		--SPECIES \$(echo $species_select.value | sed 's/-/\t/g' | cut -f1) 
 		--CACHEDIR \$ENSEMBL_VEP_84_INSTALL_DIR/cache
-		#if "#" in $species_select.value
-		  --ASSEMBLY \$(echo $species_select.value | sed 's/#/\t/g' | cut -f2);
+		#if "-" in $species_select.value
+		  --ASSEMBLY \$(echo $species_select.value | sed 's/-/\t/g' | cut -f2)
 		#end if
-
-	samtools faidx \$ENSEMBL_VEP_84_INSTALL_DIR/cache/\$(echo $species_select.value | sed 's/#/\t/g' | cut -f1 | sed 's/\ /_/g')/*\$(echo $species_select.value | sed 's/#/\t/g' | cut -f2)/*.fa;
+        ;
+        
+        gzip -d \$ENSEMBL_VEP_84_INSTALL_DIR/cache/\$(echo $species_select.value | sed 's/-/\t/g' | cut -f1 | sed 's/\ /_/g')/*\$(echo $species_select.value | sed 's/-/\t/g' | cut -f2)/*.fa.gz;
+      	samtools faidx \$ENSEMBL_VEP_84_INSTALL_DIR/cache/\$(echo $species_select.value | sed 's/-/\t/g' | cut -f1 | sed 's/\ /_/g')/*\$(echo $species_select.value | sed 's/-/\t/g' | cut -f2)/*.fa;
 	
 	env > $output;
    </command>

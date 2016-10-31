@@ -15,9 +15,10 @@
                           <package name="ensembl_vep_perl_env" version="84" />
                      </repository>
                 </action>
-		<action type="shell_command">
-mkdir $INSTALL_DIR/cache; mkdir $INSTALL_DIR/cache/tmp; chmod 777 $INSTALL_DIR/cache; chmod 777 $INSTALL_DIR/cache/tmp; perl scripts/variant_effect_predictor/INSTALL.pl --CACHEDIR $INSTALL_DIR/cache --DESTDIR ./scripts/variant_effect_predictor/ --AUTO a
-                </action>
+		<action type="shell_command">mkdir $INSTALL_DIR/cache</action>
+                <action type="shell_command">mkdir $INSTALL_DIR/cache/tmp</action>
+                <action type="shell_command">chmod 777 $INSTALL_DIR/cache</action>
+                <action type="shell_command">chmod 777 $INSTALL_DIR/cache/tmp</action>
                 <action type="move_directory_files">
                     <source_directory>scripts/variant_effect_predictor</source_directory>
                     <destination_directory>$INSTALL_DIR</destination_directory>
@@ -26,6 +27,7 @@ mkdir $INSTALL_DIR/cache; mkdir $INSTALL_DIR/cache/tmp; chmod 777 $INSTALL_DIR/c
                     <environment_variable action="set_to" name="ENSEMBL_VEP_84_INSTALL_DIR">$INSTALL_DIR</environment_variable>
                     <environment_variable action="prepend_to" name="PERL5LIB">$INSTALL_DIR/Bio</environment_variable>
                 </action>
+                <action type="shell_command">echo 'y' | perl $INSTALL_DIR/INSTALL.pl --DESTDIR $INSTALL_DIR -q --AUTO a</action>
             </actions>
         </install>
         <readme>

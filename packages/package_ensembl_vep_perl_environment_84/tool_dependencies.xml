@@ -19,11 +19,15 @@
                     <package name="perl" version="5.18.1" />
                   </repository>
                   <package>LWP::Simple</package>
+                  <package>http://search.cpan.org/CPAN/authors/id/G/GA/GAAS/LWP-Protocol-https-6.04.tar.gz</package>
                   <package>http://search.cpan.org/CPAN/authors/id/P/PH/PHRED/Archive-Zip-1.59.tar.gz</package>
                   <package>http://search.cpan.org/CPAN/authors/id/T/TI/TIMB/DBI-1.636.tar.gz</package>
                   <package>http://search.cpan.org/CPAN/authors/id/M/MI/MICHIELB/DBD-mysql-4.037.tar.gz</package>
                   <package>http://search.cpan.org/CPAN/authors/id/D/DM/DMUEY/File-Copy-Recursive-0.38.tar.gz</package>
-               </action>
+                  <package>http://search.cpan.org/CPAN/authors/id/L/LE/LEONT/Module-Build-0.4220.tar.gz</package>
+                  <!-- <package>http://search.cpan.org/CPAN/authors/id/C/CJ/CJFIELDS/BioPerl-1.007000.tar.gz</package>
+                  <package>http://search.cpan.org/CPAN/authors/id/M/MA/MAKAMAKA/JSON-2.90.tar.gz</package> --> 
+              </action>
             </actions>
         </install>
     </package>

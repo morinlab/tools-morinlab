@@ -6,8 +6,8 @@
         perl \$ENSEMBL_VEP_84_INSTALL_DIR/variant_effect_predictor.pl
             --fork 4
             --offline 
-            --species \$( echo $species_select.value | sed 's/#/\t/g' | cut -f1) 
-	    --dir \$ENSEMBL_VEP_76_CACHE_DIR 
+            --species \$( echo $species_select.value | sed 's/-/\t/g' | cut -f1) 
+	    --dir \$ENSEMBL_VEP_84_CACHE_DIR 
             --no_stats 
             --force_overwrite 
             --everything 
@@ -17,8 +17,8 @@
             --no_escape 
             --gencode_basic 
             --xref_refseq 
-	    #if "#" in $species_select.value
-            --assembly \$( echo $species_select.value | sed 's/#/\t/g' | cut -f2)
+	    #if "-" in $species_select.value
+            --assembly \$( echo $species_select.value | sed 's/-/\t/g' | cut -f2)
             #end if
             --vcf 
             --input_file $input_vcf 

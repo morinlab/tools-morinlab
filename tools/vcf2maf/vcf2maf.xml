@@ -4,25 +4,25 @@
 
     <command>
         echo \$VCF2MAF_SCRIPT_PATH;
-        echo \$ENSEMBL_VEP_81_INSTALL_DIR;
+        echo \$ENSEMBL_VEP_84_INSTALL_DIR;
         ln -s $input_vcf ./input.vcf;
         perl \$VCF2MAF_SCRIPT_PATH/vcf2maf.pl    
             --input-vcf ./input.vcf
             --output-maf $output_maf
 
             #if $sampleid_source.sampleid_selector == "bamfile":
-                --tumor-id \$(basename $sampleid_source.sampleid_tumour | sed 's/.bam$//g' )
-                --normal-id \$(basename $sampleid_source.sampleid_normal | sed 's/.bam$//g' )
+                --tumor-id `basename $sampleid_source.sampleid_tumour | sed 's/.bam$//g'`
+                --normal-id `basename $sampleid_source.sampleid_normal | sed 's/.bam$//g'`
             #else:
                 --tumor-id $sampleid_source.tumour_id
                 --normal-id $sampleid_source.normal_id
             #end if
             
-            --vep-path \$ENSEMBL_VEP_81_INSTALL_DIR
-            --vep-data \${ENSEMBL_VEP_81_INSTALL_DIR}/cache
-            --ref-fasta \${ENSEMBL_VEP_81_INSTALL_DIR}/cache/\${ echo $species_select.value | sed 's/#/\t/g' | cut -f1}/84_\${ echo $species_select.value | sed 's/#/\t/g' | cut -f2}/*.fa;
-            --species \${ echo $species_select.value | sed 's/#/\t/g' | cut -f1}
-            --ncbi-build \${ echo $species_select.value | sed 's/#/\t/g' | cut -f2}
+            --vep-path \$ENSEMBL_VEP_84_INSTALL_DIR
+            --vep-data \${ENSEMBL_VEP_84_INSTALL_DIR}/cache
+            --ref-fasta \${ENSEMBL_VEP_84_INSTALL_DIR}/cache/`echo $species_select.value | sed 's/-/\t/g' | cut -f1`/84_`echo $species_select.value | sed 's/-/\t/g' | cut -f2`/*.fa
+            --species `echo $species_select.value | sed 's/-/\t/g' | cut -f1`
+            --ncbi-build `echo $species_select.value | sed 's/-/\t/g' | cut -f2`;
     </command>
 
     <inputs>
@@ -55,6 +55,7 @@
     <requirements>
         <requirement type="package" version="84">ensembl_vep</requirement>
         <requirement type="package" version="1.6.7">vcf2maf</requirement>
+        <requirement type="paclage" version="84">ensembl_vep_perl_environment</requirement>
     </requirements>
 
     <macros>
