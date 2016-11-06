@@ -1,0 +1,46 @@
+<tool id="lollipop" name="Lollipop Plot" version="0.9.30">
+
+  <description>
+    gene summary plots
+  </description>
+
+  <command error_checking="aggressive">
+
+      mkdir outputs;
+      touch gene_list.txt;
+      #if $gene_input_type.gene_input_type_selector.value == "other":
+        echo $gene_input_type.gene > gene_list.txt;
+      #else:
+        cat $gene_input_type.file > gene_list.txt;
+      #end if
+
+      Rscript $__tool_directory__/lollipop.R
+        --input_maf $input_maf
+        --gene_list gene_list.txt
+        --output_directory \$(pwd)/outputs;
+
+  </command>
+
+  <inputs>
+    <param type="data" format="maf" name="input_maf" label="MAF File"/>
+    <conditional name="gene_input_type">
+      <param name="gene_input_type_selector" type="select" label="Choose how to input genes">
+        <option value="file" selected="True">Gene File</option>
+        <option value="other">Other</option>
+      </param>
+      <when value="file">
+        <param name="gene_file" type="data" format="txt" label="Gene File"  help="list of genes separated by newlines" />
+      </when>
+      <when value="other">
+        <param name="gene" type="text" value="TP53" label="Gene" label="type the single gene" />
+      </when>
+    </conditional>
+  </inputs>
+
+  <outputs>
+    <collection name="list_output" type="list" description="Gene Lollipop Plots">
+      <discover_datasets pattern="__name_and_ext__" directory="outputs"/>
+    </collection>
+  </outputs>
+
+</tool>    
