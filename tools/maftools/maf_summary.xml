@@ -1,0 +1,23 @@
+<tool id="maf_summary" name="MAF Summary Plot" version="0.9.30">
+
+  <description>
+    summarizes maf statistics into single multiplot
+  </description>
+
+  <command error_checking="aggressive">
+
+      Rscript $__tool_directory__/maf_summary.R
+        --input_maf $input_maf
+        --output_pdf $output;
+
+  </command>
+
+  <inputs>
+    <param type="data" format="maf" name="input_maf" label="MAF File"/>
+  </inputs>
+
+  <outputs>
+    <data format="pdf" name="output">
+  </outputs>
+
+</tool>    
