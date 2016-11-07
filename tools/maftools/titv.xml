@@ -1,12 +1,12 @@
-<tool id="maf_summary" name="MAF Summary Plot" version="0.9.30">
+<tool id="titv" name="Transition Transversion Plot" version="0.9.30">
 
   <description>
-    summarizes maf statistics into single multiplot
+    visualizes base change transitions and transversions 
   </description>
 
   <command error_checking="aggressive">
 
-      Rscript $__tool_directory__/maf_summary.R
+      Rscript $__tool_directory__/titv.R
         --input_maf $input_maf
         --output_pdf $output;
 

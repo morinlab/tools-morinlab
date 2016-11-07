@@ -32,7 +32,7 @@
         <param name="gene_file" type="data" format="txt" label="Gene File"  help="list of genes separated by newlines" />
       </when>
       <when value="other">
-        <param name="gene" type="text" value="TP53" label="Gene" label="type the single gene" />
+        <param name="gene" type="text" value="TP53" label="Gene" help="type the single gene" />
       </when>
     </conditional>
   </inputs>

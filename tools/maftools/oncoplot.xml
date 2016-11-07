@@ -1,19 +1,21 @@
-<tool id="maf_summary" name="MAF Summary Plot" version="0.9.30">
+<tool id="oncoplot" name="MAF Oncoplot" version="0.9.30">
 
   <description>
-    summarizes maf statistics into single multiplot
+    summarizes top mutated genes by mutual exclusivity
   </description>
 
   <command error_checking="aggressive">
 
-      Rscript $__tool_directory__/maf_summary.R
+      Rscript $__tool_directory__/oncoplot.R
         --input_maf $input_maf
+        --top $top
         --output_pdf $output;
 
   </command>
 
   <inputs>
     <param type="data" format="maf" name="input_maf" label="MAF File"/>
+    <param type="integer" min="1" value="10" name="top" label="Top Gene Count"/>
   </inputs>
 
   <outputs>

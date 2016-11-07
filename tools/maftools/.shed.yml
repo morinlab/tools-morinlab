@@ -1,0 +1,7 @@
+categories:
+- Variant Analysis
+description: MAFTools - a suite of visualizations for summarizing MAF files 
+name: maftools
+owner: morinlab
+remote_repository_url: https://github.com/morinlab/tools-morinlab/tree/master/tools/maftools
+type: unrestricted

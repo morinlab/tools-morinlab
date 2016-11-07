@@ -1,0 +1,25 @@
+<tool id="gene_cloud" name="Gene Cloud Plot" version="0.9.30">
+
+  <description>
+    creates a cloud plot where gene names are sized by mutation rate
+  </description>
+
+  <command error_checking="aggressive">
+
+      Rscript $__tool_directory__/lollipop.R
+        --input_maf $input_maf
+        --min_mutations $min_mutations
+        --output_pdf $output
+
+  </command>
+
+  <inputs>
+    <param type="data" format="maf" name="input_maf" label="MAF File"/>
+    <param type="integer" min="1" value="3" name="min_mutations" label="Minimum mutation count to include gene"/>
+  </inputs>
+
+  <outputs>
+    <data format="pdf" name="output"/>
+  </outputs>
+
+</tool>    

@@ -1,0 +1,39 @@
+<tool id="trisig" name="Trinucleotide Signature Plots" version="0.9.30">
+
+  <description>
+    generate novel and known trinucleotide signatures for a cohort
+  </description>
+
+  <command error_checking="aggressive">
+
+      Rscript $__tool_directory__/trisig.R
+        --input_maf $input_maf
+        #if $reference_source.reference_source_selector.value == "cached":
+            --genome ${reference_source.ref_file.fields.path} 
+        #else:
+            --genome $reference_source.ref_file
+        #end if
+        --output_pdf $output;
+
+  </command>
+  <inputs>
+    <conditional name="reference_source">
+      <param label="Choose the source for the reference genome" name="reference_source_selector" type="select">
+        <option value="cached">Use a built-in genome</option>
+        <option value="history">Use a genome from the history</option>
+      </param>
+      <when value="cached">
+        <param label="Reference Genome File" name="ref_file" type="select">
+          <options from_data_table="fasta_indexes"/>
+        </param>
+      </when>
+      <when value="history">
+        <param label="Reference Genome File" name="ref_file" type="data" format="fasta"/>
+      </when>
+    </conditional>
+    <param type="data" format="maf" name="input_maf" label="MAF File"/>
+  </inputs>
+  <outputs>
+    <data format="pdf" name="output"/>
+  </outputs>
+</tool>    
