@@ -1,0 +1,7 @@
+categories:
+- Tool Dependency Packages
+description: Contains a tool dependency definition that downloads and compiles htslib version 1.3.2
+name: package_htslib_1_3_2
+owner: morinlab
+remote_repository_url: https://github.com/morinlab/tools-morinlab/tree/master/packages/package_htslib_1_3_2
+type: tool_dependency_definition
