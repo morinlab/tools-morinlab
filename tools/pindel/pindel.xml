@@ -1,0 +1,132 @@
+<tool id="pindel" name="Pindel" version="0.2.5b8">
+
+  <description>
+    a pattern growth approach to detect break points of large deletions and medium sized insertions from paired-end short reads
+  </description>
+
+  <requirements>
+    <requirement type="package" version="1.3.2">htslib</requirement>
+    <requirement type="package" version="0.2.5b8">pindel</requirement>
+  </requirements>
+
+  <command detect_errors="aggressive">
+
+  ln -s $normal normal.bam;
+  ln -s $normal.metadata.bam_index normal.bam.bai;
+  ln -s $tumour tumour.bam;
+  ln -s $tumour.metadata.bam_index tumour.bam.bai;    
+ 
+  touch pindel.txt; 
+  #if $sampleid_source.sampleid_selector.value == "bamfile": 
+    echo -e \$(pwd)/tumour.bam\\t$normal_insert\\t\$(basename $tumour | rev | cut -c 5- | rev) >> pindel.txt;
+    echo -e \$(pwd)/normal.bam\\t$tumour_insert\\t\$(basename $normal | rev | cut -c 5- | rev) >> pindel.txt;
+  #else:
+    echo -e \$(pwd)/tumour.bam\\t$normal_insert\\t$sampleid_source.idt >> pindel.txt;
+    echo -e \$(pwd)/normal.bam\\t$tumour_insert\\t$sampleid_source.idn >> pindel.txt;
+  #end if
+  
+  mkdir outputs;
+
+  #if $reference_source.reference_source_selector.value == "cached":
+    ln -s ${reference_source.ref_file.fields.path} ref.fa;
+  #else:
+    ln -s $reference_source.ref_file ref.fa;
+    samtools faidx ref.fa;
+  #end if
+
+  pindel
+    -f ref.fa
+    -i pindel.txt
+    -o \$(pwd)/outputs/here
+    $advancedsettings.R
+    -x $advancedsettings.x 
+    -e $advancedsettings.e
+    -E $advancedsettings.E
+    -u $advancedsettings.u
+    -n $advancedsettings.n
+    $advancedsettings.r
+    $advancedsettings.t
+    $advancedsettings.l
+    $advancedsettings.k
+    $advancedsettings.s
+    $advancedsettings.S
+    $advancedsettings.I
+    #if $advancedsettings.include:
+      -j $advancedsettings.include
+    #end if
+    #if $advancedsettings.exclude:
+      -J $advancedsettings.exclude
+    #end if
+    ;
+
+  first="true";
+  for i in \$( ls \$(pwd)/outputs/here* ); do
+    pindel2vcf -p \$i -r ref.fa -R CHECK_GALAXY_HISTORY -d CHECK_GALAXY_HISTORY -v tmp.vcf;
+    if [ \$first -eq "true" ] ; then
+      cat tmp.vcf >> $output;
+      first="false";
+    else
+      grep -v "^#.*" tmp.vcf >> $output;
+    fi;
+  done;
+
+  </command>
+
+  <inputs>
+
+    <conditional name="reference_source">
+      <param label="Choose the source for the reference genome" name="reference_source_selector" type="select">
+        <option value="cached">Use a built-in genome</option>
+        <option value="history">Use a genome from the history</option>
+      </param>
+      <when value="cached">
+        <param label="Reference Genome File" name="ref_file" type="select">
+          <options from_data_table="fasta_indexes"/>
+        </param>
+      </when>
+      <when value="history">
+        <param label="Reference Genome File" name="ref_file" type="data" format="fasta"/>
+      </when>
+    </conditional>
+
+    <conditional name="sampleid_source">
+      <param label="Choose the source to open the Sample Id" name="sampleid_selector" type="select">
+        <option value="bamfile">BAM File Name</option>
+        <option value="manual">Manual</option>
+      </param>
+      <when value="manual">
+        <param name="idt" type="text" label="Tumour ID (Name)"/>
+        <param name="idn" type="text" label="Normal ID (Name)"/>
+      </when>
+    </conditional>
+
+    <param type="data" format="bam" name="tumour" label="Tumour Alignment File"/>
+    <param type="data" format="bam" name="normal" label="Normal Alignment File"/>
+    <param type="integer" name="tumour_insert" value="250" label="Tumour Insert Size" help="suggest running picards collect insert size metrics"/>
+    <param type="integer" name="normal_insert" value="250" label="Normal Insert Size" help="suggest running picards collect insert size metrics"/>
+
+    <section name="advancedsettings" title="Advanced Settings" expanded="false">
+      <param type="boolean" name="R" checked="true" truevalue="-R true" falsevalue="-R false" label="Search for Discordant Pairs"/>
+      <param type="integer" name="x" value="2" min="1" max="9" label="Maximum size of structural variations to be detected" help="size = 128 ^ (val - 1)"/>
+      <param type="float" name="e" value="0.01" max="1.0" label="Expected faraction of sequencing errors"/>
+      <param type="float" name="E" value="0.95" max="1.0" label="Sensitivity"/>
+      <param type="float" name="u" value="0.02" max="1.0" label="Maximum allowed mismatch rate"/>
+      <param type="integer" name="n" value="2" label="Minimum Edit Distance between reads and reference"/>
+      <param type="boolean" name="r" checked="true"  truevalue="-r true" falsevalue="-r false" label="Report Inversions"/>
+      <param type="boolean" name="t" checked="true"  truevalue="-t true" falsevalue="-t false" label="Report Duplications"/>
+      <param type="boolean" name="l" checked="false" truevalue="-l true" falsevalue="-l false" label="Report Long Insertions"/>
+      <param type="boolean" name="k" checked="false" truevalue="-k true" falsevalue="-k false" label="Report Breakpoints"/>
+      <param type="boolean" name="s" checked="false" truevalue="-s true" falsevalue="-s false" label="Report Close Mapped Reads"/>
+      <param type="boolean" name="S" checked="false" truevalue="-S true" falsevalue="-S false" label="Report Only Close Mapped Reads"/>
+      <param type="boolean" name="I" checked="false" truevalue="-I true" falsevalue="-I false" label="Report Interchromosomal Events"/>
+      <param type="data" format="bed" name="include" label="Include Regions" optional="true"/>
+      <param type="data" format="bed" name="exclude" label="Exclude Regions" optional="true"/>
+    </section>
+
+  </inputs>
+
+  <outputs>
+    <data format="vcf" name="output" />
+  </outputs>
+
+</tool>

@@ -13,6 +13,10 @@
           </repository>
         </action> 
         <action type="shell_command">./INSTALL $HTSLIB_ROOT_DIR/include</action>
+        <action type="move_directory_files">
+          <source_directory>.</source_directory>
+          <destination_directory>$INSTALL_DIR</destination_directory>
+        </action>
         <action type="set_environment">
           <environment_variable action="prepend_to" name="PATH">$INSTALL_DIR</environment_variable>
         </action>
