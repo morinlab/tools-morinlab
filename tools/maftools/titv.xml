@@ -4,7 +4,7 @@
     visualizes base change transitions and transversions 
   </description>
 
-  <command error_checking="aggressive">
+  <command detect_errors="aggressive">
 
       Rscript $__tool_directory__/titv.R
         --input_maf $input_maf

@@ -27,7 +27,7 @@ args <- parser$parse_args();
 
 ###
 
-laml = read.maf(maf = args$input_maf, removeSilent = T, useAll = F)
+laml = read.maf(maf = args$input_maf, removeSilent = T, useAll = T)
 pdf(args$output_pdf)
 geneCloud(input = laml, minMut = args$min_mutations)
 dev.off()

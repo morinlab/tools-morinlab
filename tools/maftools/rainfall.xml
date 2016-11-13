@@ -4,14 +4,15 @@
     sample snv location summary plot
   </description>
 
-  <command error_checking="aggressive">
+  <command detect_errors="aggressive">
 
       mkdir outputs;
       touch sample_list.txt;
+
       #if $sample_input_type.sample_input_type_selector.value == "other":
-        echo $sample_input_type.gene > sample_list.txt;
+        echo $sample_input_type.sample > sample_list.txt;
       #else:
-        cat $sample_input_type.file > sample_list.txt;
+        cat $sample_input_type.sample_file > sample_list.txt;
       #end if
 
       Rscript $__tool_directory__/rainfall.R

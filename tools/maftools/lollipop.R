@@ -28,7 +28,7 @@ args <- parser$parse_args();
 ###
 
 all_genes <- read.table(args$gene_list, stringsAsFactors=FALSE)[,1]
-laml = read.maf(maf = args$input_maf, removeSilent = T, useAll = F)
+laml = read.maf(maf = args$input_maf, removeSilent = T, useAll = T)
 count = 1
 for (gene in all_genes) {
     output_name = paste(args$output_directory, paste("samp", count, ".pdf", sep=""), sep="/")

@@ -28,7 +28,7 @@ args <- parser$parse_args();
 ###
 
 all_samples <- read.table(args$sample_list, stringsAsFactors=FALSE)[,1]
-laml = read.maf(maf = args$input_maf, removeSilent = T, useAll = F)
+laml = read.maf(maf = args$input_maf, removeSilent = T, useAll = T)
 count = 1
 for (sample in all_samples) {
     output_name = paste(args$output_directory, paste("samp", count, ".pdf", sep=""), sep="/")

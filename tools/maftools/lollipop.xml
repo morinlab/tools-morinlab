@@ -4,14 +4,14 @@
     gene summary plots
   </description>
 
-  <command error_checking="aggressive">
+  <command detect_errors="aggressive">
 
       mkdir outputs;
       touch gene_list.txt;
       #if $gene_input_type.gene_input_type_selector.value == "other":
         echo $gene_input_type.gene > gene_list.txt;
       #else:
-        cat $gene_input_type.file > gene_list.txt;
+        cat $gene_input_type.gene_file > gene_list.txt;
       #end if
 
       Rscript $__tool_directory__/lollipop.R

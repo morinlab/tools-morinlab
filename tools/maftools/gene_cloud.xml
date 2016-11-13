@@ -4,9 +4,9 @@
     creates a cloud plot where gene names are sized by mutation rate
   </description>
 
-  <command error_checking="aggressive">
+  <command detect_errors="aggressive">
 
-      Rscript $__tool_directory__/lollipop.R
+      Rscript $__tool_directory__/gene_cloud.R
         --input_maf $input_maf
         --min_mutations $min_mutations
         --output_pdf $output

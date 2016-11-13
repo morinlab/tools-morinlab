@@ -4,7 +4,7 @@
     generate novel and known trinucleotide signatures for a cohort
   </description>
 
-  <command error_checking="aggressive">
+  <command detect_errors="aggressive">
 
       Rscript $__tool_directory__/trisig.R
         --input_maf $input_maf

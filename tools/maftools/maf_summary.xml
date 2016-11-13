@@ -4,7 +4,7 @@
     summarizes maf statistics into single multiplot
   </description>
 
-  <command error_checking="aggressive">
+  <command detect_error="aggressive">
 
       Rscript $__tool_directory__/maf_summary.R
         --input_maf $input_maf

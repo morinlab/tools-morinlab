@@ -28,7 +28,7 @@ args <- parser$parse_args();
 
 ###
 
-laml = read.maf(maf = args$input_maf, removeSilent = T, useAll = F)
+laml = read.maf(maf = args$input_maf, removeSilent = T, useAll = T)
 tnm = trinucleotideMatrix(maf = laml, ref_genome = args$genome, prefix = '', add = T, useSyn = T)
 sig = extractSignatures(mat = tnm)
 pdf(args$output_pdf)

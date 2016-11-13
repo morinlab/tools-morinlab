@@ -4,7 +4,7 @@
     summarizes top mutated genes by mutual exclusivity
   </description>
 
-  <command error_checking="aggressive">
+  <command detect_errors="aggressive">
 
       Rscript $__tool_directory__/oncoplot.R
         --input_maf $input_maf
