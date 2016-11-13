@@ -55,11 +55,7 @@
 
       #if $patient.covariates.use_covariates == "no":
 
-        #if $patient.covariates.order.value == "default":
-
-        #else
           --patient_order snv_counts 
-        #end if
 
       #else
         
