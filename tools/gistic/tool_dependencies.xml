@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<tool_dependency>
+  <package name="gistic" version="2.0.22">
+    <repository name="package_gistic_2_0_22" owner="morinlab" />
+  </package>
+</tool_dependency>
