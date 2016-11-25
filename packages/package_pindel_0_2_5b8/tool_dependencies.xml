@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<tool_dependency>
+  <package name="htslib" version="1.3.2">
+    <repository name="package_htslib_1_3_2" owner="morinlab" prior_installation_required="True"/>
+  </package>
+  <package name="pindel" version="0.2.5b8">
+    <install version="1.0">
+      <actions>
+        <action type="download_by_url">https://github.com/genome/pindel/archive/v0.2.5b8.tar.gz</action>
+        <action type="set_environment_for_install">
+          <repository name="package_htslib_1_3_2" owner="morinlab">
+            <package name="htslib" version="1.3.2"/>
+          </repository>
+        </action> 
+        <action type="shell_command">./INSTALL $HTSLIB_ROOT_DIR/include</action>
+        <action type="move_directory_files">
+          <source_directory>.</source_directory>
+          <destination_directory>$INSTALL_DIR</destination_directory>
+        </action>
+        <action type="set_environment">
+          <environment_variable action="prepend_to" name="PATH">$INSTALL_DIR</environment_variable>
+        </action>
+      </actions>
+    </install>
+    <readme />
+  </package>
+</tool_dependency>

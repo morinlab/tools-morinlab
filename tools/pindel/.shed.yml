@@ -1,0 +1,7 @@
+categories:
+- Variant Analysis
+description: Pindel - pattern growth approach to detect break points of large deletions and medium sized insertions from paired-end short reads 
+name: pindel
+owner: morinlab
+remote_repository_url: https://github.com/morinlab/tools-morinlab/tree/master/tools/pindel
+type: unrestricted
