@@ -1,0 +1,101 @@
+<tool id="igvscreenshot" name="Take an IGV screenshot" version="1.2">
+
+	<description>specifying tracks and a genomic location</description> 
+
+        <requirements>		
+		<requirement type="package" version="2.3.88">igv</requirement>
+	</requirements>
+        
+	
+	<command detect_errors="aggressive">
+	  mkdir outputs;
+
+
+	    ln -s $region_file region_file.txt;
+	    bash $__tool_directory__/igvscreenshot_batch.sh
+	 
+
+          --build $reference
+                    #for $i, $t in enumerate( $tracks )
+                        --track ${t.inputfile}
+                        --ftype ${t.inputfile.extension}
+                        --view ${t.view}
+                        --viewaspairs ${t.viewaspairs}
+                        #if not $t.trackname  <!-- validator for empty field does not seem to work within a repeat, so this is the workaround  -->
+                            #set $tracklabel = "noname"
+                        #else
+                            #set $tracklabel = $t.trackname
+                        #end if
+                        --label $tracklabel
+                        #if $t.inputfile.extension == "bam"
+                            --index $t.inputfile.metadata.bam_index
+                        #else
+                            --index "none"
+                        #end if
+		     #end for	
+		  --region_file region_file.txt ;
+		
+		cp recipe.txt outputs;
+		cp region_file.txt outputs;
+		 
+	</command>
+
+
+	<inputs>
+	<!-- parameter examples, see https://wiki.galaxyproject.org/Admin/Tools/ToolConfigSyntax for descriptions -->
+                
+                <param name="reference" type="select" label="Select Build">
+                    <option value="hg18"> hg18 </option>
+                    <option value="hg19"> hg19 </option>
+		    <option value="hg38"> hg38/GRCh38 </option>
+		</param>
+                
+		<!-- file from history -->
+                <repeat name="tracks" title="Track" min="1">
+                    <param name="inputfile" type="data" format="bam,vcf,bed,gtf,gff" label="Select input file" help="choose input file from history"/>
+                    <param name="trackname" type="text" size="100" value="track label" label="Track Label" >
+                        <sanitizer>
+				<valid initial="default"> 
+					<add preset="string.printable"/> 
+					<remove value=" "/>
+				</valid> 
+				<mapping initial="none"> 
+					<add source=" " target="_"/>
+				</mapping> 
+			</sanitizer>                        
+                    </param>
+                    <param name="view" type="select" label="View settings of track" >
+                           <option value="collapse"  > collapsed </option>
+                           <option value="expand"  > expanded </option>
+                           <option value="squish"  > squished </option>
+                    </param>                    
+                    <param name="viewaspairs" type="boolean" checked="False" truevalue="Y" falsevalue="N" label="view as pairs?" help="optional setting for paired-end data"/>
+				
+                </repeat>
+		
+		    <param name="region_file" type="data" format="txt" label="Region File"  help="list of chromosome coordinates for screenshots" />
+		
+		
+                </inputs>
+
+	
+	
+	<outputs>
+	  <data format="txt" name="outputfile" from_work_dir="recipe.txt" label="IGV screenshot"/>
+	<collection name="igv_output" type="list" description="Screenshots">
+	  <discover_datasets pattern="__name_and_ext__" directory="outputs"/>
+	</collection>
+	</outputs>
+	
+
+	<help>
+This tool will create an IGV screenshot of the desired location(s) with the desired tracks.
+        
+Tracks may be bam, vcf, bed, gff or gtf format.
+
+Multiple regions may be specified (comma-separated)
+
+
+        
+        </help>
+</tool>

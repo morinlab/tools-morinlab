@@ -1,0 +1,29 @@
+IGV screenshot tool
+
+Installation
+-----------------------
+IMPORTANT: this tool assumes java runtime and Xvfb to be installed on the system!
+
+installing Xvfb on Ubuntu: 
+   apt-get install Xvfb
+
+
+Dependencies
+----------------------
+Dependencies installed with this tool: IGV version 2.3.57
+
+
+Troubleshooting
+-----------------------
+tested on Ubuntu, IGV seems quite fussy depending on version..
+
+--
+If you get this error:
+(process:52487): GLib-GIO-ERROR **: Settings schema 'org.gnome.system.proxy' is not installed
+
+Fix by installing: 
+sudo apt-get install gsettings-desktop-schemas
+--
+
+
+
