@@ -1,0 +1,59 @@
+<tool id="oncodriveclust" name="OncodriveClust" version="0.1">
+
+  <description>
+  Run Oncodriveclust on mutations in cohort-wide MAF
+  </description>
+
+  <command detect_errors="aggressive">
+
+      
+      touch gene_list.txt;
+      #if $gene_input_type.gene_input_type_selector.value == "other":
+        echo $gene_input_type.gene > gene_list.txt;
+      #elif $gene_input_type.gene_input_type_selector.value == "file"
+        cat $gene_input_type.gene_file > gene_list.txt;
+      #end if
+
+      Rscript $__tool_directory__/oncodriveclust_merge.R
+        --input_maf $input_maf
+        --min_mut $min_mut
+	--fdr $fdr
+        --output_plot $out_plot
+	--output_detail $out_detail
+      #if $gene_input_type.gene_input_type_selector.value == "other" or $gene_input_type.gene_input_type_selector.value == "file":
+        --gene_blacklist gene_list.txt;
+      #else:
+        ;
+      #end if
+	
+      cut -f 1,28 $out_detail | perl -ne 'chomp;(\$a,\$b) = split;next if \$b >0.3;next if /Hugo/;print "\$a\n"' > $sig_genes;	
+
+  </command>
+
+  <inputs>
+    <param type="data" format="maf" name="input_maf" label="MAF File"/>
+    <param type="integer" min="1" value="5" name="min_mut" label="Minimum mutation count to include gene in analysis"/>
+    <param type="float" value="0.1" name="fdr" label="FDR for genes plotted and returned as significant"/>
+    <conditional name="gene_input_type">
+      <param name="gene_input_type_selector" type="select" label="Choose how to input blacklist genes">
+        <option value="file" selected="True">Gene File</option>
+        <option value="other">Other</option>
+	<option value="none">None</option>
+      </param>
+      <when value="file">
+        <param name="gene_file" type="data" format="txt" label="Gene File"  help="list of genes separated by newlines" />
+      </when>
+      <when value="other">
+        <param name="gene" type="text" value="TP53" label="Gene" help="type the single gene" />
+      </when>
+      
+    </conditional>
+  </inputs>
+
+  <outputs>
+    <data format="pdf" name="out_plot"/>
+    <data format="txt" name="out_detail"/>
+    <data format="txt" name="sig_genes"/>
+  </outputs>
+
+</tool>    

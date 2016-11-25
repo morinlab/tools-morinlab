@@ -1,0 +1,23 @@
+<tool id="titv" name="Transition Transversion Plot" version="0.9.30">
+
+  <description>
+    visualizes base change transitions and transversions 
+  </description>
+
+  <command detect_errors="aggressive">
+
+      Rscript $__tool_directory__/titv.R
+        --input_maf $input_maf
+        --output_pdf $output;
+
+  </command>
+
+  <inputs>
+    <param type="data" format="maf" name="input_maf" label="MAF File"/>
+  </inputs>
+
+  <outputs>
+    <data format="pdf" name="output"/>
+  </outputs>
+
+</tool>    

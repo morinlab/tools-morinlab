@@ -1,0 +1,43 @@
+<tool id="oncoplot" name="MAF Oncoplot" version="0.9.30">
+
+  <description>
+    summarizes top mutated genes by mutual exclusivity
+  </description>
+
+  <command detect_errors="aggressive">
+    touch gene_list.txt;
+
+    #if $gene_input_type.gene_input_type_selector.value == "other":
+    echo $gene_input_type.gene > gene_list.txt;
+    #else:
+    cat $gene_input_type.gene_file > gene_list.txt;
+    #end if
+      Rscript $__tool_directory__/oncoplot.R
+        --input_maf $input_maf
+        --top $top
+        --output_pdf $output
+	--gene_mask_list gene_list.txt;
+  </command>
+
+  <inputs>
+    <param type="data" format="maf" name="input_maf" label="MAF File"/>
+    <conditional name="gene_input_type">
+      <param name="gene_input_type_selector" type="select" label="Choose how to input samples">
+	<option value="file" selected="True">Gene Blacklist File</option>
+	<option value="other">Single Gene</option>
+      </param>
+      <when value="file">
+	<param name="gene_file" type="data" format="txt" label="Gene Blacklist File"  help="list of genes separated by newlines" />
+      </when>
+      <when value="other">
+	<param name="gene" type="text" label="Gene" help="type a valid gene name" />
+      </when>
+    </conditional>
+    <param type="integer" min="1" value="10" name="top" label="Top Gene Count"/>
+  </inputs>
+
+  <outputs>
+    <data format="pdf" name="output"/>
+  </outputs>
+
+</tool>    

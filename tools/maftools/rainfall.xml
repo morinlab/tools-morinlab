@@ -1,0 +1,47 @@
+<tool id="rainfall" name="Rainfall Plot" version="0.9.30">
+
+  <description>
+    sample snv location summary plot
+  </description>
+
+  <command detect_errors="aggressive">
+
+      mkdir outputs;
+      touch sample_list.txt;
+
+      #if $sample_input_type.sample_input_type_selector.value == "other":
+        echo $sample_input_type.sample > sample_list.txt;
+      #else:
+        cat $sample_input_type.sample_file > sample_list.txt;
+      #end if
+
+      Rscript $__tool_directory__/rainfall.R
+        --input_maf $input_maf
+        --sample_list sample_list.txt
+        --output_directory \$(pwd)/outputs;
+
+  </command>
+
+  <inputs>
+    <param type="data" format="maf" name="input_maf" label="MAF File"/>
+    <conditional name="sample_input_type">
+      <param name="sample_input_type_selector" type="select" label="Choose how to input samples">
+        <option value="file" selected="True">Sample File</option>
+        <option value="other">Other</option>
+      </param>
+      <when value="file">
+        <param name="sample_file" type="data" format="txt" label="Sample File"  help="list of samples separated by newlines" />
+      </when>
+      <when value="other">
+        <param name="sample" type="text" label="Sample" help="type the sample" />
+      </when>
+    </conditional>
+  </inputs>
+
+  <outputs>
+    <collection name="list_output" type="list" description="Sample Rainfall Plots">
+      <discover_datasets pattern="__name_and_ext__" directory="outputs"/>
+    </collection>
+  </outputs>
+
+</tool>    

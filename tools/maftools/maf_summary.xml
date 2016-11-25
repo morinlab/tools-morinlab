@@ -1,0 +1,42 @@
+<tool id="maf_summary" name="MAF Summary Plot" version="0.9.30">
+
+  <description>
+    summarizes maf statistics into single multiplot
+  </description>
+
+  <command detect_error="aggressive">
+
+    #if $gene_input_type.gene_input_type_selector.value == "other":
+    echo $gene_input_type.gene > gene_list.txt;
+    #else:
+    cat $gene_input_type.gene_file > gene_list.txt;
+    #end if
+      Rscript $__tool_directory__/maf_summary.R
+        --input_maf $input_maf
+        --output_pdf $output
+	--num_genes $topn
+	--gene_mask_list gene_list.txt;
+  </command>
+
+  <inputs>
+    <param type="data" format="maf" name="input_maf" label="MAF File"/>
+    <conditional name="gene_input_type">
+      <param name="gene_input_type_selector" type="select" label="Choose how to input genes for your blacklist">
+	<option value="file" selected="True">Gene Blacklist File</option>
+	<option value="other">Single Gene</option>
+      </param>
+      <when value="file">
+	<param name="gene_file" type="data" format="txt" label="Gene Blacklist File"  help="list of genes separated by newlines" />
+      </when>
+      <when value="other">
+	<param name="gene" type="text" value="MUC4" label="Gene" help="type a valid gene name" />
+      </when>
+    </conditional>
+    <param type="integer" min="1" value="20" name="topn" label="Top N genes to include in output"/>
+  </inputs>
+
+  <outputs>
+    <data format="pdf" name="output"/>
+  </outputs>
+
+</tool>    
