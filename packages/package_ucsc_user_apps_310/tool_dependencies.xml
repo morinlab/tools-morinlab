@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<tool_dependency>
+  <package name="libpng" version="1.6.7">
+    <repository name="package_libpng_1_6_7" owner="morinlab" prior_installation_required="True" />
+  </package>
+  <package name="openssl" version="1.0.1">
+    <repository name="package_openssl_1_0" owner="iuc" prior_installation_required="True" />
+  </package>
+  <package name="mysql" version="6.1.0">
+    <repository name="package_mysql_6_1_0" owner="morinlab" prior_installation_required="True"/>
+  </package>
+  <package name="ucsc_user_apps" version="310">
+    <install version="1.0">
+      <actions>
+        <action type="download_by_url">http://hgdownload.soe.ucsc.edu/admin/exe/userApps.v310.src.tgz</action>
+        <action type="set_environment_for_install">
+          <repository name="package_openssl_1_0" owner="iuc">
+            <package name="openssl" version="1.0.1" />
+          </repository>
+          <repository name="package_libpng_1_6_7" owner="morinlab">
+            <package name="libpng" version="1.6.7" />
+          </repository>
+          <repository name="package_mysql_6_1_0" owner="morinlab">
+            <package name="mysql" version="6.1.0" />
+          </repository>
+        </action>
+        <action type="shell_command">echo $PATH &gt; ~/tmp.env.txt</action>
+        <action type="shell_command">make</action>
+        <action type="move_directory_files">
+          <source_directory>./bin</source_directory>
+          <destination_directory>$INSTALL_DIR/bin</destination_directory>
+        </action>
+        <action type="set_environment">
+          <environment_variable action="set_to" name="UCSCUSERAPPS">$INSTALL_DIR</environment_variable>
+          <environment_variable action="prepend_to" name="PATH">$INSTALL_DIR/bin</environment_variable>
+        </action>
+      </actions>
+    </install>
+    <readme>
+      UCSC User Apps may take a moment for installation as it builds all utililities.
+      Post installation, all tools will be available as command line executables.
+    </readme>
+  </package>
+</tool_dependency>

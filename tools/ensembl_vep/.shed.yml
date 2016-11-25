@@ -1,0 +1,7 @@
+categories:
+- Variant Analysis
+description: predicts the effect of variants (SNPs, insertions, deletions, CNVs or structural variants)  
+name: ensembl_vep
+owner: morinlab
+remote_repository_url: https://github.com/morinlab/tools-morinlab/tree/master/tools/ensembl_vep
+type: unrestricted

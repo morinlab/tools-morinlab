@@ -1,0 +1,48 @@
+<tool id="annotate" name="Annotate" version="1.0.0">
+    <description>
+        Annotate VCF files using Ensemble VEP
+    </description>
+    <command>
+        perl \$ENSEMBL_VEP_84_INSTALL_DIR/variant_effect_predictor.pl
+            --fork 4
+            --offline 
+            --species \$( echo $species_select.value | sed 's/-/\t/g' | cut -f1) 
+	    --dir \$ENSEMBL_VEP_84_CACHE_DIR 
+            --no_stats 
+            --force_overwrite 
+            --everything 
+            --check_existing 
+            --total_length 
+            --allele_number 
+            --no_escape 
+            --gencode_basic 
+            --xref_refseq 
+	    #if "-" in $species_select.value
+            --assembly \$( echo $species_select.value | sed 's/-/\t/g' | cut -f2)
+            #end if
+            --vcf 
+            --input_file $input_vcf 
+            --output_file $output_vcf
+    </command>
+    <inputs>
+        <param name="input_vcf" type="data" format="vcf" label="Input VCF File" />
+        <expand macro="genome_list"/>
+    </inputs>
+
+    <outputs>
+        <data format="vcf" name="output_vcf" label="${input.name}_vep-annotated" />
+    </outputs>
+
+    <stdio>
+        <exit_code range="1:" level="fatal" description="Failure" />
+    </stdio>
+
+    <requirements>
+        <requirement type="package" version="84">ensembl_vep</requirement>
+	<requirement type="package" version="5.18.1">perl</requirement>
+    </requirements>
+    <macros>
+      <import>ensembl_vep_macros.xml</import>
+    </macros>
+
+</tool>

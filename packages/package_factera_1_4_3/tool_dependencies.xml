@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<tool_dependency>
+  <package name="blast+" version="2.2.26+">
+    <repository name="package_blast_plus_2_2_26" owner="devteam" />
+  </package>
+  <package name="samtools" version="0.1.19">
+    <repository name="package_samtools_0_1_19" owner="devteam" />
+  </package>
+  <package name="ucsc_user_apps" version="310">	
+    <repository name="package_ucsc_user_apps_310" owner="morinlab" />
+  </package>
+  <package name="perl_descriptive_statistics" version="3.0608">
+    <install version="1.0">
+      <actions>
+        <action type="download_by_url">http://search.cpan.org/CPAN/authors/id/S/SH/SHLOMIF/Statistics-Descriptive-3.0608.tar.gz</action>
+        <action type="shell_command">perl Makefile.PL PREFIX=$INSTALL_DIR</action>
+        <action type="shell_command">make</action>
+        <action type="shell_command">make install</action>
+        <action type="set_environment">
+          <environment_variable action="prepend_to" name="PERL5LIB">$INSTALL_DIR/lib/perl5/site_perl</environment_variable>
+        </action>
+      </actions>
+    </install>	
+  </package>
+  <package name="factera" version="1.4.3">
+    <install version="1.0">
+  	  <actions>
+      	<action type="download_by_url">http://factera.stanford.edu/files/factera-v1.4.3.pl</action>      
+        <action type="move_directory_files">
+          <source_directory>.</source_directory>
+          <destination_directory>$INSTALL_DIR</destination_directory>
+        </action>
+        <action type="set_environment">
+          <environment_variable action="set_to" name="FACTERA_DIR">$INSTALL_DIR</environment_variable>
+        </action>
+      </actions>
+    </install>
+  </package>
+</tool_dependency>

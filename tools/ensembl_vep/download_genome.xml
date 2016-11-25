@@ -1,0 +1,36 @@
+<tool id="download_genome" name="Get Genome" version="1.0.0">
+    <description>
+      Download and Index Genomes using Ensemble VEP
+    </description>
+    <requirements>
+        <requirement type="package" version="84">ensembl_vep</requirement>
+    </requirements>    
+    <command>
+	perl \$ENSEMBL_VEP_84_INSTALL_DIR/INSTALL.pl 
+		--AUTO cf 
+		--SPECIES \$(echo $species_select.value | sed 's/-/\t/g' | cut -f1) 
+		--CACHEDIR \$ENSEMBL_VEP_84_INSTALL_DIR/cache
+		#if "-" in $species_select.value
+		  --ASSEMBLY \$(echo $species_select.value | sed 's/-/\t/g' | cut -f2)
+		#end if
+        ;
+        
+        gzip -d \$ENSEMBL_VEP_84_INSTALL_DIR/cache/\$(echo $species_select.value | sed 's/-/\t/g' | cut -f1 | sed 's/\ /_/g')/*\$(echo $species_select.value | sed 's/-/\t/g' | cut -f2)/*.fa.gz;
+      	samtools faidx \$ENSEMBL_VEP_84_INSTALL_DIR/cache/\$(echo $species_select.value | sed 's/-/\t/g' | cut -f1 | sed 's/\ /_/g')/*\$(echo $species_select.value | sed 's/-/\t/g' | cut -f2)/*.fa;
+	
+	env > $output;
+   </command>
+    <inputs>
+      <expand macro="genome_list" />
+    </inputs>
+    <outputs>
+        <data format="txt" name="output"/>
+    </outputs>
+    <stdio>
+        <exit_code range="1:" level="fatal" description="Failure" />
+    </stdio>
+    <macros>
+      <import>ensembl_vep_macros.xml</import>
+    </macros>
+    
+</tool>
