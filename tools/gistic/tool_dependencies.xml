@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<tool_dependency>
+  <package name="gistic" version="2.0.22">
+    <repository changeset_revision="269a47315626" name="package_gistic_2_0_22" owner="morinlab" toolshed="http://galaxy-morinlab.mbb.sfu.ca:9009" />
+  </package>
+</tool_dependency>

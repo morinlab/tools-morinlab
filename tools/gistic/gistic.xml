@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tool id="gistc" name="GISTIC2.0" version="2.0.22">
+  <description>The GISTIC module identifies regions of the genome that are significantly amplified or deleted across a set of samples.</description>
+  <requirements>
+    <requirement type="package" version="2.0.22">gistic</requirement>
+    <requirement type="set_environment">GISTIC_SCRIPT_PATH</requirement>
+    <requirement type="set_environment">GISTIC_DIR</requirement>
+  </requirements>
+
+  <stdio>
+    <exit_code range="1:" />
+    <exit_code range=":-1" />
+  </stdio>
+
+  <command>
+    <![CDATA[
+      ##export included matlab paths. This was done in dependencies but seems to need reseting periodically 
+
+      export LD_LIBRARY_PATH=\$GISTIC_DIR/MATLAB_Component_Runtime/v714/runtime/glnxa64:\$GISTIC_DIR/MATLAB_Component_Runtime/v714/sys/os/glnxa64:\$GISTIC_DIR/MATLAB_Component_Runtime/v714/sys/java/jre/glnxa64/jre/lib/amd64/native_threads:\$GISTIC_DIR/MATLAB_Component_Runtime/v714/sys/java/jre/glnxa64/jre/lib/amd64/server:\$GISTIC_DIR/MATLAB_Component_Runtime/v714/sys/java/jre/glnxa64/jre/lib/amd64;
+
+      export XAPPLRESDIR=\$GISTIC_DIR/MATLAB_Component_Runtime/v714/X11/app-defaults;
+
+      ##make directory for results
+      mkdir ./results;
+      touch ./results/sig_regions.bed; 
+      ##start command line
+      \$GISTIC_DIR/gp_gistic2_from_seg 
+      -b ./results 
+      -seg $segfile 
+      -mk $markersfile 
+      ##reference sequence selector
+      #if str($ref_select) == "hg19":
+        -refgene \$GISTIC_DIR/refgenefiles/hg19.mat
+      #elif str($ref_select) == "hg18":
+        -refgene \$GISTIC_DIR/refgenefiles/hg18.mat
+      #elif str($ref_select) == "hg17":
+        -refgene \$GISTIC_DIR/refgenefiles/hg17.mat
+      #elif str($ref_select) == "hg16":
+        -refgene \$GISTIC_DIR/refgenefiles/hg16.mat
+      #end if
+      #if $broad:
+       -broad 1
+      #end if
+      #if $armpeel:
+       -armpeel 1
+      #end if
+      #if $rx:
+       -rx 1
+      #end if 
+       -brlen $brlen
+       -conf $conf
+       -qvt $qvt;
+       cut -f 1,3,6,7 results/all_lesions.conf_75.txt | awk 'BEGIN {FS="\t"; OFS="\t";};{if (\$3 < $qvt) print \$2, \$1}' | perl -pe 's/\(\S+\s\S+//;s/Delet.+/hetd/;s/Ampl.+/gain/;s/[:-]/\t/g;s/chr//;' >> results/sig_regions.bed ;
+       cp results/sig_regions.bed $sig_regions;
+      rm -f results/*.mat;
+    ]]>
+  </command>  
+
+  <inputs>
+    <param name="segfile" type="data" format="tabular" label="Seg file created using IGV2Gistic tool." />
+    <param name="markersfile" type="data" format="tabular" label="markers file created using IGV2Gistic tool." />
+    <param name="ref_select" type="select" label="Select reference gene file">
+      <option value="hg19" selected="True">hg19</option>
+      <option value="hg18">hg18</option>
+      <option value="hg17">hg17</option>
+      <option value="hg16">hg16</option>
+    </param>
+       <param name="genegistic" type="boolean" checked="true" truevalue="yes" falsevalue="" label="Flag indicating that the gene GISTIC algorithm should be used to calculate the significance of deletions at a gene level instead of a marker level."/>
+      <param name="broad" type="boolean" checked="false" truevalue="yes" falsevalue="" label="Flag indicating whether an additional broad-level analysis should be performed."/>
+      <param name="armpeel" type="boolean" truevalue="yes" checked="false" falsevalue="" label="Whether to perform arm level peel off"/>
+      <param name="rx" type="boolean" truevalue="yes" checked="false" falsevalue="" label="Whether to ignore the X chromosome"/>
+        <param name="brlen" type="float" value="0.98" label="Threshold used to distinguish broad from focal events.  given in units of fraction of chromosome arm."/>
+        <param name="conf" type="float" value="0.75" label="Confidence level used to calculate the region"/>
+	<param name="qvt" type="float" value="0.75" label="Q value threshold for significance"/>
+
+  </inputs>
+
+  <outputs>
+    <data format="bed" name="sig_regions" />
+    <collection name="list_output" type="list" description="GISTIC outputs">
+      <discover_datasets pattern="__name_and_ext__" directory="results"/>
+    </collection>
+  </outputs>
+  <tests>
+    <test>
+      <param name="seg_file" value="MCL_all_cohorts.diagnostic.opt_clone.hg19.gistic.seg" />
+      <param name="markersfile" value="MCL_all_cohorts.diagnostic.opt_clone.hg19.markers.txt" />
+      <param name="ref_select" value="hg19" />
+      <output name="all_lesions_conf" value="all_lesions.conf_90.txt" lines_diff="2" />
+    </test>
+  </tests>
+  <help>
+
+The GISTIC module identifies regions of the genome that are significantly amplified or deleted across a set of samples.  Each aberration is assigned a G-score that considers the amplitude of the aberration as well as the frequency of its occurrence across samples.  False Discovery Rate q-values are then calculated for the aberrant regions, and regions with q-values below a user-defined threshold are considered significant.  For each significant region, a “peak region” is identified, which is the part of the aberrant region with greatest amplitude and frequency of alteration.  In addition, a “wide peak” is determined using a leave-one-out algorithm to allow for errors in the boundaries in a single sample. The “wide peak” boundaries are more robust for identifying the most likely gene targets in the region. Each significantly aberrant region is also tested to determine whether it results primarily from broad events (longer than half a chromosome arm), focal events, or significant levels of both.  The GISTIC module reports the genomic locations and calculated q-values for the aberrant regions.  It identifies the samples that exhibit each significant amplification or deletion, and it lists genes found in each “wide peak” region.
+
+  </help>
+  <citations>
+    <expand macro="morinlab_citation" />
+    <expand macro="galaxy_citation" />
+    <expand macro="gistic_citation" />
+  </citations>
+</tool>
