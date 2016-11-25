@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<tool_dependency>
+		<set_environment>
+            <environment_variable action="set_to" name="R_SCRIPT_PATH">$REPOSITORY_INSTALL_DIR</environment_variable>
+    	</set_environment>
+		<package name="R" version="3.1.2">
+			<repository changeset_revision="2447d7d88f7e" name="package_r_3_1_2" owner="iuc" prior_installation_required="True" toolshed="http://galaxy-morinlab.mbb.sfu.ca:9009" />		
+		</package>
+		<package name="maf2tdm" version="1.0">
+			<install version="1.0">
+				<actions>
+					<!-- have to download something or galaxy wont let me call R -->
+					<action type="setup_r_environment">
+						<repository changeset_revision="2447d7d88f7e" name="package_r_3_1_2" owner="iuc" toolshed="http://galaxy-morinlab.mbb.sfu.ca:9009">							
+								<package name="R" version="3.1.2" />								
+						</repository>
+						<package>https://github.com/bgruening/download_store/raw/master/gatk2_R_deps/gtable_0.1.2.tar.gz</package>
+					</action>
+				</actions>
+			</install>
+		</package>
+	</tool_dependency>
