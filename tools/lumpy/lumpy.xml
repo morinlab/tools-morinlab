@@ -1,0 +1,146 @@
+<tool id="lumpy" name="LUMPY" version="0.2.9">
+	<description>
+		a probabilistic framework for structural variant discovery
+	</description>
+	<requirements>
+		<requirement type="package" version="0.1.19">samtools</requirement>
+		<requirement type="package" version="0.2.9">lumpy</requirement>
+		<requirement type="set_environment" version="0.2.9">LUMPY_SCRIPTS</requirement>
+		<requirement type="package" version="1.9">numpy</requirement>
+	</requirements>
+	<command>
+
+		<!-- Create Symbolic links to bam and bam indexes -->
+        ln -s $normal normal.bam;
+        ln -s $normal.metadata.bam_index normal.bam.bai;
+        ln -s $tumour tumour.bam;
+        ln -s $tumour.metadata.bam_index tumour.bam.bai;
+
+		<!-- EXTRACT DISCORDANT PAIRED END ALIGNMENTS -->
+		samtools view -F 1294 -b normal.bam | samtools sort - normal.pe;
+		samtools view -F 1294 -b tumour.bam | samtools sort - tumour.pe;
+
+		<!-- EXTRACT SPLIT-READ ALIGNMENTS -->
+		samtools view -h normal.bam |
+		  \$LUMPY_SCRIPTS/extractSplitReads_BwaMem -i stdin |
+		  samtools view -Sb - |
+		  samtools sort - normal.sr;
+		samtools view -h tumour.bam |
+		  \$LUMPY_SCRIPTS/extractSplitReads_BwaMem -i stdin |
+		  samtools view -Sb - |
+		  samtools sort - tumour.sr;
+
+		<!-- CREATE HISTO FILE -->
+		samtools view normal.bam |
+		  tail -n+100000 |
+		  \$LUMPY_SCRIPTS/pairend_distro.py -r 150 -X 4 -N 10000 -o normal.pe.histo > normal.stats;
+		samtools view tumour.bam |
+		  tail -n+100000 |
+		  \$LUMPY_SCRIPTS/pairend_distro.py -r 150 -X 4 -N 10000 -o tumour.pe.histo > tumour.stats;
+
+		<!-- Store MEAN and STD in nice format -->
+		cat -t normal.stats | sed s/\\^\\I/,/g > normal.stats.txt;
+		cat -t tumour.stats | sed s/\\^\\I/,/g > tumour.stats.txt;
+
+		<!-- RUN LUMPY -->
+
+	  	lumpy
+	  	-e
+	  	-tt $advancedsettings.tt
+	  	-mw $advancedsettings.mw
+	  	#if $x
+	  		-x $x
+	  	#end if
+	
+		-pe
+		bam_file:normal.pe.sort.bam,
+		histo_file:normal.pe.histo,
+		\$(cat normal.stats.txt),
+		read_length:$advancedsettings.pe_read_length,
+		min_non_overlap:$advancedsettings.pe_min_non_overlap,
+		discordant_z:$advancedsettings.pe_discordant_z,
+		back_distance:$advancedsettings.pe_back_distance,
+		min_mapping_threshold:$advancedsettings.pe_min_mapping_threshold,
+		weight:$advancedsettings.pe_weight,
+		#if $sampleid_source.manual:
+		    id:PE-$sampleid_source.idn
+		#else:
+		    id:PE-\$(basename $normal)
+		#end if
+				
+		-sr
+		bam_file:normal.sr.sort.bam,
+		back_distance:$advancedsettings.sr_back_distance,
+		min_mapping_threshold:$advancedsettings.sr_min_mapping_threshold,
+		weight:$advancedsettings.sr_weight,
+		min_clip:$advancedsettings.sr_min_clip,
+		#if $sampleid_source.manual:
+		    id:SE-$sampleid_source.idn
+		#else
+		    id:SE-\$(basename $normal)
+		#end if
+		
+		-pe
+		bam_file:n=tumour.pe.sort.bam,
+		histo_file:tumour.pe.histo,
+		\$(cat tumour.stats.txt),
+		read_length:$advancedsettings.pe_read_length,
+		min_non_overlap:$advancedsettings.pe_min_non_overlap,
+		discordant_z:$advancedsettings.pe_discordant_z,
+		back_distance:$advancedsettings.pe_back_distance,
+		min_mapping_threshold:$advancedsettings.pe_min_mapping_threshold,
+		weight:$advancedsettings.pe_weight,
+		#if $sampleid_source.manual:
+		    id:PE-$sampleid_source.idt
+		#else:
+		    id:PE-\$(basename $tumour)
+		#end if
+				
+		-sr
+		bam_file:tumour.sr.sort.bam,
+		back_distance:$advancedsettings.sr_back_distance,
+		min_mapping_threshold:$advancedsettings.sr_min_mapping_threshold,
+		weight:$advancedsettings.sr_weight,
+		min_clip:$advancedsettings.sr_min_clip,
+		#if $sampleid_source.manual:
+		    id:SE-$sampleid_source.idt
+		#else
+		    id:SE-\$(basename $tumour)
+		#end if
+
+		> $outfile;
+
+	</command>
+	<inputs>
+        <conditional name="sampleid_source">
+            <param label="Choose the source to fetch Sample Identifiers" name="sampleid_selector" type="select">
+                <option value="bamfile">BAM File Name</option>
+                <option value="manual">Manual</option>
+            </param>
+            <when value="manual">
+                <param name="idn" type="text" label="Tumour ID (Name)"/>
+                <param name="idt" type="text" label="Normal ID (Name)"/>
+            </when>
+        </conditional>
+        <param type="data" format="bam" name="normal" label="Normal Alignment File"/>
+        <param type="data" format="bam" name="tumour" label="Tumour Alignment File"/>
+        <param type="data" format="bed" name="x" label="Exluded Regions BED file" optional="true"/>
+        <section name="advancedsettings" title="Advanced Settings" expanded="false">
+    		<param type="integer" value="5" name="mw" label="Minimum Weight for Call"/>
+    		<param type="integer" value="3" name="tt" label="Trim Threshold"/>
+		    <param type="integer" name="pe_back_distance" value="20" label="Paired End Back Distance" help="Distance into the read to add the breakpoint interval"/>
+		    <param type="integer" name="pe_min_mapping_threshold" value="1" label="Paired End Min Mapping Threshold" help="Minimum mapping quality that a read must have to be considered"/>
+		    <param type="integer" name="pe_weight" value="1" label="Paired End Weight" help="Weight of each piece of evidence from this sample"/>
+		    <param type="integer" name="pe_discordant_z" value="4" label="Paired End Discordant Value" help="Number of standard deviations away from the mean to be considered as a normal library size"/>
+		    <param type="integer" name="pe_read_length" value="150" label="Paired End Read Length" help="Length of sequenced reads"/>
+			<param type="integer" name="pe_min_non_overlap" value="150" label="Paired End Min Non Overlap" help="Number of base pair positions that must be unique to each end of a read pair"/>
+			<param type="integer" name="sr_back_distance" value="20" label="Split Read Back Distance" help="Distance into the read to add the breakpoint interval"/>
+			<param type="integer" name="sr_min_mapping_threshold" value="1" label="Split Read Min Mapping Threshold" help="Minimum mapping quality that a read must have to be considered"/>
+			<param type="integer" name="sr_weight" value="1" label="Split Read Weight" help="Weight of each piece of evidence from this sample"/>
+			<param type="integer" name="sr_min_clip" value="1" label="Spliy Read Min Clip" help="Minimum number of clipped bases to consider in a split read"/>
+		</section>
+	</inputs>
+	<outputs>
+		<data type="vcf" name="outfile"/>
+	</outputs>
+</tool>
