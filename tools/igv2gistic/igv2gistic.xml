@@ -17,14 +17,7 @@
     <data format="tabular" name="out_seg" />
     <data format="tabular" name="markers" />
   </outputs>
-  <tests>
-    <test>
-      <param name="igv_seg" value="MCL.all.opt_clones.no_header.titan.igv.segments.txt" />
-      <param name="bed_file" value="agilent_sureselect_all_exons_v5_and_utr.sort.merge.bed" />
-      <output name="out_seg" ftype="tabular" file="gistic.seg" lines_diff="2" />
-      <output name="markers" ftype="tabular" file="markers.txt" lines_diff="2" />
-    </test>
-  </tests>
+  
   <help>
 
 IGV2Gistic converts an IGV-formatted segment file into a GISTIC2.0 compatible segment file. This script is intended for segment files produced by Copy Number Variation (CNV) callers. This script effectively allows for running GISTIC2.0 on copy number segments derived from sequencing data (as opposed to array derived copy number segments).
