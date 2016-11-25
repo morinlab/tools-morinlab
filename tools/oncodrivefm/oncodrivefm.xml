@@ -27,11 +27,8 @@
     #end if
     ./odfm;
     
-  cat ./out/odfm-pathways.tsv >> $out_file2;
-  cat ./out/odfm-genes.tsv >> $out_file1;
-
-  pwd >> $out_file2;
-  ls ./out/* >> $out_file2;
+  cat ./out/odfm-genes.tsv | grep -v \\# | sort -g -k 3  | awk 'BEGIN {OFS = "\t"}{if ($advancedsettings.qcut > $3 ) print \$1, \$2, \$3; }' >> $out_file1;
+  cat ./out/odfm-pathways.tsv | grep -v \\# | sort -g -k 4 >> $out_file2;
   
   </command>
   <inputs>
@@ -44,7 +41,8 @@
       </param>
       <param name="gthreshold" type="integer" label="Gene Threshold" help="Minimum number of mutations per gene to compute the FM bias" value="2"/>
       <param name="pthreshold" type="integer" label="Pathway Threshold" help="Minimum number of mutations per pathway to compute the FM bias" value="10" />
-      <param name="slices" type="text" label="Slices" help="Slices to process separated by commas(slices=SIFT,PolyPhen,MA)" value="SIFT,PolyPhen"/>
+      <param name="qcut" type="float" label="Q value cutoff" help="Only return genes with Q value below this threshold" value="1.0" />
+      <param name="slices" type="text" label="Slices" help="Slices to process separated by commas(slices=SIFT,PPH2,MA)" value="SIFT,PPH2"/>
       <conditional name="mapoption">
         <param name="mapfile" type="select" label="Choose the source for the OncodriveFM Mapping File">
           <option value="included_file" selected="true">Use hg19 mapping file</option>
