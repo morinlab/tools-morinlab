@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <tool_dependency>
   <package name="somatic_sniper" version="1.0.5.0">
-    <repository name="package_somatic_sniper_1_0_5_0" owner="morinlab"/>
+    <repository changeset_revision="de93afe677b3" name="package_somatic_sniper_1_0_5_0" owner="morinlab" toolshed="http://galaxy-morinlab.mbb.sfu.ca:9009" />
   </package>
 </tool_dependency>

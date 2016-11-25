@@ -1,1 +1,92 @@
-../../macros/citations.xml
+<macros>
+    <xml name="morinlab_citation">
+        <citation type="bibtex">
+            @unpublished{
+            albuquerque2016galaxy,
+            author = "Marco Albuquerque and Bruno Grande and Elie Ritch and Martin Krzywinski and Prasath Pararajalingam and Selin Jessa and Paul Boutros and Sohrab Shah and Ryan Morin",
+            title = "A Suite of Galaxy Tools for Cancer Mutational Analysis",
+            note = "Unpublished Manuscript",
+            year = "2016"
+            }
+        </citation>
+    </xml>
+    <xml name="vardict_citation">
+        <citation type="bibtex">
+            @article{
+            Lai20062016,
+            title = {VarDict: a novel and versatile variant caller for next-generation sequencing in cancer research},
+            author = {Lai, Zhongwu and Markovets, Aleksandra and Ahdesmaki, Miika and Chapman, Brad and Hofmann, Oliver and McEwen, Robert and Johnson, Justin and Dougherty, Brian and Barrett, J. Carl and Dry, Jonathan R.}, 
+            journal = {Nucleic Acids Research} 
+            volume = {44}, 
+            number = {11}, 
+            pages = {e108}, 
+            year = {2016}, 
+            doi = {10.1093/nar/gkw227}
+            }
+        </citation>
+    </xml>
+    <xml name="somatic_sniper_citation">
+        <citation>
+            @article{
+            Larson01022012,
+            author = {Larson, David E. and Harris, Christopher C. and Chen, Ken and Koboldt, Daniel C. and Abbott, Travis E. and Dooling, David J. and Ley, Timothy J. and Mardis, Elaine R. and Wilson, Richard K. and Ding, Li}, 
+            title = {SomaticSniper: identification of somatic point mutations in whole genome sequencing data},
+            volume = {28}, 
+            number = {3}, 
+            pages = {311-317}, 
+            year = {2012}, 
+            doi = {10.1093/bioinformatics/btr665}, 
+            journal = {Bioinformatics} 
+            }
+    <xml name="galaxy_citation">
+        <citation>
+        @ARTICLE{Goecks2010-ra,
+          title    = "Galaxy: a comprehensive approach for supporting accessible,
+                      reproducible, and transparent computational research in the life
+                      sciences",
+          author   = "Goecks, Jeremy and Nekrutenko, Anton and Taylor, James and
+                      {Galaxy Team}",
+          journal  = "Genome Biol.",
+          volume   =  11,
+          number   =  8,
+          pages    = "R86",
+          month    =  "25~" # aug,
+          year     =  2010
+        }
+        </citation>
+    </xml>
+    <xml name="strelka_citation">
+        <citation type="bibtex">
+        @ARTICLE{Saunders2012-nh,
+          title    = "Strelka: accurate somatic small-variant calling from sequenced
+                      tumor-normal sample pairs",
+          author   = "Saunders, Christopher T and Wong, Wendy S W and Swamy, Sajani and
+                      Becq, Jennifer and Murray, Lisa J and Cheetham, R Keira",
+          journal  = "Bioinformatics",
+          volume   =  28,
+          number   =  14,
+          pages    = "1811--1817",
+          month    =  "15~" # jul,
+          year     =  2012
+        }
+        </citation>
+    </xml>
+    <xml name="radia_citation">
+        <citation type="bibtex">
+            @article{
+            Radenbaugh2014-tj,
+            title={RADIA: RNA and DNA integrated analysis for somatic
+            mutation detection},
+            author={Radenbaugh, Amie J and Ma, Singer and Ewing, Adam and Stuart,
+            Joshua M and Collisson, Eric A and Zhu, Jingchun and Haussler,
+            David},
+            journal={PLoS One},
+            volume={9},
+            number={11},
+            pages={e111516},
+            year={2014},
+            publisher={PLoS}
+            }
+        </citation>
+    </xml>
+</macros>

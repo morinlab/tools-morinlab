@@ -53,7 +53,7 @@
     #if $interval:
       tmp_\$i.txt
     #else:
-      $variants
+      tmp_variants
     #end if
     ;
 
@@ -64,16 +64,20 @@
       for i in \$(cut -f1 $interval); do
       
       if [ \$i == \$(cut -f1 $interval | head -n1) ] ; then
-        cat tmp_\$i.txt > $variants;
+        cat tmp_\$i.txt > tmp_variants;
       else
-        grep -v ^#.* tmp_\$i.txt >> $variants;
+        grep -v ^#.* tmp_\$i.txt >> tmp_variants;
       fi ;
 
       done;  
 
     #end if
 
-
+    #if $postprocess == "1":
+      \$SOMATIC_SNIPER_ROOT_DIR/bin/snpfilter.pl --snp-file tmp_variants --out-file $variants
+    #else:
+      mv tmp_variants $variants
+    #end if
 
     ]]></command>
 	<inputs>
@@ -93,9 +97,10 @@
 		</conditional>
 		<param format="bam" name="normal" type="data" label="Normal Alignment File" />
 		<param format="bam" name="tumor" type="data" label="Tumour Alignment File" />
-                <param type="data" format="txt" optional="true" name="interval" label="Specify Inteval"/>
+                <param type="data" format="txt" optional="true" name="interval" label="Specify Interval"/>
+		<param name="postprocess" type="boolean" checked="true" label="Post-process variants" truevalue="1" falsevalue="0" />
 		<section name="advancedsettings" title="Advanced Settings" expanded="False" >
-			<param name="q" type="integer" value="0" label="Minimum read mapping quality"/>
+			<param name="q" type="integer" value="1" label="Minimum read mapping quality"/>
 			<param name="Q" type="integer" value="15" label="Minimum somatic variant quality score"/>
 			<param name="T" type="float" value="0.850000" label="theta in maq consensus calling model (for -c/-g) [0.850000]"/>
 			<param name="N" type="integer" value="2" label="Ploidy (number of haplotypes)"/>
