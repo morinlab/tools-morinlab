@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<tool_dependency>
+
+	<package name="pyclone_dependencies" version="1.0">
+		<!-- <repository name="package_pyclone_dependencies_1_0" owner="morinlab" prior_installation_required="True"/> -->
+		<install version="1.0">
+
+			<actions_group>
+				<actions os="linux" architecture="x86_64">
+					<action type="download_by_url" md5sum="b2af3b9ff39c4a4a812f50cecbafcda6" target_filename="Miniconda2-4.1.11-Linux-x86_64.sh">
+							https://repo.continuum.io/miniconda/Miniconda2-4.1.11-Linux-x86_64.sh
+					</action>
+
+					<action type="shell_command">
+						bash Miniconda2-4.1.11-Linux-x86_64.sh -b -f -p $INSTALL_DIR
+					</action>
+				</actions>
+
+				<actions os="darwin" architecture="x86_64">
+					<action type="download_by_url" md5sum="b2af3b9ff39c4a4a812f50cecbafcda6" target_filename="Miniconda2-4.1.11-MacOSX-x86_64.sh">
+						https://repo.continuum.io/miniconda/Miniconda2-4.1.11-MacOSX-x86_64.sh
+					</action>
+
+					<action type="shell_command">
+						bash Miniconda2-4.1.11-MacOSX-x86_64.sh -b -f -p $INSTALL_DIR
+					</action>
+				</actions>
+
+				<action type="shell_command">
+					$INSTALL_DIR/bin/conda install --quiet --yes numpy scipy pyyaml matplotlib seaborn pandas
+				</action>
+
+				<action type="shell_command">
+					$INSTALL_DIR/bin/conda install pydp -c aroth85
+				</action>
+
+				<action type="set_environment">
+                        <environment_variable action="prepend_to" name="PYTHONPATH">$INSTALL_DIR</environment_variable>
+                        <environment_variable action="prepend_to" name="PATH">$INSTALL_DIR/bin</environment_variable>
+                        <environment_variable action="set_to" name="ANACONDA_ROOT_DIR">$INSTALL_DIR</environment_variable>
+                </action>
+
+           </actions_group>
+
+		</install>
+
+	</package>
+
+	<package name="pyclone" version="0.13.0.01762d9">
+		<install version="1.0">
+
+			<actions>
+				
+				<action type="download_by_url" target_filename="01762d9.tar.gz">https://bitbucket.org/aroth85/pyclone/get/01762d9.tar.gz</action>
+                <action type="make_directory">$INSTALL_DIR/lib/python</action>
+                <action type="shell_command">chmod -R 777 .</action>
+                <action type="shell_command">
+                        python setup.py install --install-lib $INSTALL_DIR/lib/python --install-scripts $INSTALL_DIR/bin
+                </action>
+                
+                <action type="set_environment">
+                		<environment_variable action="prepend_to" name="PYTHONPATH">$INSTALL_DIR/lib/python</environment_variable>
+                        <environment_variable action="prepend_to" name="PATH">$INSTALL_DIR/bin</environment_variable>
+                </action>
+
+			</actions>
+
+		</install>
+	</package>
+
+</tool_dependency>

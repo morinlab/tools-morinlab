@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<tool_dependency>
+  <package name="comet" version="1.0.2">
+    <repository name="package_comet_1_0_2" owner="morinlab" />
+  </package>
+  <package name="anaconda2" version="4.0.0">
+    <repository name="package_anaconda2_4_0_0" owner="morinlab" changeset_revision="67def16bd486"/>
+  </package>
+</tool_dependency>

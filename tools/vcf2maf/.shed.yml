@@ -1,0 +1,7 @@
+categories:
+- Variant Analysis
+description: convert vcf files to maf files while undergoing variant annotation using ensembl
+name: vcf2maf
+owner: morinlab
+remote_repository_url: https://github.com/morinlab/tools-morinlab/tree/master/tools/vcf2maf
+type: unrestricted

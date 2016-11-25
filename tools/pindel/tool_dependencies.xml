@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<tool_dependency>
+  <package name="htslib" version="1.3.2">
+    <repository name="package_htslib_1_3_2" owner="morinlab"/>
+  </package>
+  <package name="pindel" version="0.2.5b8">
+    <repository name="package_pindel_0_2_5b8" owner="morinlab"/>
+  </package>
+</tool_dependency>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<tool_dependency>
+  <package name="mcr" version="8.1">
+    <repository name="package_matlab_compiler_runtime_8_1" owner="morinlab"/>
+  </package>
+  <package name="mutsigcv" version="1.4">
+    <repository name="package_mutsigcv_1_4" owner="morinlab"/>
+  </package>
+</tool_dependency>

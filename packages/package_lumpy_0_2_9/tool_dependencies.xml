@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<tool_dependency>
+	<package name="numpy" version="1.9">
+		<repository name="package_numpy_1_9" owner="iuc"/>
+	</package>
+	<package name="samtools" version="0.1.19">
+		<repository name="package_samtools_0_1_19" owner="devteam"/>
+	</package>
+	<package name="lumpy" version="0.2.9">
+		<install version="1.0">
+			<actions>
+				<action type="download_by_url">https://github.com/arq5x/lumpy-sv/archive/0.2.9.tar.gz</action>
+				<action type="shell_command">make</action>
+				<action type="move_directory_files">
+					<source_directory>./bin</source_directory>
+					<destination_directory>$INSTALL_DIR/bin</destination_directory>
+				</action>
+				<action type="move_directory_files">
+					<source_directory>./scripts</source_directory>
+					<destination_directory>$INSTALL_DIR/scripts</destination_directory>
+				</action>
+				<action type="set_environment">
+					<environment_variable action="prepend_to" name="PATH">$INSTALL_DIR/bin</environment_variable>
+					<environment_variable action="set_to" name="LUMPY_SCRIPTS">$INSTALL_DIR/scripts</environment_variable>
+				</action>
+			</actions>
+		</install>
+	</package>
+</tool_dependency>

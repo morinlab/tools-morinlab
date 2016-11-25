@@ -1,0 +1,42 @@
+<macros>
+    <xml name="morinlab_citation">
+        <citation type="bibtex">
+            @unpublished{
+            albuquerque2015galaxy,
+            author = {Marco Albuquerque and Bruno Grande and Elie Ritch and Jasleen Grewal and Paul Boutros and Sohrab Shah and Ryan Morin},
+            title = {A Galaxy Toolbox for Analysis of Cancer Genomes},
+            note = {Unpublished Manuscript},
+            year = {2016}
+            }
+        </citation>
+    </xml>
+    <xml name="galaxy_citation">
+        <citation>
+            @article{
+            goecks2010galaxy,
+            title={Galaxy: a comprehensive approach for supporting accessible, reproducible, and transparent computational research in the life sciences},
+            author={Goecks, Jeremy and Nekrutenko, Anton and Taylor, James and others},
+            journal={Genome Biol},
+            volume={11},
+            number={8},
+            pages={R86},
+            year={2010}
+            }
+        </citation>
+    </xml>
+    <xml name="expands_citation">
+        <citation type="bibtex">
+            @article{
+            andor2014expands,
+            title={EXPANDS: expanding ploidy and allele frequency on nested subpopulations.s},
+            author={Andor, Noemi and Harness, Julie V and Müller, Sabine and Mewes, Hans W and Petritsch, Claudia},
+            journal={Bioinformatics},
+            volume={30},
+            number={1},
+            pages={50-60},
+            year={2014},
+            publisher={Oxford Univ Press}
+            }
+        </citation>
+    </xml>
+</macros>

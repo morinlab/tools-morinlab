@@ -1,0 +1,68 @@
+
+<tool id="vcf2maf" name="vcf2maf" version="1.0.0">
+    <description>Converts VCF files into MAF format</description>
+
+    <command>
+        echo \$VCF2MAF_SCRIPT_PATH;
+        echo \$ENSEMBL_VEP_84_INSTALL_DIR;
+        ln -s $input_vcf ./input.vcf;
+        perl \$VCF2MAF_SCRIPT_PATH/vcf2maf.pl    
+            --input-vcf ./input.vcf
+            --output-maf $output_maf
+
+            #if $sampleid_source.sampleid_selector == "bamfile":
+                --tumor-id `basename $sampleid_source.sampleid_tumour | sed 's/.bam$//g'`
+                --normal-id `basename $sampleid_source.sampleid_normal | sed 's/.bam$//g'`
+            #else:
+                --tumor-id $sampleid_source.tumour_id
+                --normal-id $sampleid_source.normal_id
+            #end if
+            
+            --vep-path \$ENSEMBL_VEP_84_INSTALL_DIR
+            --vep-data \${ENSEMBL_VEP_84_INSTALL_DIR}/cache
+            --ref-fasta \${ENSEMBL_VEP_84_INSTALL_DIR}/cache/`echo $species_select.value | sed 's/-/\t/g' | cut -f1`/84_`echo $species_select.value | sed 's/-/\t/g' | cut -f2`/*.fa
+            --species `echo $species_select.value | sed 's/-/\t/g' | cut -f1`
+            --ncbi-build `echo $species_select.value | sed 's/-/\t/g' | cut -f2`;
+    </command>
+
+    <inputs>
+        <conditional name="sampleid_source">
+            <param label="Choose the source to open the Sample Id" name="sampleid_selector" type="select">
+                <option value="bamfile">Bam File Name</option>
+                <option value="manual">Manual</option>
+            </param>
+            <when value="bamfile">
+                <param type="data" format="bam" name="sampleid_normal" label="Normal Bam"/>
+                <param type="data" format="bam" name="sampleid_tumour" label="Tumour Bam"/>
+            </when>
+            <when value="manual">
+                <param name="tumour_id" type="text" label="Tumour ID (Name)"/>
+                <param name="normal_id" type="text" label="Normal ID (Name)"/>
+            </when>
+        </conditional>
+        <expand macro="genome_list"/> 
+        <param name="input_vcf" type="data" format="vcf" label="Input VCF File" />
+    </inputs>
+
+    <outputs>
+        <data name="output_maf" format="maf" label="#echo os.path.splitext( str( $input_vcf.name ) )[ 0 ] #.${tool.name}.maf" />
+    </outputs>
+
+    <stdio>
+        <exit_code range="1:" level="fatal" description="Failure" />
+    </stdio>
+
+    <requirements>
+        <requirement type="package" version="84">ensembl_vep</requirement>
+        <requirement type="package" version="1.6.7">vcf2maf</requirement>
+        <requirement type="paclage" version="84">ensembl_vep_perl_environment</requirement>
+    </requirements>
+
+    <macros>
+      <import>ensembl_vep_macros.xml</import>
+    </macros>
+
+    <help>
+
+    </help>
+</tool>
