@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<tool_dependency>
+  <package name="morinlab_scripts" version="14.2">
+    <repository name="package_morinlab_scripts_14_2" owner="morinlab" />
+  </package>
+</tool_dependency>

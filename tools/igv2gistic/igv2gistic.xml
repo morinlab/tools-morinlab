@@ -1,0 +1,53 @@
+<tool id="igv2gistic" name="IGV2Gistic" version="1.0">
+  <description>
+    Converts an IGV formatted segment file into an GISTIC2.0 compatible segment file. Requires exon BED file. Also produces an accompanying marker file in order to run GISTIC2.0.
+  </description>
+  <requirements>
+    <requirement type="package" version="14.2">morinlab_scripts</requirement>
+    <requirement type="set_environment">MORINLAB_SCRIPTS</requirement>
+  </requirements>
+  <command>
+    python \$MORINLAB_SCRIPTS/generate_gistic_inputs/generate_gistic_files_v4.0.py -o $out_seg -m $markers -c $igv_seg -b $bed_file
+  </command>
+  <inputs>
+    <param type="data" format="tabular" name="igv_seg" label="IGV segment file" help="IGV formatted segment file." />
+    <param type="data" format="tabular" name="bed_file" label="BED file" help="BED file for creating markers file." /> 
+  </inputs>
+  <outputs>
+    <data format="tabular" name="out_seg" />
+    <data format="tabular" name="markers" />
+  </outputs>
+  <tests>
+    <test>
+      <param name="igv_seg" value="MCL.all.opt_clones.no_header.titan.igv.segments.txt" />
+      <param name="bed_file" value="agilent_sureselect_all_exons_v5_and_utr.sort.merge.bed" />
+      <output name="out_seg" ftype="tabular" file="gistic.seg" lines_diff="2" />
+      <output name="markers" ftype="tabular" file="markers.txt" lines_diff="2" />
+    </test>
+  </tests>
+  <help>
+
+IGV2Gistic converts an IGV-formatted segment file into a GISTIC2.0 compatible segment file. This script is intended for segment files produced by Copy Number Variation (CNV) callers. This script effectively allows for running GISTIC2.0 on copy number segments derived from sequencing data (as opposed to array derived copy number segments).
+
+Additionally, this script requires a BED file containing coordinates of exons. 
+
+Both the IGV-formatted segment file and the BED file must have the "chr" prefix for any chromosomes. Both files must not have a header line.
+
+IGV-formatted segment file is a tabular file with the following columns: 
+  (1) Sample
+  (2) Chromsome (chr prefix required)
+  (3) Start position
+  (4) End position
+  (5) Copy number 
+
+Minimum exon BED file should contain the following columns:
+  (1) Chromosome
+  (2) Start position
+  (3) End position
+
+  </help>
+  <citations>
+    <expand macro="morinlab_citation" />
+    <expand macro="galaxy_citation" />
+  </citations>
+</tool>
