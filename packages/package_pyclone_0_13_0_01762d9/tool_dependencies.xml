@@ -1,0 +1,140 @@
+<?xml version="1.0"?>
+<tool_dependency>
+
+	<!-- IUC-owned PyClone's Python dependencies -->
+	<set_environment>
+		<environment_variable action="set_to" name="PYCLONE_SCRIPT_PATH">$REPOSITORY_INSTALL_DIR</environment_variable>
+	</set_environment>
+
+	<package name="numpy" version="1.7.1">
+		<repository name="package_numpy_1_7" owner="iuc" prior_installation_required="True"/>
+	</package>
+
+	<package name="pandas" version="0.14.1">
+		<repository name="package_pandas_0_14" owner="iuc" prior_installation_required="True"/>
+	</package>
+
+	<package name="matplotlib" version="1.2.1">
+		<repository name="package_matplotlib_1_2" owner="iuc" prior_installation_required="True"/>
+	</package>
+
+	<package name="scipy" version="0.12.0">
+		<repository name="package_scipy_0_12" owner="iuc" prior_installation_required="True"/>
+	</package>
+
+	<package name="pyyaml" version="3.11">
+		<repository name="package_python_2_7_pyyaml_3_11" owner="iuc" prior_installation_required="True"/>
+	</package>
+
+	<!-- Morinlab-owned PyClone's Python dependencies -->
+	<package name="seaborn" version="0.7.1">
+		<repository name="package_seaborn_0_7_1" owner="morinlab" prior_installation_required="True"/>
+	</package>
+
+	<package name="pydp" version="0.2.3">
+		<repository name="package_pydp_0_2_3" owner="morinlab" prior_installation_required="True"/>
+	</package>
+
+	<package name="morinlab_scripts" version="14.2">
+		<repository name="package_morinlab_scripts_14_2" owner="morinlab" prior_installation_required="True"/>
+	</package>
+
+	<package name="expands" version="1.7.2">
+		<repository name="package_expands_1_7_2" owner="morinlab" prior_installation_required="True"/>
+	</package>
+
+	<!-- Install PyClone -->
+	<package name="pyclone" version="0.13.0.01762d9">
+		<install version="1.0">
+
+			<actions>
+				<action type="download_by_url">https://bitbucket.org/aroth85/pyclone/get/01762d9.tar.gz</action>
+				<action type="shell_command">chmod 777 -R .</action>
+				<action type="make_directory">$INSTALL_DIR/lib/python</action>
+				<action type="make_directory">$INSTALL_DIR/bin</action>
+				
+				<action type="set_environment_for_install">
+
+					<repository name="package_numpy_1_7" owner="iuc">
+						<package name="numpy" version="1.7.1" />
+					</repository>
+
+					<repository name="package_pandas_0_14" owner="iuc">
+						<package name="pandas" version="0.14.1" />
+					</repository>
+
+					<repository name="package_matplotlib_1_2" owner="iuc">
+						<package name="matplotlib" version="1.2.1" />
+					</repository>
+
+					<repository name="package_scipy_0_12" owner="iuc">
+						<package name="scipy" version="0.12.0" />
+					</repository>
+
+					<repository name="package_python_2_7_pyyaml_3_11" owner="iuc">
+						<package name="pyyaml" version="3.11" />
+					</repository>
+
+					<repository name="package_pydp_0_2_3" owner="morinlab">
+						<package name="pydp" version="0.2.3" />
+					</repository>
+
+					<repository name="package_seaborn_0_7_1" owner="morinlab">
+						<package name="seaborn" version="0.7.1" />
+					</repository>
+					
+				</action>
+
+				<action type="shell_command">
+					export PYTHONPATH=$PYTHONPATH:$INSTALL_DIR/lib/python &amp;&amp;
+					python setup.py install --install-lib $INSTALL_DIR/lib/python --install-scripts $INSTALL_DIR/bin
+				</action>
+
+				<action type="set_environment">
+				    <environment_variable action="prepend_to" name="PYTHONPATH">$INSTALL_DIR/lib/python</environment_variable>
+					<environment_variable action="prepend_to" name="PATH">$INSTALL_DIR/bin</environment_variable>
+					<environment_variable action="set_to" name="PYCLONE_DIR">$INSTALL_DIR</environment_variable>
+				</action>
+
+				<action type="setup_r_environment">
+					<repository name="package_r_3_1_2" owner="iuc">	
+						<package name="R" version="3.1.2" />	
+					</repository>
+					<package>https://cran.r-project.org/src/contrib/gtable_0.2.0.tar.gz</package>
+					<package>https://cran.r-project.org/src/contrib/Archive/Rcpp/Rcpp_0.12.5.tar.gz</package>
+					<package>https://cran.r-project.org/src/contrib/assertthat_0.1.tar.gz</package>
+					<package>https://cran.r-project.org/src/contrib/Archive/R6/R6_2.1.1.tar.gz</package>
+					<package>https://cran.r-project.org/src/contrib/Archive/DBI/DBI_0.4-1.tar.gz</package>
+					<package>https://cran.r-project.org/src/contrib/magrittr_1.5.tar.gz</package>
+					<package>https://cran.r-project.org/src/contrib/RColorBrewer_1.1-2.tar.gz</package>
+					<package>https://cran.r-project.org/src/contrib/dichromat_2.0-0.tar.gz</package>
+					<package>https://cran.r-project.org/src/contrib/colorspace_1.2-6.tar.gz</package>
+					<package>https://cran.r-project.org/src/contrib/Archive/munsell/munsell_0.4.tar.gz</package>
+					<package>https://cran.r-project.org/src/contrib/labeling_0.3.tar.gz</package>
+					<package>https://cran.r-project.org/src/contrib/Archive/plyr/plyr_1.8.3.tar.gz</package>
+					<package>https://cran.r-project.org/src/contrib/Archive/scales/scales_0.3.0.tar.gz</package>
+					<package>https://cran.r-project.org/src/contrib/Archive/stringi/stringi_1.0-1.tar.gz</package>
+					<package>https://cran.r-project.org/src/contrib/Archive/stringr/stringr_0.6.2.tar.gz</package>
+					<package>https://cran.r-project.org/src/contrib/Archive/reshape2/reshape2_1.4.tar.gz</package>
+					<package>https://cran.r-project.org/src/contrib/lazyeval_0.2.0.tar.gz</package>
+					<package>https://cran.r-project.org/src/contrib/tibble_1.1.tar.gz</package>
+					<package>https://cran.r-project.org/src/contrib/Archive/BH/BH_1.60.0-1.tar.gz</package>
+					<package>https://cran.r-project.org/src/contrib/Archive/hms/hms_0.1.tar.gz</package>
+					<package>https://cran.r-project.org/src/contrib/Archive/curl/curl_1.0.tar.gz</package>
+					<package>https://cran.r-project.org/src/contrib/Archive/readr/readr_0.2.2.tar.gz</package>
+					<package>https://cran.r-project.org/src/contrib/Archive/digest/digest_0.6.9.tar.gz</package>
+					<package>https://cran.r-project.org/src/contrib/ggplot2_2.1.0.tar.gz</package>
+					<package>https://cran.r-project.org/src/contrib/ggrepel_0.5.tar.gz</package>
+					<package>https://cran.r-project.org/src/contrib/dplyr_0.5.0.tar.gz</package>
+					<package>https://cran.r-project.org/src/contrib/Archive/tidyr/tidyr_0.5.0.tar.gz</package>
+				</action>
+
+			 </actions>
+		 </install>
+
+	 <readme>
+		PyClone is a statistical model and software tool designed to infer the prevalence of point mutations in heterogeneous cancer samples.
+	</readme>
+	</package>
+
+</tool_dependency>
