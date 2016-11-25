@@ -1,7 +1,0 @@
-categories:
-- Variant Analysis
-description: Oncocircos - creates a genome-centric visualization of SNV and CNV Data 
-name: oncocircos
-owner: morinlab
-remote_repository_url: https://github.com/morinlab/tools-morinlab/tree/master/tools/oncocircos
-type: unrestricted

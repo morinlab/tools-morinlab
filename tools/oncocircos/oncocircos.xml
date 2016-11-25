@@ -17,32 +17,47 @@
   mkdir circos/data;
   mkdir circos/etc;
 
+  touch data/cnv.large.scale.txt;
+  cat $sig_regions >> data/cnv.large.scale.txt;
+  touch data/genes_to_label.txt;
+  #if $advancedOptions.gene_label_input_type.gene_label_input_type_selector.value == "other":
+    echo $advancedOptions.gene_label_input_type.gene > data/genes_to_label.txt;
+  #else:
+    cat $advancedOptions.gene_label_input_type.gene_file > data/genes_to_label.txt;
+  #end if
+
+  touch data/genes_to_hide.txt;
+  #if $advancedOptions.gene_mask_input_type.gene_mask_input_type_selector.value == "other":
+      echo $advancedOptions.gene_mask_input_type.gene > data/genes_to_hide.txt;
+  #else:
+      cat $advancedOptions.gene_mask_input_type.gene_file > data/genes_to_hide.txt;
+  #end if
+      
   cp $__tool_directory__/etc/* circos/etc/;
 
   mkdir etc;
   
   ln -s $input_maf data/snv.txt;
   ln -s $input_seg data/cnv.txt;  
+  ln -s $biomart data/biomart.txt;
   cat $__tool_directory__/parse.conf
 
   #if $advancedOptions.filter_snvs != 1:
     | sed 's/^SNV_FILTER$/sv = yes/g'
     | sed 's/^SNV_FILTER_NUM$/sv_num = $advancedOptions.filter_snvs/g'
   #else:
-    | sed 's/^SNV_FILTER$/sv = no/g'
-    | sed 's/^SNV_FILTER_NUM$//g'
+    | sed 's/^SNV_FILTER$/sv = yes/g'
+    | sed 's/^SNV_FILTER_NUM$/sv_num = $advancedOptions.filter_snvs/g'
   #end if
-
+  
   #if $advancedOptions.chromosome != "":
     | sed 's/^CHR$/chr = $advancedOptions.chromosome/g'
   #else:
     | sed 's/^CHR$//g'
   #end if
+  
 
-  | sed "s#^ROOT#root = \$(pwd)#g"
-  | sed 's#^CNV$#cnv = data/cnv.txt#g'
-  | sed 's#^SNV$#sv = data/snv.txt#g'
-  | sed 's#^MART#mart = $biomart#g'
+  | sed "s#^ROOT#root = \$(pwd)#g"  
   | sed 's#^CIRCOS#circos = circos/data#g'
 
   > ./etc/parse.conf;
@@ -60,13 +75,38 @@
   <inputs>
     <param type="data" format="maf" name="input_maf" label="Cohort Wide MAF File"/>
     <param type="data" format="segs" name="input_seg" label="Cohort Wide SEGS File"/>
-    <param type="data" format="" name="biomart" label="Biomart File"/>
+    <param type="data" format="" name="biomart" label="Biomart File listing all genes (format: ENSG, chrom, start, end, Symbol"/>
+    <param type="data" format="bed" name="sig_regions" label="Regions of recurrent copy number gain/loss in bed format. 4th column must indicate the event type (e.g gain, hetd)" optional="true"/>
     <section name="advancedOptions">
       <param type="integer" name="filter_snvs" 
              min="1" value="1" max="100" 
              label="Filter genes with a cohort wide snv tally below this value"/>
       <param type="text" name="chromosome" value="" 
-            label="Restrict plot to the following chromosome"/>
+             label="Restrict plot to the following chromosome"/>
+      <conditional name="gene_label_input_type">
+	<param name="gene_label_input_type_selector" type="select" label="How will you supply genes of interest to label in the plot?">
+	  <option value="file" selected="True">Gene File</option>
+	  <option value="other">Other</option>
+	</param>
+	<when value="file">
+	  <param name="gene_file" type="data" format="txt" label="Gene File"  help="list of genes separated by newlines" />
+	</when>
+	<when value="other">
+	  <param name="gene" type="text" value="TP53" label="Gene" help="type the single gene" />
+	</when>
+      </conditional>
+      <conditional name="gene_mask_input_type">
+	<param name="gene_mask_input_type_selector" type="select" label="How will you supply blacklist genes to hide from plot?">
+	  <option value="file" selected="True">Gene Blacklist File</option>
+	  <option value="other">Other</option>
+	</param>
+	<when value="file">
+	  <param name="gene_file" type="data" format="txt" label="Gene File"  help="list of genes separated by newlines" />
+	</when>
+	<when value="other">
+	  <param name="gene" type="text" value="TP53" label="Gene" help="type the single gene" />
+	</when>
+      </conditional>
     </section>
   </inputs>
   <outputs>

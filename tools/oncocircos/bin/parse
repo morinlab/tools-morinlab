@@ -65,11 +65,23 @@ parse_config();
 sub validateconfiguration {
 }
 
+#map2interval(5,$CONF{cnv}{log2});
+#exit;
+
 ################################################################
 # get files
 my $sv    = read_file($CONF{files}{sv}  ,"sv"   );
 my $genes = read_file($CONF{files}{mart},"genes");
 my $cnv   = read_file($CONF{files}{cnv} ,"cnv"  );
+my $cnvlg = read_file($CONF{files}{cnvlg},"cnvlg");
+my %affected_genes;
+open(GENES, $CONF{files}{genes}) or die "#! $CONF{files}{genes}\n";
+while(<GENES>){
+    chomp;
+    $affected_genes{$_}++;
+}
+
+
 
 ################################################################
 # traverse all genes from biomart and determine number
@@ -78,13 +90,21 @@ for my $chr (keys %$genes) {
 	next if $CONF{filter}{chr} && $chr ne $CONF{filter}{chr};
 	printdebug("processing",$chr);
 	for my $gene (@{$genes->{$chr}}) {
-		my $id = $gene->{id};
+	        my $id = $gene->{id};
+		my $name = $gene->{name};
+		#print "GENE: $name, ID: $id\n";
 		# filter out by presence and number of SV events
-		next if $CONF{filter}{sv} && ! $sv->{$id};
+		
 		# number of samples that have SV event
 		my @samples_sv  = keys %{$sv->{$id}};
-		next if $CONF{filter}{sv_num} && @samples_sv < $CONF{filter}{sv_num};
-
+		if(defined $affected_genes{$name}){
+		    #override normal criteria for this gene
+		    
+		}
+		else{
+		    next if $CONF{filter}{sv} && ! $sv->{$id};
+		    next if $CONF{filter}{sv_num} && @samples_sv < $CONF{filter}{sv_num};
+		}
 		$gene->{affected} = 1;
 
 		# register SV events
@@ -120,6 +140,15 @@ for my $chr (keys %$genes) {
 				my $int = $cnv->{set}->intersect($gene->{set})->cardinality;
 				next unless $int;
 				push @{$gene->{cnv}{$cnv->{category}}{$sample}}, $cnv->{avg};
+			}
+		}
+		for my $sample (keys %$cnvlg) {
+			my $chr = $gene->{chr};
+			next unless $cnvlg->{$chr};
+			for my $cnv (@{$cnvlg->{$chr}}) {
+				my $int = $cnv->{set}->intersect($gene->{set})->cardinality;
+				next unless $int;
+				$gene->{cnvlg}{$cnv->{idx}} = $cnv->{type};
 			}
 		}
 	}
@@ -175,36 +204,81 @@ for my $chr (1..22,"X","Y") {
 														median(@{$values_by_type->{$top_type}})->query,
 														scalar(max(@{$values_by_type->{$top_type}})));
 		}
+		if($gene->{cnvlg}) {
+			for my $cnv_idx (sort {$a <=> $b} keys %{$gene->{cnvlg}}) {
+				push @report, sprintf("cnvlg:%d:%s",
+															$cnv_idx,
+															$gene->{cnvlg}{$cnv_idx});
+			}
+		}
 		printinfo(@report);
 	}
 }
 
 exit;
 
+################################################################
+
+sub map2value {
+	my ($field_name,$x) = @_;
+	if($CONF{map}{$field_name}) {
+		my ($var,$fn) = split(":",$CONF{map}{$field_name});
+		$fn =~ s/x/$x/g;
+		my $value = eval $fn;
+		die "Could not evaluate remapping [$fn]" if $@;
+		return ($var,$value);
+	} else {
+		return ($field_name,$x);
+	}
+}
+
+sub str2leaf {
+	my $str   = shift;
+	my $delim = "}{";
+	$str =~ s/\//$delim/g;
+	$str = sprintf("\$CONF{$str}");
+	my $leaf = eval $str;
+	if($@) {
+		die "Could not parse [$str] as a data structure.";
+	}
+	return $leaf;
+}
+
 sub read_file {
 	my ($file,$type) = @_;
+	
 	open(F,$file) || die "Could not open file [$file] for reading";
 	my $data;
 
 	my @fields  = grep(/\d/,keys %{$CONF{fields}{$type}});
 	my @keys    = split(",",$CONF{fields}{$type}{key});
 
-	my $i;
+	my $i = 0;
 	while(<F>) {
 		chomp;
 		next if /^\#/;
 		my @tok = split "\t";
-		my $entry = {class=>$type};
+		my $entry = {class=>$type,idx=>$i};
 		for my $col (@fields) {
 			my ($field_name,$field_transform) = split(":",$CONF{fields}{$type}{$col});
-			my $value = $tok[$col];
+			my ($new_field_name,$value) = map2value($field_name,$tok[$col]);
+			if($new_field_name ne $field_name) {
+				$entry->{$field_name} = $tok[$col];
+				$field_name = $new_field_name;
+			}
 			if($field_transform) {
-				$value = lc $value if $field_transform =~ /lc/;
+				if($field_transform eq "lc") {
+					$value = lc $value;
+				} elsif ($field_transform =~ /map\((.+),(.+)\)/) {
+					$entry->{$field_name} = $value;
+					$field_name   = $1;
+					$value        = map2interval($value,str2leaf($2));
+				}
 			}
 			$entry->{ $field_name } = $value;
 		}
 		# skip mutation types that are not important
-		next if $CONF{sv}{filter} && $type eq "sv" && exists $entry->{type} && ! $CONF{sv}{types}{$entry->{type}};
+		next if $CONF{sv}{filter}  && $type eq "sv"  && exists $entry->{type} && ! $CONF{sv}{types}{$entry->{type}};
 		next if $CONF{cnv}{filter} && $type eq "cnv" && exists $entry->{category} && ! $CONF{cnv}{types}{$entry->{category}};
 		if($type eq "sv") {
 			$entry->{weight} = $CONF{sv}{types}{$entry->{type}};
@@ -224,6 +298,38 @@ sub read_file {
 	}
 	printdebug("got",$i,$type);
 	return $data;
+}
+
+sub map2interval {
+	my ($x,$conf) = @_;
+	for my $int (keys %$conf) {
+		my $cat = $conf->{$int};
+		return $cat if in_interval($x,$int);
+	}
+	printdumper($conf);
+	die "Could not map $x into any of the intervals seen";
+}
+
+sub in_interval {
+	my ($x,$int) = @_;
+	my $open_L   = "\\(";
+	my $closed_L = "\\[";
+	my $open_R   = "\\)";
+	my $closed_R = "\\]";
+	my $num      = "[0-9]*"; #[0-9]+(?:.[0-9]+)?";
+	my $rx       = "($open_L|$closed_L)($num),($num)($open_R|$closed_R)";
+	my $bool     = 1;
+	if($int =~ /$rx/) {
+		if($2 ne "") {
+			$bool &&= $1 eq "(" ? $x > $2 : $x >= $2;
+		}
+		if($3 ne "") {
+			$bool &&= $4 eq ")" ? $x < $3 : $x <= $3;
+		}
+	} else {
+		$bool = $x == $int;
+	}
+	return $bool;
 }
 
 sub list2hash {

@@ -58,6 +58,23 @@ use Set::IntSpan;
 # read and parse configuration file
 parse_config();
 
+
+
+my %affected_genes;
+open(GENES, $CONF{files}{genes}) or die "#! $CONF{files}{genes}\n";
+while(<GENES>){
+    chomp;
+    $affected_genes{$_}++;
+}
+close GENES;
+my %mask_genes;
+open(GENES, $CONF{files}{mask}) or die "#! $CONF{files}{mask}\n";
+while(<GENES>){
+    chomp;
+    $mask_genes{$_}++;
+}
+close GENES;
+
 sub validateconfiguration {
 
 }
@@ -76,11 +93,46 @@ for my $chr (1..22,"X","Y") {
 }
 close(F);
 
-# number of CNV
-open(F,">$path/mutations.txt");
-open(FSV,">$path/mutations.stacked.sv.txt");
-open(FCNV,">$path/mutations.stacked.cnv.txt");
+# large scale CNV
+open(FCNVLG,">$path/cnv.tiles.txt");
+# collect CNV region idx
+my $cnvlg;
 for my $gene (@$table) {
+	next unless $gene->{cnvlg};
+	for my $idx (keys %{$gene->{cnvlg}}) {
+		$cnvlg->{$idx} ||= { chr  => $gene->{chr},
+												 type => $gene->{cnvlg}{$idx}{type} };
+		push @{$cnvlg->{$idx}{pos}}, $gene->{pos};
+	}
+}
+my $cnvlg_seen;
+for my $idx (sort {$a <=> $b} keys %{$cnvlg}) {
+	my $cnv = $cnvlg->{$idx};
+	my $key = join(",",
+								 scalar(min @{$cnv->{pos}}),
+								 scalar(max @{$cnv->{pos}}),
+								 $cnv->{type});
+	next if $cnvlg_seen->{$key}++;
+	my $start = scalar(min @{$cnv->{pos}});
+	my $end   = 1 + scalar(max @{$cnv->{pos}});
+	printf FCNVLG ("hs%s %d %d %s idx=%d\n",
+								 $cnv->{chr},
+								 $start,
+								 $end,
+								 $cnv->{type},
+								 $idx);
+}
+close(FCNVLG);
+
+# number of CNV
+open(F,     ">$path/mutations.txt");
+open(FSV,   ">$path/mutations.stacked.sv.txt");
+open(FCNV,  ">$path/mutations.stacked.cnv.txt");
+for my $gene (@$table) {
+    my $name = $gene->{name};
+    if(defined $mask_genes{$name}){
+	next;
+    }
 	my @sv;
 	my @sv_vals;
 	my @cnv;
@@ -98,7 +150,19 @@ for my $gene (@$table) {
 	}
 	my $cnv_plus  = ($gene->{cnv}{amp}{n} ||0) + ($gene->{cnv}{gain}{n} ||0);
 	my $cnv_minus = ($gene->{cnv}{homd}{n}||0) + ($gene->{cnv}{hetd}{n} ||0);
-	printf F ("hs%s %d %d %s size=%d,sv_top_type=%s,sv_top_n=%d,sv_tot=%d,svaa_max_pos=%s,svaa_max_n=%d,cnv_top_type=%s,cnv_top_n=%d,cnv_top_avg=%f,cnv_top_med=%f,cnv_plus=%d,cnv_minus=%d,%s,%s\n",
+	my $label_flag = "label_gene=0";
+	
+
+	if(defined $affected_genes{$name}){
+	    $label_flag = "label_gene=1";
+	    print "will label $name\n";
+	}
+	unless(defined $gene->{sv_top}){
+	    $gene->{sv_top} = {"missense_mutation"=>0};
+	    $gene->{sv} = {"missense_mutation"=>0};
+	    $gene->{svaa_top} = {"*"=>0};
+	}
+	printf F ("hs%s %d %d %s size=%d,sv_top_type=%s,sv_top_n=%d,sv_tot=%d,svaa_max_pos=%s,svaa_max_n=%d,cnv_top_type=%s,cnv_top_n=%d,cnv_top_avg=%f,cnv_top_med=%f,cnv_plus=%d,cnv_minus=%d,%s,%s",
 						$gene->{chr},
 						$gene->{pos},
 						$gene->{pos}+1,
@@ -116,7 +180,8 @@ for my $gene (@$table) {
 						$cnv_plus||0,
 						$cnv_minus||0,
 						join(",",@sv),
-						join(",",@cnv));
+		  join(",",@cnv));
+	print F ",$label_flag\n";
 	# stacked histograms of number of samples with each SV type
 	printf FSV ("hs%s %d %d %s name=%s,sv_top_type=%s,sv_top_n=%d\n",
 						$gene->{chr},
@@ -149,12 +214,15 @@ sub read_file {
 	my @data;
 	my $chrpos;
 	while(<$fh>) {
+	    
 		chomp;
 		next if /^\#/;
+		
 		my @tok = split;
 		my $gene = list2hash([qw(i id name chr start end size)],
 												 [splice(@tok,0,7)]);
 		$gene->{pos} = $chrpos->{ $gene->{chr} }++;
+		
 		# remaining tokens
 		for my $tok (@tok) {
 			my @subtok = split(":",$tok);
@@ -162,6 +230,10 @@ sub read_file {
 			my $type   = lc shift @subtok;
 			if($event =~ /sv/) {
 				$gene->{$event}{$type} = shift @subtok;
+			} elsif($event =~ /cnvlg/) {
+				my $h = { idx => $type,
+									type => shift @subtok };
+				$gene->{$event}{$type} = $h;
 			} elsif($event =~ /cnv/) {
 				my $h = { class=> $type,
 									n=>     shift @subtok,
@@ -176,9 +248,10 @@ sub read_file {
 				}
 			}
 		}
-		printdumper($gene);
+		#printdumper($gene);
 		push @data, $gene;
 	}
+	
 	return \@data;
 }
 
