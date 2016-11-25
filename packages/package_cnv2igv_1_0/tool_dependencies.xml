@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+	<tool_dependency>
+		<package name="cnv2igv" version="1.0">
+			<install version="1.0">
+				<actions>
+					<action type="download_by_url">https://github.com/morinlab/lab_scripts/raw/master/cnv2igv/cnv2igv.py</action>
+					<action type="move_directory_files">
+						<source_directory>.</source_directory>
+						<destination_directory>$INSTALL_DIR</destination_directory>
+					</action>
+					<action type="set_environment">
+						<environment_variable name="CNV2IGV_DIR" action="set_to">$INSTALL_DIR</environment_variable>
+					</action>
+				</actions>
+			</install>
+		</package>
+	</tool_dependency>
