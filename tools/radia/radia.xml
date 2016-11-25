@@ -26,7 +26,7 @@
     #if $interval:
       for i in \$(cat $interval); do
     #else:
-      for i in \$(samtools view -H normal.bam | cut -f2 | tail -n+2 | cut -c4- ); do
+      for i in \$(samtools view -H normal.bam | grep SQ | cut -f2 | tail -n+2 | cut -c4- ); do
     #end if
 
     python \$RADIA_INSTALL_DIR/radia_src/scripts/radia.py
@@ -39,17 +39,22 @@
       #else
         -f ${reference_source.ref_file.fields.path}
       #end if
-      -o \$i.output; done ;
-
+      
+      --dnaTumorMinAltBases $filters.minalt
+      --dnaTumorMinTotalBases $filters.mindepthT
+      --dnaNormalMinTotalBases $filters.mindepthN
+      
+      | awk '{if (\$5 != "N") {print}}' > \$i.output; done ;
+      
     grep ^# \$i.output > $output;
 
     #if $interval:
       for i in \$(cat $interval); do
     #else:
-      for i in \$(samtools view -H normal.bam | cut -f2 | tail -n+2 | cut -c4- ); do
+      for i in \$(samtools view -H normal.bam | grep SQ | cut -f2 | tail -n+2 | cut -c4- ); do
     #end if   
 
-    grep -v ^# \$i.output >> $output;
+    grep -v ^# \$i.output | grep SOMATIC >> $output;
 
     done
 
@@ -72,6 +77,11 @@
     <param type="data" format="bam" name="normal" label="Normal Alignment File" />
     <param type="data" format="bam" name="tumour" label="Tumour Alignment File" />
     <param type="data" format="txt" name="interval" optional="true" label="Chromosomes" help="Restrict SNV calls to the following list of chromosomes (one per line)" />
+    <section name="filters" title="Filters" expanded="False">
+      <param name="minalt" type="integer" value="4" label="Minimum number of reads supporting the variant" />
+      <param name="mindepthT" type="integer" value="10" label="Minimum number of reads covering the variant position in the tumor" />
+      <param name="mindepthN" type="integer" value="10" label="Minimum number of reads covering the variant position in the normal" />
+    </section>
   </inputs>
 	<outputs>
 		<data format="vcf" name="output" label="RADIA SNVs" />
