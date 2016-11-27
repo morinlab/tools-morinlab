@@ -74,5 +74,47 @@
         If you use this Galaxy tool in work leading to a scientific publication please cite:
         Gonzalez-Perez A and Lopez-Bigas N. 2012. Functional impact bias reveals cancer drivers. Nucleic Acids Res., 10.1093/nar/gks743.
   </help>
+  <citations>
+    <citation type="bibtex">
+      @ARTICLE{Gonzalez-Perez2012-wq,
+      title    = "Functional impact bias reveals cancer drivers",
+      author   = "Gonzalez-Perez, Abel and Lopez-Bigas, Nuria",
+      journal  = "Nucleic Acids Res.",
+      volume   =  40,
+      number   =  21,
+      pages    = "e169--e169",
+      month    =  "1~" # nov,
+      year     =  2012
+      }
+
+      
+    </citation>
+    <citation type="bibtex">
+      @article {Albuquerque089631,
+      author = {Albuquerque, Marco A and Grande, Bruno M and Ritch, Elie and Jessa, Selin and Krzywinski, Martin I and Grewal, Jasleen and Shah, Sohrab and Boutros, Paul and Morin, Ryan},
+      title = {Enhancing Knowledge Discovery from Cancer Genomics Data with Galaxy},
+      year = {2016},
+      doi = {10.1101/089631},
+      publisher = {Cold Spring Harbor Labs Journals},
+      URL = {http://biorxiv.org/content/early/2016/11/26/089631},
+      eprint = {http://biorxiv.org/content/early/2016/11/26/089631.full.pdf},
+      journal = {bioRxiv}
+      }
+
+    </citation>
+    <citation type="bibtex">
+      @misc{
+      goecks2010galaxy,
+      title={Galaxy: a comprehensive approach for supporting accessible, reproducible, and transparent computational research in the life sciences},
+      author={Goecks, Jeremy and Nekrutenko, Anton and Taylor, James and others},
+      journal={Genome Biol},
+      volume={11},
+      number={8},
+      pages={R86},
+      year={2010}
+      }
+    </citation>
+    
+  </citations>
 </tool>
 

@@ -1,17 +1,25 @@
 <macros>
     <xml name="morinlab_citation">
         <citation type="bibtex">
-            @unpublished{
-            albuquerque2015galaxy,
-            author = {Marco Albuquerque and Bruno Grande and Elie Ritch and Jasleen Grewal and Paul Boutros and Sohrab Shah and Ryan Morin},
-            title = {A Galaxy Toolbox for Analysis of Cancer Genomes},
-            note = {Unpublished Manuscript},
-            year = {2016}
-            }
+
+	  @UNPUBLISHED{Albuquerque2016-uk,
+	  title    = "Enhancing Knowledge Discovery from Cancer Genomics Data with
+	  Galaxy",
+	  author   = "Albuquerque, Marco A and Grande, Bruno M and Ritch, Elie and
+	  Jessa, Selin and Krzywinski, Martin I and Grewal, Jasleen and
+	  Shah, Sohrab and Boutros, Paul and Morin, Ryan",
+	  journal  = "bioRxiv",
+	  pages    = "089631",
+	  month    =  "1~" # jan,
+	  year     =  2016,
+	  language = "en"
+	  }
+
+	  
         </citation>
     </xml>
     <xml name="galaxy_citation">
-        <citation>
+        <citation type="bibtex">
             @article{
             goecks2010galaxy,
             title={Galaxy: a comprehensive approach for supporting accessible, reproducible, and transparent computational research in the life sciences},

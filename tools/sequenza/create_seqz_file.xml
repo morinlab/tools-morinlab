@@ -137,4 +137,51 @@ type="data" format="txt"/>
       <filter>gzip['gzip_selector'] == "yes"</filter>
     </data>
 </outputs>
+<citations>
+  <citation type="bibtex">
+    @article {Albuquerque089631,
+    author = {Albuquerque, Marco A and Grande, Bruno M and Ritch, Elie and Jessa, Selin and Krzywinski, Martin I and Grewal, Jasleen and Shah, Sohrab and Boutros, Paul and Morin, Ryan},
+    title = {Enhancing Knowledge Discovery from Cancer Genomics Data with Galaxy},
+    year = {2016},
+    doi = {10.1101/089631},
+    publisher = {Cold Spring Harbor Labs Journals},
+    URL = {http://biorxiv.org/content/early/2016/11/26/089631},
+    eprint = {http://biorxiv.org/content/early/2016/11/26/089631.full.pdf},
+    journal = {bioRxiv}
+    }
+
+  </citation>
+  <citation type="bibtex">
+    @misc{
+    goecks2010galaxy,
+    title={Galaxy: a comprehensive approach for supporting accessible, reproducible, and transparent computational research in the life sciences},
+    author={Goecks, Jeremy and Nekrutenko, Anton and Taylor, James and others},
+    journal={Genome Biol},
+    volume={11},
+    number={8},
+    pages={R86},
+    year={2010}
+    }
+  </citation>
+  <citation type="bibtex">
+
+    @ARTICLE{Favero2015-vl,
+    title       = "Sequenza: allele-specific copy number and mutation profiles
+    from tumor sequencing data",
+    author      = "Favero, F and Joshi, T and Marquard, A M and Birkbak, N J and
+    Krzystanek, M and Li, Q and Szallasi, Z and Eklund, A C",
+    journal     = "Ann. Oncol.",
+    volume      =  26,
+    number      =  1,
+    pages       = "64--70",
+    month       =  jan,
+    year        =  2015,
+    keywords    = "cancer genomics; copy number alterations; mutations;
+    next-generation sequencing; software",
+    language    = "en"
+    }
+
+
+  </citation>
+</citations>
 </tool>
