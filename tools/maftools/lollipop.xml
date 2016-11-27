@@ -42,5 +42,9 @@
       <discover_datasets pattern="__name_and_ext__" directory="outputs"/>
     </collection>
   </outputs>
-
+  <citations>
+    <expand macro="morinlab_citation"/>
+    <expand macro="galaxy_citation"/>
+    <expand macro="maftools_citation"/>
+  </citations>
 </tool>    
