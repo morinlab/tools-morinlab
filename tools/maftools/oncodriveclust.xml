@@ -55,5 +55,50 @@
     <data format="txt" name="out_detail"/>
     <data format="txt" name="sig_genes"/>
   </outputs>
+  <citations>
+    <citation type="bibtex">
+      @article {Albuquerque089631,
+      author = {Albuquerque, Marco A and Grande, Bruno M and Ritch, Elie and Jessa, Selin and Krzywinski, Martin I and Grewal, Jasleen and Shah, Sohrab and Boutros, Paul and Morin, Ryan},
+      title = {Enhancing Knowledge Discovery from Cancer Genomics Data with Galaxy},
+      year = {2016},
+      doi = {10.1101/089631},
+      publisher = {Cold Spring Harbor Labs Journals},
+      URL = {http://biorxiv.org/content/early/2016/11/26/089631},
+      eprint = {http://biorxiv.org/content/early/2016/11/26/089631.full.pdf},
+      journal = {bioRxiv}
+      }
 
+    </citation>
+    <citation type="bibtex">
+      @misc{
+      goecks2010galaxy,
+      title={Galaxy: a comprehensive approach for supporting accessible, reproducible, and transparent computational research in the life sciences},
+      author={Goecks, Jeremy and Nekrutenko, Anton and Taylor, James and others},
+      journal={Genome Biol},
+      volume={11},
+      number={8},
+      pages={R86},
+      year={2010}
+      }
+    </citation>
+    <citation type="doi">10.1101/052662</citation>
+  <citation type="bibtex">
+
+    @ARTICLE{Tamborero2013-yq,
+    title       = "{OncodriveCLUST}: exploiting the positional clustering of
+    somatic mutations to identify cancer genes",
+    author      = "Tamborero, David and Gonzalez-Perez, Abel and Lopez-Bigas,
+    Nuria",
+    journal     = "Bioinformatics",
+    volume      =  29,
+    number      =  18,
+    pages       = "2238--2244",
+    month       =  "15~" # sep,
+    year        =  2013,
+    language    = "en"
+    }
+
+    
+  </citation>
+  </citations>
 </tool>    

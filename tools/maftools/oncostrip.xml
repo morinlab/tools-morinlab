@@ -68,4 +68,32 @@
   <outputs>
     <data format="pdf" name="output_plot"/>
   </outputs>
+  <citations>
+    <citation type="bibtex">
+      @article {Albuquerque089631,
+      author = {Albuquerque, Marco A and Grande, Bruno M and Ritch, Elie and Jessa, Selin and Krzywinski, Martin I and Grewal, Jasleen and Shah, Sohrab and Boutros, Paul and Morin, Ryan},
+      title = {Enhancing Knowledge Discovery from Cancer Genomics Data with Galaxy},
+      year = {2016},
+      doi = {10.1101/089631},
+      publisher = {Cold Spring Harbor Labs Journals},
+      URL = {http://biorxiv.org/content/early/2016/11/26/089631},
+      eprint = {http://biorxiv.org/content/early/2016/11/26/089631.full.pdf},
+      journal = {bioRxiv}
+      }
+
+    </citation>
+    <citation type="bibtex">
+      @misc{
+      goecks2010galaxy,
+      title={Galaxy: a comprehensive approach for supporting accessible, reproducible, and transparent computational research in the life sciences},
+      author={Goecks, Jeremy and Nekrutenko, Anton and Taylor, James and others},
+      journal={Genome Biol},
+      volume={11},
+      number={8},
+      pages={R86},
+      year={2010}
+      }
+    </citation>
+    <citation type="doi">10.1101/052662</citation>
+    </citations>
 </tool>    
