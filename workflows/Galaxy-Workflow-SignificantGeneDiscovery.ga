@@ -1,0 +1,367 @@
+{
+    "a_galaxy_workflow": "true", 
+    "annotation": "Identify significantly mutated genes and summarize results", 
+    "format-version": "0.1", 
+    "name": "SignificantGeneDiscovery", 
+    "steps": {
+        "0": {
+            "annotation": "MAF file containing mutations from entire cohort", 
+            "content_id": null, 
+            "id": 0, 
+            "input_connections": {}, 
+            "inputs": [
+                {
+                    "description": "MAF file containing mutations from entire cohort", 
+                    "name": "Input Dataset"
+                }
+            ], 
+            "label": "merged MAF", 
+            "name": "Input dataset", 
+            "outputs": [], 
+            "position": {
+                "left": 114.96528625488281, 
+                "top": 245.9722442626953
+            }, 
+            "tool_errors": null, 
+            "tool_id": null, 
+            "tool_state": "{\"name\": \"Input Dataset\"}", 
+            "tool_version": null, 
+            "type": "data_input", 
+            "uuid": "496eaa94-23c2-423c-9413-d10e26952c60", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "output", 
+                    "uuid": "4112c440-053a-4da2-90a9-3e24cb43ec7f"
+                }
+            ]
+        }, 
+        "1": {
+            "annotation": "", 
+            "content_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/package_maf2tdm_1_0/maf2tdm/1.0", 
+            "id": 1, 
+            "input_connections": {
+                "input": {
+                    "id": 0, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool maf2tdm", 
+                    "name": "input"
+                }
+            ], 
+            "label": null, 
+            "name": "maf2tdm", 
+            "outputs": [
+                {
+                    "name": "output", 
+                    "type": "tabular"
+                }
+            ], 
+            "position": {
+                "left": 331.38890075683594, 
+                "top": 382.4652862548828
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionoutput": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "output"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/package_maf2tdm_1_0/maf2tdm/1.0", 
+            "tool_shed_repository": {
+                "changeset_revision": "8a3e8140e3c9", 
+                "name": "package_maf2tdm_1_0", 
+                "owner": "morinlab", 
+                "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
+            }, 
+            "tool_state": "{\"__page__\": 0, \"exclude\": \"\\\"exclude_2na\\\"\", \"genename\": \"\\\"hugo\\\"\", \"__rerun_remap_job_id__\": null, \"input\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\"}", 
+            "tool_version": "1.0", 
+            "type": "tool", 
+            "uuid": "1b3ab25f-d268-4387-a7ec-838bac340e76", 
+            "workflow_outputs": []
+        }, 
+        "2": {
+            "annotation": "Reduce the gene threshold to allow less frequently genes to be considered. In this run of oncodriveFM, the Q value is used as  a threshold.", 
+            "content_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/oncodrivefm/oncodrivefm/1.0.0", 
+            "id": 2, 
+            "input_connections": {
+                "input_maf": {
+                    "id": 1, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool OncodriveFM", 
+                    "name": "input_maf"
+                }
+            ], 
+            "label": null, 
+            "name": "OncodriveFM", 
+            "outputs": [
+                {
+                    "name": "out_file1", 
+                    "type": "tabular"
+                }, 
+                {
+                    "name": "out_file2", 
+                    "type": "tabular"
+                }
+            ], 
+            "position": {
+                "left": 631.9618377685547, 
+                "top": 427.9861297607422
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionout_file1": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "out_file1"
+                }, 
+                "HideDatasetActionout_file2": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "out_file2"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/oncodrivefm/oncodrivefm/1.0.0", 
+            "tool_shed_repository": {
+                "changeset_revision": "8d3bca1e3489", 
+                "name": "oncodrivefm", 
+                "owner": "morinlab", 
+                "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
+            }, 
+            "tool_state": "{\"input_maf\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"__page__\": 0, \"__rerun_remap_job_id__\": null, \"advancedsettings\": \"{\\\"mapoption\\\": {\\\"__current_case__\\\": 1, \\\"mapfile\\\": \\\"included_file\\\"}, \\\"gthreshold\\\": \\\"4\\\", \\\"slices\\\": \\\"SIFT,PPH2\\\", \\\"pthreshold\\\": \\\"10\\\", \\\"samplings\\\": \\\"10000\\\", \\\"estimator\\\": \\\"median\\\", \\\"qcut\\\": \\\"0.2\\\"}\"}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "uuid": "2dd0816b-cba1-477e-a51e-cdd554311508", 
+            "workflow_outputs": []
+        }, 
+        "3": {
+            "annotation": "", 
+            "content_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/oncodrivefm/oncodrivefm/1.0.0", 
+            "id": 3, 
+            "input_connections": {
+                "input_maf": {
+                    "id": 1, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool OncodriveFM", 
+                    "name": "input_maf"
+                }
+            ], 
+            "label": null, 
+            "name": "OncodriveFM", 
+            "outputs": [
+                {
+                    "name": "out_file1", 
+                    "type": "tabular"
+                }, 
+                {
+                    "name": "out_file2", 
+                    "type": "tabular"
+                }
+            ], 
+            "position": {
+                "left": 653.9410247802734, 
+                "top": 584.9826507568359
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/oncodrivefm/oncodrivefm/1.0.0", 
+            "tool_shed_repository": {
+                "changeset_revision": "8d3bca1e3489", 
+                "name": "oncodrivefm", 
+                "owner": "morinlab", 
+                "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
+            }, 
+            "tool_state": "{\"input_maf\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"__page__\": 0, \"__rerun_remap_job_id__\": null, \"advancedsettings\": \"{\\\"mapoption\\\": {\\\"__current_case__\\\": 1, \\\"mapfile\\\": \\\"included_file\\\"}, \\\"gthreshold\\\": \\\"4\\\", \\\"slices\\\": \\\"SIFT,PPH2\\\", \\\"pthreshold\\\": \\\"10\\\", \\\"samplings\\\": \\\"10000\\\", \\\"estimator\\\": \\\"median\\\", \\\"qcut\\\": \\\"1.0\\\"}\"}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "uuid": "542b453e-002d-4430-ac16-0bcb49e42d99", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "out_file2", 
+                    "uuid": "9c418277-8ee6-4979-89b4-a43769a62255"
+                }, 
+                {
+                    "label": null, 
+                    "output_name": "out_file1", 
+                    "uuid": "aa7ec7f5-b507-40bf-89d7-219cdc4c84ed"
+                }
+            ]
+        }, 
+        "4": {
+            "annotation": "Extract the gene names for subsequent analyses", 
+            "content_id": "Cut1", 
+            "id": 4, 
+            "input_connections": {
+                "input": {
+                    "id": 2, 
+                    "output_name": "out_file1"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool Cut", 
+                    "name": "input"
+                }
+            ], 
+            "label": null, 
+            "name": "Cut", 
+            "outputs": [
+                {
+                    "name": "out_file1", 
+                    "type": "tabular"
+                }
+            ], 
+            "position": {
+                "left": 834.9653167724609, 
+                "top": 472.9861297607422
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "Cut1", 
+            "tool_state": "{\"columnList\": \"\\\"c1\\\"\", \"input\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"delimiter\": \"\\\"T\\\"\", \"__rerun_remap_job_id__\": null, \"__page__\": 0}", 
+            "tool_version": "1.0.2", 
+            "type": "tool", 
+            "uuid": "9eea93a5-debb-4536-b213-b49fd5a75bd8", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "out_file1", 
+                    "uuid": "5bdfbc66-5967-43b8-a4d1-066adb88936a"
+                }
+            ]
+        }, 
+        "5": {
+            "annotation": "", 
+            "content_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/maftools/lollipop/0.9.30", 
+            "id": 5, 
+            "input_connections": {
+                "gene_input_type|gene_file": {
+                    "id": 4, 
+                    "output_name": "out_file1"
+                }, 
+                "input_maf": {
+                    "id": 0, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool Lollipop Plot", 
+                    "name": "input_maf"
+                }, 
+                {
+                    "description": "runtime parameter for tool Lollipop Plot", 
+                    "name": "gene_input_type"
+                }
+            ], 
+            "label": null, 
+            "name": "Lollipop Plot", 
+            "outputs": [
+                {
+                    "name": "list_output", 
+                    "type": "input"
+                }
+            ], 
+            "position": {
+                "left": 990.9549407958984, 
+                "top": 305.98960876464844
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/maftools/lollipop/0.9.30", 
+            "tool_shed_repository": {
+                "changeset_revision": "a436ba2d0351", 
+                "name": "maftools", 
+                "owner": "morinlab", 
+                "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
+            }, 
+            "tool_state": "{\"input_maf\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"__page__\": 0, \"gene_input_type\": \"{\\\"gene_file\\\": {\\\"__class__\\\": \\\"RuntimeValue\\\"}, \\\"__current_case__\\\": 0, \\\"gene_input_type_selector\\\": \\\"file\\\"}\", \"__rerun_remap_job_id__\": null}", 
+            "tool_version": "0.9.30", 
+            "type": "tool", 
+            "uuid": "b2f73b46-681e-40eb-abff-25eb26e8b729", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "list_output", 
+                    "uuid": "8f91fa6f-29fc-4a98-b34d-5ec07b33ca84"
+                }
+            ]
+        }, 
+        "6": {
+            "annotation": "", 
+            "content_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/oncoprintplus/oncoprintplus/1.0.0", 
+            "id": 6, 
+            "input_connections": {
+                "gene|gene_list": {
+                    "id": 4, 
+                    "output_name": "out_file1"
+                }, 
+                "gene|oncodrive|oncodrive": {
+                    "id": 3, 
+                    "output_name": "out_file1"
+                }, 
+                "input_maf": {
+                    "id": 0, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool OncoPrintPlus", 
+                    "name": "input_maf"
+                }, 
+                {
+                    "description": "runtime parameter for tool OncoPrintPlus", 
+                    "name": "gene"
+                }
+            ], 
+            "label": null, 
+            "name": "OncoPrintPlus", 
+            "outputs": [
+                {
+                    "name": "output", 
+                    "type": "pdf"
+                }
+            ], 
+            "position": {
+                "left": 1199.947982788086, 
+                "top": 442.96876525878906
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/oncoprintplus/oncoprintplus/1.0.0", 
+            "tool_shed_repository": {
+                "changeset_revision": "52f90fcd8794", 
+                "name": "oncoprintplus", 
+                "owner": "morinlab", 
+                "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
+            }, 
+            "tool_state": "{\"input_maf\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"__page__\": 0, \"patient\": \"{\\\"snv_counts\\\": \\\"true\\\", \\\"snv_distribution\\\": \\\"true\\\", \\\"covariates\\\": {\\\"order\\\": [{\\\"__index__\\\": 0, \\\"order\\\": \\\"default\\\"}], \\\"__current_case__\\\": 0, \\\"use_covariates\\\": \\\"no\\\"}}\", \"__rerun_remap_job_id__\": null, \"gene\": \"{\\\"snv_counts\\\": \\\"true\\\", \\\"oncodrive\\\": {\\\"plot\\\": \\\"false\\\", \\\"oncodrive\\\": {\\\"__class__\\\": \\\"RuntimeValue\\\"}}, \\\"mutsig\\\": {\\\"plot\\\": \\\"false\\\", \\\"mutsig\\\": {\\\"__class__\\\": \\\"RuntimeValue\\\"}}, \\\"order\\\": \\\"default\\\", \\\"gene_list\\\": {\\\"__class__\\\": \\\"RuntimeValue\\\"}}\", \"center_plot\": \"\\\"impact\\\"\"}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "uuid": "09c88ed9-0f81-4788-9f2c-ec08f0b3616f", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "output", 
+                    "uuid": "f132a0b2-030d-4f4a-aeb9-87453ec78061"
+                }
+            ]
+        }
+    }, 
+    "uuid": "3e58a8ef-0ef6-4de1-92db-d2813c0b6381"
+}

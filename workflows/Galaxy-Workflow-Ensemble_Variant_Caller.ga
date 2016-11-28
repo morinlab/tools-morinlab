@@ -1,0 +1,462 @@
+{
+    "a_galaxy_workflow": "true", 
+    "annotation": "", 
+    "format-version": "0.1", 
+    "name": "Ensemble Variant Caller", 
+    "steps": {
+        "0": {
+            "annotation": "", 
+            "content_id": null, 
+            "id": 0, 
+            "input_connections": {}, 
+            "inputs": [
+                {
+                    "description": "", 
+                    "name": "Tumor Bam"
+                }
+            ], 
+            "label": "Tumor bam", 
+            "name": "Input dataset", 
+            "outputs": [], 
+            "position": {
+                "left": 226.4930648803711, 
+                "top": 558.0034980773926
+            }, 
+            "tool_errors": null, 
+            "tool_id": null, 
+            "tool_state": "{\"name\": \"Tumor Bam\"}", 
+            "tool_version": null, 
+            "type": "data_input", 
+            "uuid": "9b660240-8655-4f17-95a6-0d3432ba0952", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "output", 
+                    "uuid": "63f49479-93e6-4ebd-9cab-eef4f1aed2f5"
+                }
+            ]
+        }, 
+        "1": {
+            "annotation": "", 
+            "content_id": null, 
+            "id": 1, 
+            "input_connections": {}, 
+            "inputs": [
+                {
+                    "description": "", 
+                    "name": "Normal Bam"
+                }
+            ], 
+            "label": "Normal bam", 
+            "name": "Input dataset", 
+            "outputs": [], 
+            "position": {
+                "left": 227.50000762939453, 
+                "top": 632.0139045715332
+            }, 
+            "tool_errors": null, 
+            "tool_id": null, 
+            "tool_state": "{\"name\": \"Normal Bam\"}", 
+            "tool_version": null, 
+            "type": "data_input", 
+            "uuid": "deddfbec-c8a2-4486-829e-52ea87674fd8", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "output", 
+                    "uuid": "ee00a1f6-dd9e-42d9-a7f0-63f3f9fa64a9"
+                }
+            ]
+        }, 
+        "2": {
+            "annotation": "", 
+            "content_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/radia/radia/1.1.3", 
+            "id": 2, 
+            "input_connections": {
+                "normal": {
+                    "id": 1, 
+                    "output_name": "output"
+                }, 
+                "tumour": {
+                    "id": 0, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool RADIA", 
+                    "name": "tumour"
+                }, 
+                {
+                    "description": "runtime parameter for tool RADIA", 
+                    "name": "interval"
+                }, 
+                {
+                    "description": "runtime parameter for tool RADIA", 
+                    "name": "normal"
+                }
+            ], 
+            "label": null, 
+            "name": "RADIA", 
+            "outputs": [
+                {
+                    "name": "output", 
+                    "type": "vcf"
+                }
+            ], 
+            "position": {
+                "left": 508.4896011352539, 
+                "top": 199.9826545715332
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/radia/radia/1.1.3", 
+            "tool_shed_repository": {
+                "changeset_revision": "a94b65bc6434", 
+                "name": "radia", 
+                "owner": "morinlab", 
+                "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
+            }, 
+            "tool_state": "{\"__page__\": 0, \"tumour\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"normal\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"__rerun_remap_job_id__\": null, \"interval\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"filters\": \"{\\\"minalt\\\": \\\"4\\\", \\\"mindepthT\\\": \\\"10\\\", \\\"mindepthN\\\": \\\"10\\\"}\", \"reference_source\": \"{\\\"ref_file\\\": \\\"grch38\\\", \\\"reference_source_selector\\\": \\\"cached\\\", \\\"__current_case__\\\": 0}\"}", 
+            "tool_version": "1.1.3", 
+            "type": "tool", 
+            "uuid": "dc59c9a7-4d12-4ea7-b982-6a4311f2c33d", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "output", 
+                    "uuid": "3e4dd65a-9c55-432d-9f73-f6fae30ad804"
+                }
+            ]
+        }, 
+        "3": {
+            "annotation": "", 
+            "content_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/somatic_sniper/somatic_sniper/1.0", 
+            "id": 3, 
+            "input_connections": {
+                "normal": {
+                    "id": 1, 
+                    "output_name": "output"
+                }, 
+                "tumor": {
+                    "id": 0, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool SomaticSniper", 
+                    "name": "normal"
+                }, 
+                {
+                    "description": "runtime parameter for tool SomaticSniper", 
+                    "name": "interval"
+                }, 
+                {
+                    "description": "runtime parameter for tool SomaticSniper", 
+                    "name": "tumor"
+                }
+            ], 
+            "label": null, 
+            "name": "SomaticSniper", 
+            "outputs": [
+                {
+                    "name": "variants", 
+                    "type": "vcf"
+                }
+            ], 
+            "position": {
+                "left": 557.4826736450195, 
+                "top": 399.9826545715332
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/somatic_sniper/somatic_sniper/1.0", 
+            "tool_shed_repository": {
+                "changeset_revision": "f5b83635bf77", 
+                "name": "somatic_sniper", 
+                "owner": "morinlab", 
+                "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
+            }, 
+            "tool_state": "{\"__page__\": 0, \"normal\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"__rerun_remap_job_id__\": null, \"interval\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"tumor\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"postprocess\": \"\\\"true\\\"\", \"ref\": \"{\\\"index\\\": \\\"grch38\\\", \\\"ref_options\\\": \\\"cached\\\", \\\"__current_case__\\\": 0}\", \"advancedsettings\": \"{\\\"Q\\\": \\\"15\\\", \\\"G\\\": \\\"true\\\", \\\"L\\\": \\\"true\\\", \\\"n\\\": \\\"NORMAL\\\", \\\"q\\\": \\\"0\\\", \\\"p\\\": \\\"true\\\", \\\"r\\\": \\\"0.001\\\", \\\"T\\\": \\\"0.85\\\", \\\"N\\\": \\\"2\\\", \\\"t\\\": \\\"TUMOR\\\"}\"}", 
+            "tool_version": "1.0", 
+            "type": "tool", 
+            "uuid": "f64c6cef-0fbf-43fe-8277-896b3fff0d43", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "variants", 
+                    "uuid": "c8828fe9-0e1a-4760-b341-0ca6911ddae8"
+                }
+            ]
+        }, 
+        "4": {
+            "annotation": "", 
+            "content_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/strelka/strelka/1.0.14", 
+            "id": 4, 
+            "input_connections": {
+                "normal": {
+                    "id": 1, 
+                    "output_name": "output"
+                }, 
+                "tumour": {
+                    "id": 0, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool Strelka", 
+                    "name": "interval_file"
+                }, 
+                {
+                    "description": "runtime parameter for tool Strelka", 
+                    "name": "tumour"
+                }, 
+                {
+                    "description": "runtime parameter for tool Strelka", 
+                    "name": "normal"
+                }
+            ], 
+            "label": null, 
+            "name": "Strelka", 
+            "outputs": [
+                {
+                    "name": "snvs", 
+                    "type": "vcf"
+                }, 
+                {
+                    "name": "indels", 
+                    "type": "vcf"
+                }, 
+                {
+                    "name": "config", 
+                    "type": "txt"
+                }
+            ], 
+            "position": {
+                "left": 504.4791946411133, 
+                "top": 787.0139045715332
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionconfig": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "config"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/strelka/strelka/1.0.14", 
+            "tool_state": "{\"interval_file\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"tumour\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"normal\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"__page__\": 0, \"__rerun_remap_job_id__\": null, \"depthfilters\": \"{\\\"seqType\\\": \\\"genome\\\", \\\"__current_case__\\\": 3}\", \"reference_source\": \"{\\\"ref_file\\\": \\\"grch38\\\", \\\"reference_source_selector\\\": \\\"cached\\\", \\\"__current_case__\\\": 0}\", \"advancedsettings\": \"{\\\"ssnvPrior\\\": \\\"1e-06\\\", \\\"sindelQuality_LowerBound\\\": \\\"30\\\", \\\"snvMaxSpanningDeletionFrac\\\": \\\"0.75\\\", \\\"snvMaxFilteredBasecallFrac\\\": \\\"0.4\\\", \\\"sindelPrior\\\": \\\"1e-06\\\", \\\"indelMaxIntHpolLength\\\": \\\"14\\\", \\\"minTier2Mapq\\\": \\\"5\\\", \\\"indelMaxWindowFilteredBasecallFrac\\\": \\\"0.3\\\", \\\"minTier1Mapq\\\": \\\"20\\\", \\\"ssnvNoiseStrandBiasFrac\\\": \\\"0.5\\\", \\\"indelMaxRefRepeat\\\": \\\"8\\\", \\\"ssnvNoise\\\": \\\"5e-07\\\", \\\"sindelNoise\\\": \\\"1e-06\\\", \\\"ssnvQuality_LowerBound\\\": \\\"15\\\"}\"}", 
+            "tool_version": "1.0.14", 
+            "type": "tool", 
+            "uuid": "703184a5-bc93-4cfb-aa10-ddd8172cf895", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "indels", 
+                    "uuid": "bb0326d3-8075-4f80-b855-fe8f3aa4bbc0"
+                }, 
+                {
+                    "label": null, 
+                    "output_name": "snvs", 
+                    "uuid": "da29f1cd-6556-4c6f-81f5-5a79a16087fd"
+                }
+            ]
+        }, 
+        "5": {
+            "annotation": "", 
+            "content_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/mutationseq/mutationseq/4.3.6", 
+            "id": 5, 
+            "input_connections": {
+                "model_source|normal": {
+                    "id": 1, 
+                    "output_name": "output"
+                }, 
+                "model_source|tumour": {
+                    "id": 0, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool MutationSeq", 
+                    "name": "interval"
+                }, 
+                {
+                    "description": "runtime parameter for tool MutationSeq", 
+                    "name": "advancedsettings"
+                }, 
+                {
+                    "description": "runtime parameter for tool MutationSeq", 
+                    "name": "model_source"
+                }, 
+                {
+                    "description": "runtime parameter for tool MutationSeq", 
+                    "name": "model_source"
+                }
+            ], 
+            "label": null, 
+            "name": "MutationSeq", 
+            "outputs": [
+                {
+                    "name": "output", 
+                    "type": "vcf"
+                }
+            ], 
+            "position": {
+                "left": 704.4791946411133, 
+                "top": 622.9861335754395
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/mutationseq/mutationseq/4.3.6", 
+            "tool_shed_repository": {
+                "changeset_revision": "c7fce79e9ef8", 
+                "name": "mutationseq", 
+                "owner": "morinlab", 
+                "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
+            }, 
+            "tool_state": "{\"__page__\": 0, \"__rerun_remap_job_id__\": null, \"interval\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"model_source\": \"{\\\"tumour\\\": {\\\"__class__\\\": \\\"RuntimeValue\\\"}, \\\"__current_case__\\\": 0, \\\"model_source_selector\\\": \\\"standard\\\", \\\"normal\\\": {\\\"__class__\\\": \\\"RuntimeValue\\\"}}\", \"reference_source\": \"{\\\"ref_file\\\": \\\"grch38\\\", \\\"reference_source_selector\\\": \\\"cached\\\", \\\"__current_case__\\\": 0}\", \"advancedsettings\": \"{\\\"filter\\\": \\\"standard\\\", \\\"positions\\\": {\\\"__class__\\\": \\\"RuntimeValue\\\"}, \\\"filter_prob\\\": \\\"0.85\\\"}\"}", 
+            "tool_version": "4.3.6", 
+            "type": "tool", 
+            "uuid": "1ce18ba8-27d3-4114-b6ee-216b50bcb1b5", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "output", 
+                    "uuid": "27aa791f-5f8e-4f93-a42a-1681617a18ac"
+                }
+            ]
+        }, 
+        "6": {
+            "annotation": "", 
+            "content_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/ensemble_vcf/ensemble_vcf/0.1.1", 
+            "id": 6, 
+            "input_connections": {
+                "input_vcfs": [
+                    {
+                        "id": 2, 
+                        "output_name": "output"
+                    }, 
+                    {
+                        "id": 4, 
+                        "output_name": "snvs"
+                    }, 
+                    {
+                        "id": 3, 
+                        "output_name": "variants"
+                    }, 
+                    {
+                        "id": 5, 
+                        "output_name": "output"
+                    }
+                ]
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool ensemble_vcf", 
+                    "name": "input_vcfs"
+                }
+            ], 
+            "label": null, 
+            "name": "ensemble_vcf", 
+            "outputs": [
+                {
+                    "name": "output_vcf", 
+                    "type": "vcf"
+                }
+            ], 
+            "position": {
+                "left": 1086.4757766723633, 
+                "top": 648.9756965637207
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/ensemble_vcf/ensemble_vcf/0.1.1", 
+            "tool_shed_repository": {
+                "changeset_revision": "e4d4ad083ecc", 
+                "name": "ensemble_vcf", 
+                "owner": "morinlab", 
+                "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
+            }, 
+            "tool_state": "{\"__page__\": 0, \"sorted\": \"\\\"false\\\"\", \"__rerun_remap_job_id__\": null, \"input_vcfs\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"min_support\": \"\\\"0.6\\\"\"}", 
+            "tool_version": "0.1.1", 
+            "type": "tool", 
+            "uuid": "7ed6a97d-80a4-45db-a24d-9ad533102402", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "output_vcf", 
+                    "uuid": "7104f28f-3854-4a09-93ae-4baba395c5ea"
+                }
+            ]
+        }, 
+        "7": {
+            "annotation": "", 
+            "content_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/vcf2maf/vcf2maf/1.0.0", 
+            "id": 7, 
+            "input_connections": {
+                "input_vcf": {
+                    "id": 6, 
+                    "output_name": "output_vcf"
+                }, 
+                "sampleid_source|sampleid_normal": {
+                    "id": 1, 
+                    "output_name": "output"
+                }, 
+                "sampleid_source|sampleid_tumour": {
+                    "id": 0, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool vcf2maf", 
+                    "name": "sampleid_source"
+                }, 
+                {
+                    "description": "runtime parameter for tool vcf2maf", 
+                    "name": "sampleid_source"
+                }, 
+                {
+                    "description": "runtime parameter for tool vcf2maf", 
+                    "name": "input_vcf"
+                }
+            ], 
+            "label": null, 
+            "name": "vcf2maf", 
+            "outputs": [
+                {
+                    "name": "output_maf", 
+                    "type": "maf"
+                }
+            ], 
+            "position": {
+                "left": 1200.4688186645508, 
+                "top": 428.5069770812988
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/vcf2maf/vcf2maf/1.0.0", 
+            "tool_shed_repository": {
+                "changeset_revision": "ca5881cffe56", 
+                "name": "vcf2maf", 
+                "owner": "morinlab", 
+                "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
+            }, 
+            "tool_state": "{\"sampleid_source\": \"{\\\"sampleid_tumour\\\": {\\\"__class__\\\": \\\"RuntimeValue\\\"}, \\\"sampleid_normal\\\": {\\\"__class__\\\": \\\"RuntimeValue\\\"}, \\\"__current_case__\\\": 0, \\\"sampleid_selector\\\": \\\"bamfile\\\"}\", \"__page__\": 0, \"__rerun_remap_job_id__\": null, \"input_vcf\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"species_select\": \"\\\"homo_sapiens-GRCh38\\\"\"}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "uuid": "271b4bbe-a918-4edc-900f-21180e2f5b9d", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "output_maf", 
+                    "uuid": "01dd1c83-81fc-42c8-9037-37e1c4f4ab08"
+                }
+            ]
+        }
+    }, 
+    "uuid": "894b79e9-5b6d-4f2d-bb8d-2ef48e328aa2"
+}

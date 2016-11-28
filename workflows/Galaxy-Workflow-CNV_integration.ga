@@ -1,0 +1,464 @@
+{
+    "a_galaxy_workflow": "true", 
+    "annotation": "Merge CNV results from a cohort and run GISTIC", 
+    "format-version": "0.1", 
+    "name": "CNV_integration", 
+    "steps": {
+        "0": {
+            "annotation": "Merged MAF file containing mutations from all patients", 
+            "content_id": null, 
+            "id": 0, 
+            "input_connections": {}, 
+            "inputs": [
+                {
+                    "description": "Merged MAF file containing mutations from all patients", 
+                    "name": "Input Dataset"
+                }
+            ], 
+            "label": "MAF", 
+            "name": "Input dataset", 
+            "outputs": [], 
+            "position": {
+                "left": 400.0000228881836, 
+                "top": 171.49307250976562
+            }, 
+            "tool_errors": null, 
+            "tool_id": null, 
+            "tool_state": "{\"name\": \"Input Dataset\"}", 
+            "tool_version": null, 
+            "type": "data_input", 
+            "uuid": "c61bb7c9-4408-49a9-b91d-f6897f5040b9", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "output", 
+                    "uuid": "a2f00e9d-1bcf-422d-be6d-efd3bbda3d0f"
+                }
+            ]
+        }, 
+        "1": {
+            "annotation": "Concatenated segmented CNVs for entire cohort (logratio). Formatted specifically for oncocircos", 
+            "content_id": null, 
+            "id": 1, 
+            "input_connections": {}, 
+            "inputs": [
+                {
+                    "description": "Concatenated segmented CNVs for entire cohort (logratio). Formatted specifically for oncocircos", 
+                    "name": "Oncocircos-formatted seg file"
+                }
+            ], 
+            "label": "Oncocircos seg", 
+            "name": "Input dataset", 
+            "outputs": [], 
+            "position": {
+                "left": 401.0069808959961, 
+                "top": 236.47569274902344
+            }, 
+            "tool_errors": null, 
+            "tool_id": null, 
+            "tool_state": "{\"name\": \"Oncocircos-formatted seg file\"}", 
+            "tool_version": null, 
+            "type": "data_input", 
+            "uuid": "127db17d-21c2-40ab-a075-0dd33cb02eec", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "output", 
+                    "uuid": "21ebd940-d9fa-4ee3-8168-56f03985fa6f"
+                }
+            ]
+        }, 
+        "2": {
+            "annotation": "", 
+            "content_id": null, 
+            "id": 2, 
+            "input_connections": {}, 
+            "inputs": [
+                {
+                    "description": "", 
+                    "name": "Biomart file for Oncocircos"
+                }
+            ], 
+            "label": "biomart gene coordinates", 
+            "name": "Input dataset", 
+            "outputs": [], 
+            "position": {
+                "left": 401.9791793823242, 
+                "top": 308.48960876464844
+            }, 
+            "tool_errors": null, 
+            "tool_id": null, 
+            "tool_state": "{\"name\": \"Biomart file for Oncocircos\"}", 
+            "tool_version": null, 
+            "type": "data_input", 
+            "uuid": "c16b4ace-56ec-4e63-a3e2-6aba746d1ef7", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "output", 
+                    "uuid": "d531ceb7-ad80-445b-ad04-d2d529d93c9e"
+                }
+            ]
+        }, 
+        "3": {
+            "annotation": "Concatenated segmented CNVs for entire cohort (logratio). Formatted specifically for Gistic", 
+            "content_id": null, 
+            "id": 3, 
+            "input_connections": {}, 
+            "inputs": [
+                {
+                    "description": "Concatenated segmented CNVs for entire cohort (logratio). Formatted specifically for Gistic", 
+                    "name": "Input Dataset"
+                }
+            ], 
+            "label": "Gistic seg file", 
+            "name": "Input dataset", 
+            "outputs": [], 
+            "position": {
+                "left": 200.0000228881836, 
+                "top": 490.4861297607422
+            }, 
+            "tool_errors": null, 
+            "tool_id": null, 
+            "tool_state": "{\"name\": \"Input Dataset\"}", 
+            "tool_version": null, 
+            "type": "data_input", 
+            "uuid": "2b24a89d-fe7f-4b8c-9727-5680a67999f8", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "output", 
+                    "uuid": "d960079c-3a42-4105-8061-62609f8f1071"
+                }
+            ]
+        }, 
+        "4": {
+            "annotation": "Bed file containing all exons. This file is used to generate the marker coordinates for Gistic.", 
+            "content_id": null, 
+            "id": 4, 
+            "input_connections": {}, 
+            "inputs": [
+                {
+                    "description": "Bed file containing all exons. This file is used to generate the marker coordinates for Gistic.", 
+                    "name": "Input Dataset"
+                }
+            ], 
+            "label": "Exome bed", 
+            "name": "Input dataset", 
+            "outputs": [], 
+            "position": {
+                "left": 196.00695037841797, 
+                "top": 576.4930877685547
+            }, 
+            "tool_errors": null, 
+            "tool_id": null, 
+            "tool_state": "{\"name\": \"Input Dataset\"}", 
+            "tool_version": null, 
+            "type": "data_input", 
+            "uuid": "4a639bb6-66b4-4cca-ad88-648e9c14af19", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "output", 
+                    "uuid": "6cdb6ff5-4c0c-4fdb-b8b0-52a5f6317006"
+                }
+            ]
+        }, 
+        "5": {
+            "annotation": "", 
+            "content_id": null, 
+            "id": 5, 
+            "input_connections": {}, 
+            "inputs": [
+                {
+                    "description": "", 
+                    "name": "Genes of interest"
+                }
+            ], 
+            "label": "Genes of Interest", 
+            "name": "Input dataset", 
+            "outputs": [], 
+            "position": {
+                "left": 406.0069808959961, 
+                "top": 682.5000457763672
+            }, 
+            "tool_errors": null, 
+            "tool_id": null, 
+            "tool_state": "{\"name\": \"Genes of interest\"}", 
+            "tool_version": null, 
+            "type": "data_input", 
+            "uuid": "05f8175a-adf4-4968-b8f8-e2f1096217c3", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "output", 
+                    "uuid": "4a9bf14f-8e3f-46c8-adbe-0ba5570e2573"
+                }
+            ]
+        }, 
+        "6": {
+            "annotation": "", 
+            "content_id": null, 
+            "id": 6, 
+            "input_connections": {}, 
+            "inputs": [
+                {
+                    "description": "", 
+                    "name": "blacklist genes"
+                }
+            ], 
+            "label": "Gene Blacklist", 
+            "name": "Input dataset", 
+            "outputs": [], 
+            "position": {
+                "left": 408.02086639404297, 
+                "top": 772.5000457763672
+            }, 
+            "tool_errors": null, 
+            "tool_id": null, 
+            "tool_state": "{\"name\": \"blacklist genes\"}", 
+            "tool_version": null, 
+            "type": "data_input", 
+            "uuid": "f6606186-33b1-4f6e-82d9-c6db83e5ec84", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "output", 
+                    "uuid": "bb01a469-7c41-495c-910c-8ef43c4530e5"
+                }
+            ]
+        }, 
+        "7": {
+            "annotation": "This file is the set of targets (e.g. exons). Typically the provider of your exome kit should provide this file.", 
+            "content_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/igv2gistic/igv2gistic/1.0", 
+            "id": 7, 
+            "input_connections": {
+                "bed_file": {
+                    "id": 4, 
+                    "output_name": "output"
+                }, 
+                "igv_seg": {
+                    "id": 3, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool IGV2Gistic", 
+                    "name": "bed_file"
+                }, 
+                {
+                    "description": "runtime parameter for tool IGV2Gistic", 
+                    "name": "igv_seg"
+                }
+            ], 
+            "label": null, 
+            "name": "IGV2Gistic", 
+            "outputs": [
+                {
+                    "name": "out_seg", 
+                    "type": "tabular"
+                }, 
+                {
+                    "name": "markers", 
+                    "type": "tabular"
+                }
+            ], 
+            "position": {
+                "left": 419.0104293823242, 
+                "top": 467.46531677246094
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionmarkers": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "markers"
+                }, 
+                "HideDatasetActionout_seg": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "out_seg"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/igv2gistic/igv2gistic/1.0", 
+            "tool_shed_repository": {
+                "changeset_revision": "065ebcdf23c4", 
+                "name": "igv2gistic", 
+                "owner": "morinlab", 
+                "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
+            }, 
+            "tool_state": "{\"__page__\": 0, \"bed_file\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"__rerun_remap_job_id__\": null, \"igv_seg\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\"}", 
+            "tool_version": "1.0", 
+            "type": "tool", 
+            "uuid": "8b01413a-0260-421f-bd92-f4d57af24bc9", 
+            "workflow_outputs": []
+        }, 
+        "8": {
+            "annotation": "", 
+            "content_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/gistic/gistc/2.0.22", 
+            "id": 8, 
+            "input_connections": {
+                "markersfile": {
+                    "id": 7, 
+                    "output_name": "markers"
+                }, 
+                "segfile": {
+                    "id": 7, 
+                    "output_name": "out_seg"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool GISTIC2.0", 
+                    "name": "segfile"
+                }, 
+                {
+                    "description": "runtime parameter for tool GISTIC2.0", 
+                    "name": "markersfile"
+                }
+            ], 
+            "label": null, 
+            "name": "GISTIC2.0", 
+            "outputs": [
+                {
+                    "name": "list_output", 
+                    "type": "input"
+                }, 
+                {
+                    "name": "sig_regions", 
+                    "type": "bed"
+                }
+            ], 
+            "position": {
+                "left": 655.989616394043, 
+                "top": 504.4618377685547
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/gistic/gistc/2.0.22", 
+            "tool_shed_repository": {
+                "changeset_revision": "be275182f9d1", 
+                "name": "gistic", 
+                "owner": "morinlab", 
+                "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
+            }, 
+            "tool_state": "{\"ref_select\": \"\\\"hg19\\\"\", \"__page__\": 0, \"broad\": \"\\\"false\\\"\", \"__rerun_remap_job_id__\": null, \"rx\": \"\\\"false\\\"\", \"genegistic\": \"\\\"true\\\"\", \"segfile\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"brlen\": \"\\\"0.98\\\"\", \"markersfile\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"conf\": \"\\\"0.75\\\"\", \"armpeel\": \"\\\"false\\\"\", \"qvt\": \"\\\"0.75\\\"\"}", 
+            "tool_version": "2.0.22", 
+            "type": "tool", 
+            "uuid": "0ccbfdb8-c0b0-4abc-9a76-0434c8093d61", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "sig_regions", 
+                    "uuid": "9088af4b-307a-48a8-8217-8b264325d7d5"
+                }, 
+                {
+                    "label": null, 
+                    "output_name": "list_output", 
+                    "uuid": "65a3ac56-4737-4836-bf70-f475adee72ca"
+                }
+            ]
+        }, 
+        "9": {
+            "annotation": "", 
+            "content_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/oncocircos/oncocircos/0.69", 
+            "id": 9, 
+            "input_connections": {
+                "advancedOptions|gene_label_input_type|gene_file": {
+                    "id": 5, 
+                    "output_name": "output"
+                }, 
+                "advancedOptions|gene_mask_input_type|gene_file": {
+                    "id": 6, 
+                    "output_name": "output"
+                }, 
+                "biomart": {
+                    "id": 2, 
+                    "output_name": "output"
+                }, 
+                "input_maf": {
+                    "id": 0, 
+                    "output_name": "output"
+                }, 
+                "input_seg": {
+                    "id": 1, 
+                    "output_name": "output"
+                }, 
+                "sig_regions": {
+                    "id": 8, 
+                    "output_name": "sig_regions"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool Oncocircos", 
+                    "name": "input_maf"
+                }, 
+                {
+                    "description": "runtime parameter for tool Oncocircos", 
+                    "name": "sig_regions"
+                }, 
+                {
+                    "description": "runtime parameter for tool Oncocircos", 
+                    "name": "biomart"
+                }, 
+                {
+                    "description": "runtime parameter for tool Oncocircos", 
+                    "name": "input_seg"
+                }
+            ], 
+            "label": null, 
+            "name": "Oncocircos", 
+            "outputs": [
+                {
+                    "name": "png", 
+                    "type": "png"
+                }, 
+                {
+                    "name": "svg", 
+                    "type": "svg"
+                }, 
+                {
+                    "name": "tmp", 
+                    "type": "txt"
+                }
+            ], 
+            "position": {
+                "left": 1140.0000534057617, 
+                "top": 438.48960876464844
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/oncocircos/oncocircos/0.69", 
+            "tool_shed_repository": {
+                "changeset_revision": "481af5a17823", 
+                "name": "oncocircos", 
+                "owner": "morinlab", 
+                "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
+            }, 
+            "tool_state": "{\"input_maf\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"__page__\": 0, \"sig_regions\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"biomart\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"__rerun_remap_job_id__\": null, \"input_seg\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"advancedOptions\": \"{\\\"filter_snvs\\\": \\\"2\\\", \\\"gene_mask_input_type\\\": {\\\"gene_file\\\": {\\\"__class__\\\": \\\"RuntimeValue\\\"}, \\\"__current_case__\\\": 0, \\\"gene_mask_input_type_selector\\\": \\\"file\\\"}, \\\"gene_label_input_type\\\": {\\\"gene_file\\\": {\\\"__class__\\\": \\\"RuntimeValue\\\"}, \\\"gene_label_input_type_selector\\\": \\\"file\\\", \\\"__current_case__\\\": 0}, \\\"chromosome\\\": \\\"\\\"}\"}", 
+            "tool_version": "0.69", 
+            "type": "tool", 
+            "uuid": "8fe4fe2d-68b1-4aaa-9f03-3449a898ee2c", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "tmp", 
+                    "uuid": "8113bb9f-4ed3-48a8-9dc7-e6d67cfb208e"
+                }, 
+                {
+                    "label": null, 
+                    "output_name": "svg", 
+                    "uuid": "daba99b8-e27e-41bc-9f2d-6e06b6b9e6ea"
+                }, 
+                {
+                    "label": null, 
+                    "output_name": "png", 
+                    "uuid": "18600c04-ccdb-44f8-a047-e78315b87425"
+                }
+            ]
+        }
+    }, 
+    "uuid": "1fa0134c-9793-4774-9dba-2149e4ef4d1a"
+}

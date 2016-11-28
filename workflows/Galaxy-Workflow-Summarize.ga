@@ -1,0 +1,244 @@
+{
+    "a_galaxy_workflow": "true", 
+    "annotation": "Summarize SNV results and create various visualizations", 
+    "format-version": "0.1", 
+    "name": "Summarize", 
+    "steps": {
+        "0": {
+            "annotation": "", 
+            "content_id": null, 
+            "id": 0, 
+            "input_connections": {}, 
+            "inputs": [
+                {
+                    "description": "", 
+                    "name": "merged MAF file containing all annotated mutations"
+                }
+            ], 
+            "label": "Input Merged MAF", 
+            "name": "Input dataset", 
+            "outputs": [], 
+            "position": {
+                "left": 248, 
+                "top": 280.5
+            }, 
+            "tool_errors": null, 
+            "tool_id": null, 
+            "tool_state": "{\"name\": \"merged MAF file containing all annotated mutations\"}", 
+            "tool_version": null, 
+            "type": "data_input", 
+            "uuid": "75a3dccf-523a-479d-b7d4-e6c955775370", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "output", 
+                    "uuid": "85ecc4df-3094-44a8-88a7-483f739dcf5d"
+                }
+            ]
+        }, 
+        "1": {
+            "annotation": "A plain text file with a gene name on each line. These genes will be filtered from any visualizations that accept a blacklist as input.", 
+            "content_id": null, 
+            "id": 1, 
+            "input_connections": {}, 
+            "inputs": [
+                {
+                    "description": "A plain text file with a gene name on each line. These genes will be filtered from any visualizations that accept a blacklist as input.", 
+                    "name": "gene blacklist"
+                }
+            ], 
+            "label": "Blacklist", 
+            "name": "Input dataset", 
+            "outputs": [], 
+            "position": {
+                "left": 249, 
+                "top": 379.5
+            }, 
+            "tool_errors": null, 
+            "tool_id": null, 
+            "tool_state": "{\"name\": \"gene blacklist\"}", 
+            "tool_version": null, 
+            "type": "data_input", 
+            "uuid": "7719aa16-252b-40ac-9c48-33fa1b1f9759", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "output", 
+                    "uuid": "80b726cb-331a-42ff-a264-9fe4105c5e0a"
+                }
+            ]
+        }, 
+        "2": {
+            "annotation": "", 
+            "content_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/maftools/oncoplot/0.9.30", 
+            "id": 2, 
+            "input_connections": {
+                "gene_input_type|gene_file": {
+                    "id": 1, 
+                    "output_name": "output"
+                }, 
+                "input_maf": {
+                    "id": 0, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool MAF Oncoplot", 
+                    "name": "input_maf"
+                }, 
+                {
+                    "description": "runtime parameter for tool MAF Oncoplot", 
+                    "name": "gene_input_type"
+                }
+            ], 
+            "label": null, 
+            "name": "MAF Oncoplot", 
+            "outputs": [
+                {
+                    "name": "output", 
+                    "type": "pdf"
+                }
+            ], 
+            "position": {
+                "left": 510, 
+                "top": 197.5
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/maftools/oncoplot/0.9.30", 
+            "tool_shed_repository": {
+                "changeset_revision": "a436ba2d0351", 
+                "name": "maftools", 
+                "owner": "morinlab", 
+                "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
+            }, 
+            "tool_state": "{\"input_maf\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"__page__\": 0, \"gene_input_type\": \"{\\\"gene_file\\\": {\\\"__class__\\\": \\\"RuntimeValue\\\"}, \\\"__current_case__\\\": 0, \\\"gene_input_type_selector\\\": \\\"file\\\"}\", \"__rerun_remap_job_id__\": null, \"top\": \"\\\"30\\\"\"}", 
+            "tool_version": "0.9.30", 
+            "type": "tool", 
+            "uuid": "728d70e1-057b-4e7a-bbbb-aab6d55deb66", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "output", 
+                    "uuid": "f4ba8efb-2cb7-455f-a26c-0dd8e54dc932"
+                }
+            ]
+        }, 
+        "3": {
+            "annotation": "", 
+            "content_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/maftools/gene_cloud/0.9.30", 
+            "id": 3, 
+            "input_connections": {
+                "gene_input_type|gene_file": {
+                    "id": 1, 
+                    "output_name": "output"
+                }, 
+                "input_maf": {
+                    "id": 0, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool Gene Cloud Plot", 
+                    "name": "input_maf"
+                }, 
+                {
+                    "description": "runtime parameter for tool Gene Cloud Plot", 
+                    "name": "gene_input_type"
+                }
+            ], 
+            "label": null, 
+            "name": "Gene Cloud Plot", 
+            "outputs": [
+                {
+                    "name": "output", 
+                    "type": "pdf"
+                }
+            ], 
+            "position": {
+                "left": 512, 
+                "top": 317.5
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/maftools/gene_cloud/0.9.30", 
+            "tool_shed_repository": {
+                "changeset_revision": "a436ba2d0351", 
+                "name": "maftools", 
+                "owner": "morinlab", 
+                "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
+            }, 
+            "tool_state": "{\"input_maf\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"min_mutations\": \"\\\"6\\\"\", \"gene_input_type\": \"{\\\"gene_file\\\": {\\\"__class__\\\": \\\"RuntimeValue\\\"}, \\\"__current_case__\\\": 0, \\\"gene_input_type_selector\\\": \\\"file\\\"}\", \"__rerun_remap_job_id__\": null, \"__page__\": 0}", 
+            "tool_version": "0.9.30", 
+            "type": "tool", 
+            "uuid": "0361dd1c-7125-43f7-baf1-11c9fcaa401f", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "output", 
+                    "uuid": "fe07f11e-2d4d-4858-b11e-8632ed2eb926"
+                }
+            ]
+        }, 
+        "4": {
+            "annotation": "", 
+            "content_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/maftools/maf_summary/0.9.30", 
+            "id": 4, 
+            "input_connections": {
+                "gene_input_type|gene_file": {
+                    "id": 1, 
+                    "output_name": "output"
+                }, 
+                "input_maf": {
+                    "id": 0, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool MAF Summary Plot", 
+                    "name": "input_maf"
+                }, 
+                {
+                    "description": "runtime parameter for tool MAF Summary Plot", 
+                    "name": "gene_input_type"
+                }
+            ], 
+            "label": null, 
+            "name": "MAF Summary Plot", 
+            "outputs": [
+                {
+                    "name": "output", 
+                    "type": "pdf"
+                }
+            ], 
+            "position": {
+                "left": 506.5, 
+                "top": 436.5
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/maftools/maf_summary/0.9.30", 
+            "tool_shed_repository": {
+                "changeset_revision": "a436ba2d0351", 
+                "name": "maftools", 
+                "owner": "morinlab", 
+                "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
+            }, 
+            "tool_state": "{\"input_maf\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"topn\": \"\\\"20\\\"\", \"gene_input_type\": \"{\\\"gene_file\\\": {\\\"__class__\\\": \\\"RuntimeValue\\\"}, \\\"__current_case__\\\": 0, \\\"gene_input_type_selector\\\": \\\"file\\\"}\", \"__rerun_remap_job_id__\": null, \"__page__\": 0}", 
+            "tool_version": "0.9.30", 
+            "type": "tool", 
+            "uuid": "0a1a4389-63af-4639-b6ea-428525cc787d", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "output", 
+                    "uuid": "181aaf87-c54a-451c-8a06-e061f633d944"
+                }
+            ]
+        }
+    }, 
+    "uuid": "1e3188eb-f2c7-4218-ad03-e16fd0c873d7"
+}

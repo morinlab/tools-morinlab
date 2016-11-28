@@ -1,0 +1,258 @@
+{
+    "a_galaxy_workflow": "true", 
+    "annotation": "Generate an IGV screenshot of each non-silent variant", 
+    "format-version": "0.1", 
+    "name": "IGVScreenshotVariants", 
+    "steps": {
+        "0": {
+            "annotation": "", 
+            "content_id": null, 
+            "id": 0, 
+            "input_connections": {}, 
+            "inputs": [
+                {
+                    "description": "", 
+                    "name": "MAF file"
+                }
+            ], 
+            "label": "MAF file for tumour-normal pair", 
+            "name": "Input dataset", 
+            "outputs": [], 
+            "position": {
+                "left": 200.00001525878906, 
+                "top": 357.55210876464844
+            }, 
+            "tool_errors": null, 
+            "tool_id": null, 
+            "tool_state": "{\"name\": \"MAF file\"}", 
+            "tool_version": null, 
+            "type": "data_input", 
+            "uuid": "6e1c9a7f-a90b-46dd-89a0-7de68d997165", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "output", 
+                    "uuid": "e1f8ff8b-253d-4f91-ba89-33b333530962"
+                }
+            ]
+        }, 
+        "1": {
+            "annotation": "", 
+            "content_id": null, 
+            "id": 1, 
+            "input_connections": {}, 
+            "inputs": [
+                {
+                    "description": "", 
+                    "name": "Normal Bam"
+                }
+            ], 
+            "label": "Normal", 
+            "name": "Input dataset", 
+            "outputs": [], 
+            "position": {
+                "left": 354.04515075683594, 
+                "top": 280.53822326660156
+            }, 
+            "tool_errors": null, 
+            "tool_id": null, 
+            "tool_state": "{\"name\": \"Normal Bam\"}", 
+            "tool_version": null, 
+            "type": "data_input", 
+            "uuid": "b5db8880-5aaf-4474-9a7e-0fde4ce3a597", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "output", 
+                    "uuid": "edd9d9f6-4150-4de6-81f7-c94278f172d9"
+                }
+            ]
+        }, 
+        "2": {
+            "annotation": "", 
+            "content_id": null, 
+            "id": 2, 
+            "input_connections": {}, 
+            "inputs": [
+                {
+                    "description": "", 
+                    "name": "Tumor Bam"
+                }
+            ], 
+            "label": "Tumor", 
+            "name": "Input dataset", 
+            "outputs": [], 
+            "position": {
+                "left": 534.0798797607422, 
+                "top": 243.59376525878906
+            }, 
+            "tool_errors": null, 
+            "tool_id": null, 
+            "tool_state": "{\"name\": \"Tumor Bam\"}", 
+            "tool_version": null, 
+            "type": "data_input", 
+            "uuid": "586277e8-c596-465d-b5f2-7dcd6dad4699", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "output", 
+                    "uuid": "cfc747b6-d56c-491a-96df-871f688755f4"
+                }
+            ]
+        }, 
+        "3": {
+            "annotation": "Can be expanded to capture more types.", 
+            "content_id": "Grep1", 
+            "id": 3, 
+            "input_connections": {
+                "input": {
+                    "id": 0, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool Select", 
+                    "name": "input"
+                }
+            ], 
+            "label": null, 
+            "name": "Select", 
+            "outputs": [
+                {
+                    "name": "out_file1", 
+                    "type": "input"
+                }
+            ], 
+            "position": {
+                "left": 387.93406677246094, 
+                "top": 416.5798797607422
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionout_file1": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "out_file1"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "Grep1", 
+            "tool_state": "{\"__page__\": 0, \"input\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"invert\": \"\\\"false\\\"\", \"__rerun_remap_job_id__\": null, \"pattern\": \"\\\"Missense|Nonse|Frame|Splice\\\"\"}", 
+            "tool_version": "1.0.1", 
+            "type": "tool", 
+            "uuid": "39eb7da5-ab4d-4670-a833-e9447e63799e", 
+            "workflow_outputs": []
+        }, 
+        "4": {
+            "annotation": "Extract coordinate of each mutation", 
+            "content_id": "Cut1", 
+            "id": 4, 
+            "input_connections": {
+                "input": {
+                    "id": 3, 
+                    "output_name": "out_file1"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool Cut", 
+                    "name": "input"
+                }
+            ], 
+            "label": null, 
+            "name": "Cut", 
+            "outputs": [
+                {
+                    "name": "out_file1", 
+                    "type": "tabular"
+                }
+            ], 
+            "position": {
+                "left": 571.9444427490234, 
+                "top": 431.5798797607422
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionout_file1": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "out_file1"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "Cut1", 
+            "tool_state": "{\"columnList\": \"\\\"c5-c7\\\"\", \"input\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"delimiter\": \"\\\"T\\\"\", \"__rerun_remap_job_id__\": null, \"__page__\": 0}", 
+            "tool_version": "1.0.2", 
+            "type": "tool", 
+            "uuid": "47061db2-c632-457a-a4b4-813fd85a0f8e", 
+            "workflow_outputs": []
+        }, 
+        "5": {
+            "annotation": "", 
+            "content_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/igv_screenshot/igvscreenshot/1.2", 
+            "id": 5, 
+            "input_connections": {
+                "region_file": {
+                    "id": 4, 
+                    "output_name": "out_file1"
+                }, 
+                "tracks_0|inputfile": {
+                    "id": 2, 
+                    "output_name": "output"
+                }, 
+                "tracks_1|inputfile": {
+                    "id": 1, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool Take an IGV screenshot", 
+                    "name": "region_file"
+                }
+            ], 
+            "label": null, 
+            "name": "Take an IGV screenshot", 
+            "outputs": [
+                {
+                    "name": "igv_output", 
+                    "type": "input"
+                }, 
+                {
+                    "name": "outputfile", 
+                    "type": "txt"
+                }
+            ], 
+            "position": {
+                "left": 806.0764007568359, 
+                "top": 360.5902862548828
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionoutputfile": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "outputfile"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/igv_screenshot/igvscreenshot/1.2", 
+            "tool_shed_repository": {
+                "changeset_revision": "0c5009066fdb", 
+                "name": "igv_screenshot", 
+                "owner": "morinlab", 
+                "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
+            }, 
+            "tool_state": "{\"__page__\": 0, \"tracks\": \"[{\\\"__index__\\\": 0, \\\"view\\\": \\\"expand\\\", \\\"trackname\\\": \\\"Tumor\\\", \\\"viewaspairs\\\": \\\"false\\\", \\\"inputfile\\\": {\\\"__class__\\\": \\\"RuntimeValue\\\"}}, {\\\"__index__\\\": 1, \\\"view\\\": \\\"expand\\\", \\\"trackname\\\": \\\"Normal\\\", \\\"viewaspairs\\\": \\\"false\\\", \\\"inputfile\\\": {\\\"__class__\\\": \\\"RuntimeValue\\\"}}]\", \"__rerun_remap_job_id__\": null, \"reference\": \"\\\"hg38\\\"\", \"region_file\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\"}", 
+            "tool_version": "1.2", 
+            "type": "tool", 
+            "uuid": "a9de1de3-9080-4960-b72b-c99b022860ec", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "igv_output", 
+                    "uuid": "cddd9da1-410f-44ff-82b6-54651708c11a"
+                }
+            ]
+        }
+    }, 
+    "uuid": "334090d7-bb25-4a0c-84d4-f6cbacde6688"
+}
