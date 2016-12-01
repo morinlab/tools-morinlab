@@ -21,7 +21,7 @@ It is sometimes important to visually check the quality of somatic SNV and indel
 ###Using OncodriveFM to detect significantly mutated genes and visualizations
 ![ScreenShot](oncodrivefm_gene_discovery.png)
 
-Assuming one has variant calls from a sufficiently large cohort, a likely goal is to identify significantly/recurrently mutated genes. OncodriveFM is one algorithm suitable for this application. This workflow takes a merged MAF file containing variants from all patients in a cohort and converts this to the input format (TDM) required by OncodriveFM. All genes passing a user-specified Q-value cutoff will have lollipop plots automatically generated. The full OncodriveFM result is separately passed to OncoprintPlus for cohort-wide gene-by-patient visualization.
+Assuming one has variant calls from a sufficiently large cohort, a likely goal is to identify significantly/recurrently mutated genes. [OncodriveFM](https://testtoolshed.g2.bx.psu.edu/view/morinlab/oncodrivefm/97e99acadbaf) is one algorithm suitable for this application. This workflow takes a merged MAF file containing variants from all patients in a cohort and converts this to the input format (using [maf2tdm](https://testtoolshed.g2.bx.psu.edu/view/morinlab/package_maf2tdm_1_0/fd09386ad95f)) required by OncodriveFM. All genes passing a user-specified Q-value cutoff will have lollipop plots automatically generated. The full OncodriveFM result is separately passed to OncoprintPlus for cohort-wide gene-by-patient visualization.
 
 ---
 
