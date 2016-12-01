@@ -10,3 +10,5 @@ These are some example workflows that will get you started using the Cancer Geno
 ##Using OncodriveFM to detect significantly mutated genes
 ![ScreenShot](oncodrivefm_gene_discovery.png)
 
+#Running GISTIC on CNV results and generating integrative visualization with SNV results
+![ScreenShot](gistic_snv_workflow.png)
