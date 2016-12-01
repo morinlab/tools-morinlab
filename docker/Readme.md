@@ -2,7 +2,7 @@
 
 #If you succeed:
 After a successful build, you should see an output similar to the following:
-**Activating virtualenv at /galaxy_venv
+*Activating virtualenv at /galaxy_venv
 Galaxy is running.
 (1/10) Installing tool oncocircos from morinlab to section "Cancer: Visualization" at revision 417f984cd2e2 (TRT: 0:00:00.439506)
 	Tool oncocircos installed successfully (in 0:09:19.175626) at revision 417f984cd2e2
@@ -28,4 +28,4 @@ Installed tools (10): [('oncocircos', None), ('oncodrivefm', None), ('sequenza',
 Skipped tools (0): []
 Errored tools (0): []
 All tools have been processed.
-Total run time: 1:19:24.958339**
+Total run time: 1:19:24.958339*
