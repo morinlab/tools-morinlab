@@ -39,3 +39,8 @@ Errored tools (0): []
 All tools have been processed.
 Total run time: 1:19:24.958339
 </pre>
+
+##Testing your Image
+To boot your newly build Docker image, use the following command, substituting the name argument with whatever you choose.
+
+```docker run --name test_image -p 8080:80 full_galaxy_can```
