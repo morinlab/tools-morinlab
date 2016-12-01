@@ -1,7 +1,12 @@
 # Using the Docker Cancer Genomics Galaxy flavor
 
 ##Background
-The Dockerfile provided here should allow you to build your own image based on the extremely useful [Galaxy-stable Docker image](https://github.com/bgruening/docker-galaxy-stable) maintained by Björn Grüning. 
+The Dockerfile provided here should allow you to build your own image based on the extremely useful [Galaxy-stable Docker image](https://github.com/bgruening/docker-galaxy-stable) maintained by Björn Grüning. The build process can be lengthy because it involves installing some of the additional dependencies needed by various tools in the Cancer Genomics toolkit. Currently, not all of the tools we have released are included in this Dockerfile but we plan to include as many as possible if there is sufficient interest. We also invite the community to contribute derivatives with any missing tools or additional tools that integrate well into the goals of this project. 
+
+##Building your own image
+Assuming you have installed Docker properly on the system you wish to build the image, the process should be quite simple. In the directory containing both the Dockerfile and tool list, run the following command:
+
+```docker build -t full_galaxy_can .```
 
 ###If you succeed:
 After a successful build, you should see an output similar to the following:
