@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<tool_dependency>
+	<package name="morinkit" version="0.1.1">
+		<install version="1.0">
+			<actions_group>
+				<actions os="linux" architecture="x86_64">
+					<action type="download_by_url" md5sum="874dbb0d3c7ec665adf7231bbb575ab2" target_filename="Miniconda3-4.1.11-Linux-x86_64.sh">
+						https://repo.continuum.io/miniconda/Miniconda3-4.1.11-Linux-x86_64.sh
+					</action>
+					<action type="shell_command">
+						bash Miniconda3-4.1.11-Linux-x86_64.sh -b -f -p $INSTALL_DIR
+					</action>
+				</actions>
+				<actions os="darwin" architecture="x86_64">
+					<action type="download_by_url" md5sum="870d6f99eda1263c6e857d637e861d20" target_filename="Miniconda3-4.1.11-MacOSX-x86_64.sh">
+						https://repo.continuum.io/miniconda/Miniconda3-4.1.11-MacOSX-x86_64.sh
+					</action>
+					<action type="shell_command">
+						bash Miniconda3-4.1.11-MacOSX-x86_64.sh -b -f -p $INSTALL_DIR
+					</action>
+				</actions>
+				<action type="shell_command">
+					$INSTALL_DIR/bin/conda install --quiet --yes numpy Cython
+				</action>
+				<action type="shell_command">
+					$INSTALL_DIR/bin/pip install --quiet morinkit==0.1.1
+				</action>
+				<action type="set_environment">
+					<environment_variable action="prepend_to" name="PATH">$INSTALL_DIR/bin</environment_variable>
+					<environment_variable action="set_to" name="ANACONDA_ROOT_DIR">$INSTALL_DIR</environment_variable>
+				</action>
+			</actions_group>
+		</install>
+	</package>
+</tool_dependency>
