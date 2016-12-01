@@ -1,6 +1,8 @@
-## Using the Docker Cancer Genomics Galaxy flavor
+# Using the Docker Cancer Genomics Galaxy flavor
 
-#If you succeed:
+#The Dockerfile provided here should allow you to build your own image based on the extremely useful [Galaxy-stable Docker image](https://github.com/bgruening/docker-galaxy-stable) maintained by Björn Grüning
+
+###If you succeed:
 After a successful build, you should see an output similar to the following:
 <pre>
 Activating virtualenv at /galaxy_venv
