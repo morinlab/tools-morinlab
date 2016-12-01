@@ -2,11 +2,17 @@
 
 #If you succeed:
 After a successful build, you should see an output similar to the following:
+
 Activating virtualenv at /galaxy_venv
+
 Galaxy is running.
+
 (1/10) Installing tool oncocircos from morinlab to section "Cancer: Visualization" at revision 417f984cd2e2 (TRT: 0:00:00.439506)
+
 	Tool oncocircos installed successfully (in 0:09:19.175626) at revision 417f984cd2e2
-(2/10) Installing tool oncodrivefm from morinlab to section "Cancer: Significant Gene Detection" at revision 97e99acadbaf (TRT: 0:09:19.923122)
+	
+(2/10) Installing tool oncodrivefm from morinlab to section "Cancer: Significant Gene Detection" at revision 97e99acadbaf (TRT:
+0:09:19.923122)
 	Tool oncodrivefm installed successfully (in 0:07:48.246175) at revision 97e99acadbaf
 (3/10) Installing tool sequenza from morinlab to section "Cancer: CNV calling" at revision 73338a1805e7 (TRT: 0:17:08.470253)
 	Tool sequenza installed successfully (in 0:25:42.674821) at revision 73338a1805e7
