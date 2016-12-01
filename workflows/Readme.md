@@ -4,13 +4,15 @@ For details, the full toolkit is described [here](http://biorxiv.org/content/ear
 
 ###Calling somatic SNVs using an ensemble approach
 ![ScreenShot](ensemble_caller_workflow.png)
-This workflow demonstrates our implementation of a simple voting-based ensemble variant calling approach using Galaxy. Here, four somatic SNV callers are run on the same tumour/normal pair (RADIA, SomaticSniper, MutationSeq and Strelka). The vcf-formatted output of each tool is passed to ensemble_vcf, which in turn outputs variants detected by a user-specified proportion of these callers (e.g. >50%). The last step in this workflow is to annotate the remaining variants using vcf2maf. 
+This workflow demonstrates our implementation of a simple voting-based ensemble variant calling approach using Galaxy. Here, four somatic SNV callers are run on the same tumour/normal pair (RADIA, SomaticSniper, MutationSeq and Strelka). The vcf-formatted output of each tool is passed to ensemble_vcf, which in turn outputs variants detected by a user-specified proportion of these callers (e.g. >50%). The last step in this workflow is to annotate the remaining variants using vcf2maf. The output is a file in the TCGA MAF format that contains detailed annotations of the effect of each variant on canonical gene annotations (from Ensembl).
 
 ###Taking a batch of screenshots in IGV for variants affecting specific loci
 ![ScreenShot](igv_screenshot.png)
+It is sometimes important to visually check the quality of somatic SNV and indel calls. This simple workflow uses an extended implementation of the igv_screenshot tool to capture screenshots of the aligned reads (in IGV) for a set of variants specified from a MAF file. The workflow first selects lines matching a user-specified set of criteria (e.g. *Missense|Nonsense*) using the Select tool. The other required inputs are the tumor and normal bam file from the patient being analyzed. This workflow generates a data collection containing a PNG file for each line in the input that matches the user's criteria.
 
 ###Using OncodriveFM to detect significantly mutated genes and visualizations
 ![ScreenShot](oncodrivefm_gene_discovery.png)
+Assuming one has variant calls from a sufficiently large cohort, a likely goal is to identify significantly/recurrently mutated genes. OncodriveFM is one algorithm suitable for this application. This workflow takes a merged MAF file containing variants from all patients in a cohort and converts this to the input format (TDM) required by OncodriveFM. All genes passing a user-specified Q-value cutoff will have lollipop plots automatically generated. The full OncodriveFM result is separately passed to OncoprintPlus for cohort-wide gene-by-patient visualization.
 
 ###Running GISTIC on CNV results and generating Oncocircos visualization
 ![ScreenShot](gistic_snv_workflow.png)
