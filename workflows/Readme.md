@@ -1,5 +1,6 @@
 # Cancer Genomics Workflows
-These are some example workflows that will get you started using the Cancer Genomics Toolkit. 
+These are some example workflows that will get you started using the Cancer Genomics Toolkit
+For details, the full toolkit is described [here](http://biorxiv.org/content/early/2016/11/26/089631)
 
 ###Calling somatic SNVs using an ensemble approach
 ![ScreenShot](ensemble_caller_workflow.png)
