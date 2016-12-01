@@ -4,6 +4,7 @@ For details, the full toolkit is described [here](http://biorxiv.org/content/ear
 
 ###Calling somatic SNVs using an ensemble approach
 ![ScreenShot](ensemble_caller_workflow.png)
+This workflow demonstrates our implementation of a simple voting-based ensemble variant calling approach using Galaxy. Here, four somatic SNV callers are run on the same tumour/normal pair (RADIA, SomaticSniper, MutationSeq and Strelka). The vcf-formatted output of each tool is passed to ensemble_vcf, which in turn outputs variants detected by a user-specified proportion of these callers (e.g. >50%). The last step in this workflow is to annotate the remaining variants using vcf2maf. 
 
 ###Taking a batch of screenshots in IGV for variants affecting specific loci
 ![ScreenShot](igv_screenshot.png)
