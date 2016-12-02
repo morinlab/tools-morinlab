@@ -34,7 +34,3 @@ ADD cancer_tools.yml $GALAXY_ROOT/cancer_tools.yml
 # Install the tools
 RUN install-tools $GALAXY_ROOT/cancer_tools.yml
 
-#set up Matlab dependency and copy required files to Gistic tool directory
-
-
-RUN cp -R /opt/MATLAB/MATLAB_Compiler_Runtime/ /export/tool_deps/gistic/2.0.22/morinlab/package_gistic_2_0_22/e6bd63a6507a/
