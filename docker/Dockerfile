@@ -1,7 +1,7 @@
 FROM bgruening/galaxy-stable
 MAINTAINER Ryan Morin, rdmorin@sfu.ca
 
-RUN apt-get update && apt-get install rsync #a dependency needed by Strelka installer
+RUN apt-get update && apt-get install rsync && apt-get install bc && apt-get install libxp6 libxmu6 #a dependency needed by Strelka installer and GISTIC
 
 RUN add-tool-shed --url 'https://testtoolshed.g2.bx.psu.edu/' --name 'Test Tool Shed'
 
@@ -33,3 +33,8 @@ ADD cancer_tools.yml $GALAXY_ROOT/cancer_tools.yml
 
 # Install the tools
 RUN install-tools $GALAXY_ROOT/cancer_tools.yml
+
+#set up Matlab dependency and copy required files to Gistic tool directory
+
+
+RUN cp -R /opt/MATLAB/MATLAB_Compiler_Runtime/ /export/tool_deps/gistic/2.0.22/morinlab/package_gistic_2_0_22/e6bd63a6507a/
