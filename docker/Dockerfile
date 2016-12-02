@@ -25,7 +25,7 @@ RUN Rscript -e 'install.packages("XML",repos="https://cloud.r-project.org/")'
 RUN Rscript -e 'source("http://bioconductor.org/biocLite.R"); biocLite("ComplexHeatmap"); biocLite("VariantAnnotation"); biocLite("Biostrings")'
 RUN Rscript -e 'install.packages("devtools",repos="https://cloud.r-project.org/")'
 RUN Rscript -e 'library("devtools"); install_github(repo = "PoisonAlien/maftools");'
-
+RUN Rscript -e 'install.packages("argparse",repos="https://cloud.r-project.org/")'
 
 
 # Adding the tool definitions to the container
