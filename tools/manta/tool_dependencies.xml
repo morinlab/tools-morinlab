@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<tool_dependency>
+  <package name="manta" version="0.29.6">
+    <repository  name="package_manta_0_29_6" owner="morinlab" />
+  </package>
+</tool_dependency>

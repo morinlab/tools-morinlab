@@ -1,0 +1,23 @@
+<tool id="merge" name="Merge Collections" version="1.0.0">
+  <description> 
+  Merge a Collection of Files
+  </description>
+  <command>
+
+  touch list_of_files.txt;
+  #for $f in $data_collection:
+    echo $f >> list_of_files.txt;
+  #end for
+
+  Rscript $__tool_directory__/merge.R list_of_files.txt $order $output $header 2>&amp;1;
+
+  </command>
+  <inputs>
+    <param type="data_collection" format="txt" collection_type="list"  name="data_collection"/>
+    <param type="data" format="txt" name="order" label="Contig Order File"/>
+    <param type="boolean" name="header" label="Do Files Contain Headers?" checked="True" truevalue="TRUE" falsevalue="FALSE"/> 
+  </inputs>
+  <outputs>
+    <data format="txt" name="output"/>
+  </outputs>
+</tool>

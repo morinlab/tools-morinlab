@@ -1,0 +1,24 @@
+<tool id="merge_maf_collection" name="Merge MAF Collection" version="1.0.0">
+  <description> 
+  Merge a collection of MAF files
+  </description>
+  <command>
+  <![CDATA[
+
+  #for $i, $f in enumerate($maf_collection)
+    #if $i == 0
+      cat $f >> $output;
+    #else
+      tail -n+3 $f >> $output;
+    #end if
+  #end for
+
+  ]]>
+  </command>
+  <inputs>
+    <param type="data_collection" format="maf" collection_type="list"  name="maf_collection"/>
+  </inputs>
+  <outputs>
+    <data format="maf" name="output"/>
+  </outputs>
+</tool>

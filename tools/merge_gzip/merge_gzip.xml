@@ -1,0 +1,34 @@
+<tool id="merge_gzip" name="Merge GunZipped" version="1.0.0">
+  <description> 
+  Merge a Collection of GunZipped Files
+  </description>
+  <command>
+
+  touch list_of_sub_files.txt;
+  #for $f in $list_of_sub_files:
+    echo $f >> list_of_sub_files.txt;
+  #end for
+
+  touch list_of_sub_intervals.txt;
+  #for $f in $list_of_sub_file_intervals:
+    echo $f >> list_of_sub_intervals.txt;
+  #end for
+
+  touch list_of_sub_bytes.txt;
+  #for $f in $list_of_sub_file_bytes:
+    echo $f >> list_of_sub_bytes.txt;
+  #end for
+
+  Rscript $__tool_directory__/merge_gzip.R list_of_sub_files.txt list_of_sub_intervals.txt list_of_sub_bytes.txt $order $output;
+
+  </command>
+  <inputs>
+    <param type="data_collection" format="txt" collection_type="list" name="list_of_sub_files" label="Files To Be Merged"/>
+    <param type="data_collection" format="txt,bed" collection_type="list" name="list_of_sub_file_intervals" label="Interval Files"/>
+    <param type="data_collection" format="txt" collection_type="list" name="list_of_sub_file_bytes" label="Byte Files"/>
+    <param type="data" format="txt,bed" name="order" label="Contig Order File"/>
+  </inputs>
+  <outputs>
+    <data format="txt" name="output"/>
+  </outputs>
+</tool>

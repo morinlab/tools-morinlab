@@ -1,0 +1,37 @@
+<tool id="fetch_interval" name="Fetch Interval" version="1.0.0">
+  <description> Creates Interval files used to parallelize certain Galaxy Tools </description>
+  <requirements>
+    <requirement type="package" version="1.0.0">fetch_interval</requirement>
+    <requirement type="set_environment">FETCH_REPOSITORY_DIR</requirement>
+  </requirements>
+  <command>
+  <![CDATA[	
+  
+      mkdir outputs;
+      #if $output_option.output_option_selector == "collection":
+          python \$FETCH_REPOSITORY_DIR/fetch_interval.py --mode by_rname --input $input --order $order --output output.txt --chromosome --group_according_to_largest_chromosome --prefixes_to_ignore GL NC MT;
+  
+      #else:
+          python \$FETCH_REPOSITORY_DIR/fetch_interval.py --mode by_rname --input $input --output $order --chromosome --prefixes_to_ignore GL NC MT;
+          cat $order > ./outputs/samp1.bed;
+
+      #end if
+  
+  ]]>
+  </command>
+  <inputs>
+    <conditional name="output_option">
+      <param type="select" name="output_option_selector" label="How to Output?">
+        <option value="collection">Collection</option>
+        <option value="file">Single File</option>
+      </param>
+    </conditional>
+    <param type="data" format="bam" name="input" label="BAM Alignment File" help="Information is pulled from the header, ensure consistent across BAMs"/>
+  </inputs>
+  <outputs>
+    <collection name="list_output" type="list" description="Interval Files">
+      <discover_datasets pattern="__name_and_ext__" directory="outputs"/>
+    </collection>
+    <data format="txt" name="order"/>
+  </outputs>
+</tool>

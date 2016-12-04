@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<tool_dependency>
+  <package name="manta" version="0.29.6">
+    <install version="1.0">
+      <actions>
+        <action type="download_by_url">https://github.com/Illumina/manta/archive/v0.29.6.tar.gz</action>
+        <action type="make_directory">build</action>
+	<action type="change_directory">build</action>
+	<action type="shell_command">../configure --prefix=$INSTALL_DIR/install</action>
+	<action type="shell_command">make install</action>
+	<action type="set_environment">
+          <environment_variable action="set_to" name="MANTA_INSTALL_DIR">$INSTALL_DIR</environment_variable>
+          <environment_variable action="set_to" name="MANTA_RESPOSITORY_DIR">$REPOSITORY_DIR</environment_variable>
+        </action>
+      </actions>
+    </install>
+  </package>
+</tool_dependency>

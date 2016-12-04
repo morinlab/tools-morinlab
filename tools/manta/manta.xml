@@ -1,0 +1,61 @@
+<tool id="manta" name="Manta" version="0.29.6">
+	<description>
+	   SV Caller
+	</description>
+  <requirements>
+    <requirement type="package" version="0.29.6">manta</requirement>
+  </requirements>
+  <command>
+
+		<!-- Linking BAM Indexs to current working directory -->
+    ln -s $normal normal.bam;
+    ln -s $normal.metadata.bam_index normal.bam.bai;
+    ln -s $tumour tumour.bam;
+    ln -s $tumour.metadata.bam_index tumour.bam.bai;
+
+    <!-- Index Reference if from History -->
+    #if $reference_source.reference_source_selector == "history":
+        ln -s $reference_source.ref_file ref.fa;
+        samtools faidx ref.fa;
+    #end if
+
+    python \$MANTA_INSTALL_DIR/install/bin/configManta.py
+      --normalBam=normal.bam
+      --tumorBam=tumour.bam
+      #if $reference_source.reference_source_selector == "history":
+        --referenceFasta=ref.fa
+      #else
+        --referenceFasta=${reference_source.ref_file.fields.path}
+      #end if
+      --runDir=./output;
+
+    ./output/runWorkflow.py 
+      -m local
+      -j \${GALAXY_SLOTS:-1}
+      --quiet;
+
+    gunzip -c ./output/results/variants/somaticSV.vcf.gz > $output;
+
+	</command>
+	<inputs>
+    <conditional name="reference_source">
+      <param label="Choose the source for the reference files" name="reference_source_selector" type="select">
+        <option value="cached">Locally Cached</option>
+        <option value="history">History</option>
+      </param>
+      <when value="cached">
+        <param label="Genome" name="ref_file" type="select">
+          <options from_data_table="fasta_indexes"/>
+        </param>
+      </when>
+      <when value="history">
+        <param label="Genome" name="ref_file" type="data" format="fasta"/>
+      </when>
+    </conditional>
+    <param type="data" format="bam" name="normal" label="Normal Alignment File"/>
+    <param type="data" format="bam" name="tumour" label="Tumour Alignment File"/>   
+  </inputs>
+	<outputs>
+		<data format="vcf" name="output"/>
+	</outputs>
+</tool>

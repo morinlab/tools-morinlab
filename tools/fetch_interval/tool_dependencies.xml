@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<tool_dependency>
+	<package name="fetch_interval" version="1.0.0">
+		<install version="1.0">
+			<actions>
+				<action type="set_environment">
+					<environment_variable action="set_to" name="FETCH_INTERVAL_DIR">$INSTALL_DIR</environment_variable>
+				  <environment_variable action="set_to" name="FETCH_REPOSITORY_DIR">$REPOSITORY_INSTALL_DIR</environment_variable>
+        </action>
+			</actions>
+		</install>
+	</package>
+</tool_dependency>

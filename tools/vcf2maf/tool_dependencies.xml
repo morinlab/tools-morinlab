@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <tool_dependency>
     <package name="perl" version="5.18.1">
-        <repository name="package_perl_5_18" owner="morinlab" />
+        <repository name="package_perl_5_18" owner="iuc" />
     </package>
     <package name="mysql" version="6.1.0">
         <repository name="package_mysql_6_1_0" owner="morinlab" />
