@@ -1,0 +1,53 @@
+<tool id="select_optimal_cluster" name="Select Optimal Cluster" version="1.0.0">
+  <description> 
+  Select the Optimal Clusters from TITAN
+  </description>
+  <requirements>
+    <requirement type="binary">Rscript</requirement>
+    <requirement type="package" version="3.2.1">R</requirement>
+    <requirement type="package" version="1.0">cancer_genomics_functions</requirement>
+    <requirement type="environment" verion="1.0">CANCER_GENOMICS_FUNCTIONS_PATH</requirement>
+  </requirements>
+  <command>
+
+  Rscript $__tool_directory__/select_optimal_cluster.R
+    --input_params 
+    #for $f in $params:
+     $f 
+    #end for 
+    --input_segments
+    #for $f in $segments:
+     $f
+    #end for
+    #if $method.method_selector == "validity_index"
+      --method validity_index
+    #else
+      --method validity_index_and_pga
+      -pga $method.pga
+    #end if
+    --output_param $output_param
+    --output_segment $output_segment
+    -cgfp \$CANCER_GENOMICS_FUNCTIONS_PATH
+
+  </command>
+
+  <inputs>
+    <conditional name="method">
+      <param name="method_selector" type="select" label="Method for Cluster Selection">
+        <option value="validity_index" selected="True">Min Val Index</option>
+        <option value="validity_index_and_pga">Min Val Index + PGA Threshold</option>
+      </param>
+      <when value="validity_index_and_pga">
+        <param name="pga" type="float" min="0.0" max="1.0" value="0.8" label="Maximum Percent Genome Alteration"/> 
+      </when>
+    </conditional>
+    <param type="data_collection" format="txt" collection_type="list" name="params"/>
+    <param type="data_collection" format="txt" collection_type="list" name="segments"/> 
+  </inputs>
+
+  <outputs>
+    <data format="txt" name="output_param" label="Optimal TITAN parameters output"/>
+    <data format="txt" name="output_segment" label="Optimal TITAN segments output"/>
+  </outputs>
+
+</tool>
