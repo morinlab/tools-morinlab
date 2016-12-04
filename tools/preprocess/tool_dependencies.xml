@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<tool_dependency>
+	<package name="bamutil" version="1.0.13">
+		<repository name="package_bamutil_1_0_13" owner="morinlab" prior_installation_required="True" />
+	</package>
+</tool_dependency>

@@ -1,0 +1,54 @@
+<tool id="preprocess" name="preprocess" version="0.0.1">
+  <description>
+    Preprocess Tumour Normal Pairs for Cancer Genomic Workflows
+  </description>
+  <requirements>
+    <requirement type="package" version="1.0.13">bamutil</requirement>
+  </requirements>
+  <command>
+    <![CDATA[
+    
+    ln -s $input_bam input.bam;
+    ln -s $input_bam.metadata.bam_index input.bam.bai;
+    
+    #if not $interval
+      i="";
+    #end if
+
+    {
+    samtools view -H input.bam;
+
+    #if $interval
+      for i in \$( cat $interval ); do
+    #end if
+    
+    samtools view -q $filter_qual input.bam \$i
+    
+    #if $interval
+        ; done
+    #end if
+    ;
+    }
+ 
+    #if $clip_overlap
+        | bam clipOverlap --in -.sam --out -.sam
+    #end if
+
+    | samtools view -Sb - > $output;
+    
+    ]]>
+  </command>
+  <inputs>
+    <param type="data" format="bam" name="input_bam" label="Specify BAM Alignment File"/>
+    <param type="data" format="bed,txt" name="interval" label="Specify Interval" optional="true"/>
+    <param type="boolean" checked="true" name="clip_overlap" label="Clip Overlaps" help="Clips overlapping region between paired reads with lowest mean quality"/>
+    <param type="integer" value="0" min="0" max="255" name="filter_qual" label="Minimum Mapping Quality" help="Filter reads with quality strictly less than MMQ"/>
+  </inputs>
+  <outputs>
+    <data format="bam" name="output"/>
+  </outputs>
+  <stdio>
+    <exit_code range="0" level="warning" description="Normal" />
+    <exit_code range="1" level="fatal" description="Error in overclipping" />
+  </stdio>
+</tool>

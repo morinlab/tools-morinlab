@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<tool_dependency>
+	<package name="libstatgen" version="1.0.13">
+		<repository name="package_libstatgen_1_0_13" owner="morinlab" prior_installation_required="True" />
+	</package>
+	<package name="bamutil" version="1.0.13">
+		<install version="1.0">
+			<actions>
+				<action type="download_by_url">https://github.com/statgen/bamUtil/archive/v1.0.13.tar.gz</action>
+				<action type="set_environment_for_install">
+					<repository changeset_revision="d1a368ee18a1" name="package_libstatgen_1_0_13" owner="morinlab" toolshed="http://galaxy-morinlab.mbb.sfu.ca:9009">
+						<package name="libstatgen" version="1.0.13" />
+					</repository>
+				</action>
+				<action type="shell_command">make LIB_PATH_GENERAL=${LIBSTATGEN_INSTALL_DIR}</action>
+				<action type="move_directory_files">
+					<source_directory>.</source_directory>
+					<destination_directory>$INSTALL_DIR</destination_directory>
+				</action>
+				<action type="set_environment">
+					<environment_variable action="set_to" name="BAMUTIL_INSTALL_DIR">$INSTALL_DIR</environment_variable>
+					<environment_variable action="prepend_to" name="PATH">$INSTALL_DIR/bin</environment_variable>
+				</action>
+			</actions>
+		</install>
+	</package>
+</tool_dependency>
