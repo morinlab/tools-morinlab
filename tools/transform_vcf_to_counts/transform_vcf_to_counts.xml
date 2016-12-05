@@ -1,0 +1,18 @@
+<tool id="transform_vcf_to_counts" name="transformVcfToCounts" version="0.0.1">
+  <description>
+    Tranform Mutationseq VCF to Counts
+  </description>
+  <command>
+    <![CDATA[
+    
+    python $__tool_directory__/transform_vcf_to_counts.py -i $input -o $output;
+
+    ]]>
+  </command>
+  <inputs>
+    <param type="data" format="vcf" name="input" label="Mutationseq VCF"/>
+  </inputs>
+  <outputs>
+    <data format="wig" name="output"/>
+  </outputs>
+</tool>

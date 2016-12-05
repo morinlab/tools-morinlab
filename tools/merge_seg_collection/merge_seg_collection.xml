@@ -1,0 +1,24 @@
+<tool id="merge_seg_collection" name="Merge SEG Collection" version="1.0.0">
+  <description> 
+  Merge a collection of SEG files
+  </description>
+  <command>
+  <![CDATA[
+
+  #for $i, $f in enumerate($seg_collection)
+    #if $i == 0
+      cat $f >> $output;
+    #else
+      tail -n+1 $f >> $output;
+    #end if
+  #end for
+
+  ]]>
+  </command>
+  <inputs>
+    <param type="data_collection" format="tabular" collection_type="list"  name="seg_collection"/>
+  </inputs>
+  <outputs>
+    <data format="tabular" name="output"/>
+  </outputs>
+</tool>
