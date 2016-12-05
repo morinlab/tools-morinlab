@@ -60,3 +60,5 @@ Total run time: 1:49:30.325838
 To boot your newly build Docker image, use the following command, substituting the name argument with whatever you choose.
 
 ```docker run --name test_image -p 8080:80 full_galaxy_can```
+
+If successful, you should be able to access your Galaxy instance on port 8080  (in this example) on the server running Docker. Unless you change the Dockerfile, which is highly recommended that you do for security reasons, you will be able to log in as admin using "admin" as your password. 
