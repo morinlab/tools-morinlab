@@ -1,14 +1,9 @@
 <tool id="cnv2igv" name="cnv2igv" version="1.0">
 	<description>VarDict is a variant discovery program. It can run in single sample, paired sample, or amplicon bias aware modes.</description>
 
-	<requirements>
-		<requirement type="package" version="1.0">cnv2igv</requirement>
-		<requirement type="set_environment">CNV2IGV_DIR</requirement>
-	</requirements> 
-
 	<command>
 	
-		python \$CNV2IGV_DIR/cnv2igv.py 
+		python $__tool_directory__/cnv2igv.py 
 		
 		#if $sample_select.seqortitan == "seq"
 			--mode sequenza --sequenza_sample $sample_select.sequenza.display_name
