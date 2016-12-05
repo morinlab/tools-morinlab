@@ -1,6 +1,10 @@
 api_key: admin
 galaxy_instance: http://localhost:8080
 tools:
+- name: ensembl_vep
+  owner: morinlab
+  tool_panel_section_label: "Cancer: Variant Annotation"
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
 - name: oncocircos
   owner: morinlab
   tool_panel_section_label: "Cancer: Visualization"
@@ -40,4 +44,32 @@ tools:
 - name: mutationseq
   owner: morinlab
   tool_panel_section_label: "Cancer: SNV Calling"
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
+- name: lumpy
+  owner: morinlab
+  tool_panel_section_label: "Cancer: SV Calling"
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
+- name: mutsigcv
+  owner: morinlab
+  tool_panel_section_label: "Cancer: Significant Gene Detection"
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
+- name: pindel
+  owner: morinlab
+  tool_panel_section_label: "Cancer: indel calling"
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
+- name: select_optimal_cluster
+  owner: morinlab
+  tool_panel_section_label: "Cancer: CNV calling"
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
+- name: titan
+  owner: morinlab
+  tool_panel_section_label: "Cancer: CNV calling"
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
+- name: transform_vcf_to_counts
+  owner: morinlab
+  tool_panel_section_label: "Cancer: CNV calling"
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
+- name: vcf2maf
+  owner: morinlab
+  tool_panel_section_label: "Cancer: Variant Annotation"
   tool_shed_url: https://testtoolshed.g2.bx.psu.edu

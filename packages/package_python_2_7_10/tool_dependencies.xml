@@ -19,7 +19,7 @@
     <repository name="package_gdbm_1_11" owner="iuc" prior_installation_required="True" />
   </package>
   <package name="ncurses" version="6.0">
-    <repository name="package_ncurses_6_0" owner="morinlab" prior_installation_required="True" />
+    <repository name="package_ncurses_6_0" owner="iuc" prior_installation_required="True" />
   </package>
   
   <package name="python" version="2.7.10">
