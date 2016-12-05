@@ -2,7 +2,7 @@
 
 These are some example workflows that will get you started using the Cancer Genomics Toolkit
 For details, the full toolkit is described [here](http://biorxiv.org/content/early/2016/11/26/089631)
-Currently, the workflow export files (\*.ga) in this repository point to an unstable local toolshed and may not work out of the box. We recommend users access versions of these workflows via our [Docker](../docker/Dockerfile) release.
+Currently, the workflow export files (\*.ga) in this repository point to an unstable local toolshed and may not work out of the box. We are actively working to correct this issue. We hope to include versions of these workflows via our [Docker](../docker/Dockerfile) release in the near future. In the meantime, the details below should help users construct similar workflows that meet their needs.
 
 ###Calling somatic SNVs using an ensemble approach
 ![ScreenShot](ensemble_caller_workflow.png)
