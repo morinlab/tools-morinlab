@@ -15,3 +15,6 @@ We **strongly** recommend you try using our Dockerfile if you have the capabilit
 
 ## Getting started
 We are in the process of putting example data that should demonstrate how to use some of the main tools and workflows provided with this toolkit. Please refer to the documentation in the test-data directory for more details. 
+
+## Known limitations
+Please be aware that many of the tools included here have only been tested on a small number of data sets. We fully expect incompatability with MAF files exported from other pipelines. Ideally, if you are running downstream analyses on your own mutation calls, you should use the vcf2maf tool to reannotate these. We also note that the "chr" prefix is needed/expected by some tools (e.g. GISTIC) but most are either ambivalent or expect no prefix. We suggest that, if possible, you supply reference files and mutation files that lack the chr prefix. Tools that need this are designed to add the prefix if it is lacking. 
