@@ -1,0 +1,254 @@
+{
+    "a_galaxy_workflow": "true", 
+    "annotation": "", 
+    "format-version": "0.1", 
+    "name": "cnv reformat", 
+    "steps": {
+        "0": {
+            "annotation": "raw output files from sequenza (all samples in your cohort)", 
+            "content_id": null, 
+            "id": 0, 
+            "input_connections": {}, 
+            "inputs": [
+                {
+                    "description": "raw output files from sequenza (all samples in your cohort)", 
+                    "name": "sequenza outputs"
+                }
+            ], 
+            "label": null, 
+            "name": "Input dataset collection", 
+            "outputs": [], 
+            "position": {
+                "left": 233.5590362548828, 
+                "top": 200.08680725097656
+            }, 
+            "tool_errors": null, 
+            "tool_id": null, 
+            "tool_state": "{\"collection_type\": \"list\", \"name\": \"sequenza outputs\"}", 
+            "tool_version": null, 
+            "type": "data_collection_input", 
+            "uuid": "d3b6e159-18de-49ea-9f8a-1257d5911f5a", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "output", 
+                    "uuid": "3fb1e415-8aa8-431d-a928-21cfdc4fbb46"
+                }
+            ]
+        }, 
+        "1": {
+            "annotation": "Convert to oncocircos input format and merge", 
+            "content_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/package_cnv2igv_1_0/cnv2igv/1.0", 
+            "id": 1, 
+            "input_connections": {
+                "sample_select|sequenza": {
+                    "id": 0, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool cnv2igv", 
+                    "name": "sample_select"
+                }
+            ], 
+            "label": null, 
+            "name": "cnv2igv", 
+            "outputs": [
+                {
+                    "name": "out_file", 
+                    "type": "tabular"
+                }
+            ], 
+            "position": {
+                "left": 520.0173797607422, 
+                "top": 135.05209350585938
+            }, 
+            "post_job_actions": {
+                "DeleteIntermediatesActionout_file": {
+                    "action_arguments": {}, 
+                    "action_type": "DeleteIntermediatesAction", 
+                    "output_name": "out_file"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/package_cnv2igv_1_0/cnv2igv/1.0", 
+            "tool_shed_repository": {
+                "changeset_revision": "c17928ff84a1", 
+                "name": "package_cnv2igv_1_0", 
+                "owner": "morinlab", 
+                "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
+            }, 
+            "tool_state": "{\"sample_select\": \"{\\\"seqortitan\\\": \\\"seq\\\", \\\"sequenza\\\": {\\\"__class__\\\": \\\"RuntimeValue\\\"}, \\\"abs_cn\\\": \\\"false\\\", \\\"__current_case__\\\": 0}\", \"__page__\": 0, \"__rerun_remap_job_id__\": null, \"format\": \"\\\"oncocircos\\\"\"}", 
+            "tool_version": "1.0", 
+            "type": "tool", 
+            "uuid": "1a3e0e1a-5d26-4c3d-9982-f60a112b75d5", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "out_file", 
+                    "uuid": "3ba80d07-cdcc-49af-b01b-fd51e540ccfd"
+                }
+            ]
+        }, 
+        "2": {
+            "annotation": "", 
+            "content_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/package_cnv2igv_1_0/cnv2igv/1.0", 
+            "id": 2, 
+            "input_connections": {
+                "sample_select|sequenza": {
+                    "id": 0, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool cnv2igv", 
+                    "name": "sample_select"
+                }
+            ], 
+            "label": null, 
+            "name": "cnv2igv", 
+            "outputs": [
+                {
+                    "name": "out_file", 
+                    "type": "tabular"
+                }
+            ], 
+            "position": {
+                "left": 511.0937957763672, 
+                "top": 260.08680725097656
+            }, 
+            "post_job_actions": {
+                "DeleteIntermediatesActionout_file": {
+                    "action_arguments": {}, 
+                    "action_type": "DeleteIntermediatesAction", 
+                    "output_name": "out_file"
+                }, 
+                "HideDatasetActionout_file": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "out_file"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/package_cnv2igv_1_0/cnv2igv/1.0", 
+            "tool_shed_repository": {
+                "changeset_revision": "c17928ff84a1", 
+                "name": "package_cnv2igv_1_0", 
+                "owner": "morinlab", 
+                "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
+            }, 
+            "tool_state": "{\"sample_select\": \"{\\\"seqortitan\\\": \\\"seq\\\", \\\"sequenza\\\": {\\\"__class__\\\": \\\"RuntimeValue\\\"}, \\\"abs_cn\\\": \\\"false\\\", \\\"__current_case__\\\": 0}\", \"__page__\": 0, \"__rerun_remap_job_id__\": null, \"format\": \"\\\"gistic\\\"\"}", 
+            "tool_version": "1.0", 
+            "type": "tool", 
+            "uuid": "c0c0f652-f70c-44dd-b283-4b547d0978eb", 
+            "workflow_outputs": []
+        }, 
+        "3": {
+            "annotation": "", 
+            "content_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/merge_seg_collection/merge_seg_collection/1.0.0", 
+            "id": 3, 
+            "input_connections": {
+                "seg_collection": {
+                    "id": 1, 
+                    "output_name": "out_file"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool Merge SEG Collection", 
+                    "name": "seg_collection"
+                }
+            ], 
+            "label": null, 
+            "name": "Merge SEG Collection", 
+            "outputs": [
+                {
+                    "name": "output", 
+                    "type": "tabular"
+                }
+            ], 
+            "position": {
+                "left": 775.0868988037109, 
+                "top": 150.0694580078125
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/merge_seg_collection/merge_seg_collection/1.0.0", 
+            "tool_shed_repository": {
+                "changeset_revision": "e68c4b3cb9e2", 
+                "name": "merge_seg_collection", 
+                "owner": "morinlab", 
+                "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
+            }, 
+            "tool_state": "{\"seg_collection\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"__page__\": 0, \"__rerun_remap_job_id__\": null}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "uuid": "181ff276-f87e-4ad9-b1b1-92486063d62c", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "output", 
+                    "uuid": "2a2cf2b1-a9fd-41da-b2a5-4bd9931bce8a"
+                }
+            ]
+        }, 
+        "4": {
+            "annotation": "", 
+            "content_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/merge_seg_collection/merge_seg_collection/1.0.0", 
+            "id": 4, 
+            "input_connections": {
+                "seg_collection": {
+                    "id": 2, 
+                    "output_name": "out_file"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool Merge SEG Collection", 
+                    "name": "seg_collection"
+                }
+            ], 
+            "label": null, 
+            "name": "Merge SEG Collection", 
+            "outputs": [
+                {
+                    "name": "output", 
+                    "type": "tabular"
+                }
+            ], 
+            "position": {
+                "left": 768.1076507568359, 
+                "top": 274.0972442626953
+            }, 
+            "post_job_actions": {
+                "DeleteIntermediatesActionoutput": {
+                    "action_arguments": {}, 
+                    "action_type": "DeleteIntermediatesAction", 
+                    "output_name": "output"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/merge_seg_collection/merge_seg_collection/1.0.0", 
+            "tool_shed_repository": {
+                "changeset_revision": "e68c4b3cb9e2", 
+                "name": "merge_seg_collection", 
+                "owner": "morinlab", 
+                "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
+            }, 
+            "tool_state": "{\"seg_collection\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"__page__\": 0, \"__rerun_remap_job_id__\": null}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "uuid": "608e9c71-d1c0-4d36-8fa3-908ba34d9264", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "output", 
+                    "uuid": "8d502f89-d74c-4932-a0c1-45363a0ffc04"
+                }
+            ]
+        }
+    }, 
+    "uuid": "d1e901c2-127c-476f-ad7c-4ca7551cbeaf"
+}

@@ -1,6 +1,22 @@
 api_key: admin
 galaxy_instance: http://localhost:8080
 tools:
+- name: merge
+  owner: morinlab
+  tool_panel_section_label: "Collection Operations"
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
+- name: merge_seg_collection
+  owner: morinlab
+  tool_panel_section_label: "Collection Operations"
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
+- name: merge_maf_collection
+  owner: morinlab
+  tool_panel_section_label: "Collection Operations"
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
+- name: cnv2igv
+  owner: morinlab
+  tool_panel_section_label: "Cancer: CNV calling"
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
 - name: ensembl_vep
   owner: morinlab
   tool_panel_section_label: "Cancer: Variant Annotation"
@@ -48,10 +64,6 @@ tools:
 - name: lumpy
   owner: morinlab
   tool_panel_section_label: "Cancer: SV Calling"
-  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
-- name: mutsigcv
-  owner: morinlab
-  tool_panel_section_label: "Cancer: Significant Gene Detection"
   tool_shed_url: https://testtoolshed.g2.bx.psu.edu
 - name: pindel
   owner: morinlab
