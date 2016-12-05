@@ -13,31 +13,47 @@ After a successful build, you should see an output similar to the following:
 <pre>
 Activating virtualenv at /galaxy_venv
 Galaxy is running.
-(1/10) Installing tool oncocircos from morinlab to section "Cancer: Visualization" at revision 417f984cd2e2 (TRT: 0:00:00.439506)
-	Tool oncocircos installed successfully (in 0:09:19.175626) at revision 417f984cd2e2
-(2/10) Installing tool oncodrivefm from morinlab to section "Cancer: Significant Gene Detection" at revision 97e99acadbaf (TRT: 0:09:19.923122)
-	Tool oncodrivefm installed successfully (in 0:07:48.246175) at revision 97e99acadbaf
-(3/10) Installing tool sequenza from morinlab to section "Cancer: CNV calling" at revision 73338a1805e7 (TRT: 0:17:08.470253)
-	Tool sequenza installed successfully (in 0:25:42.674821) at revision 73338a1805e7
-(4/10) Installing tool strelka from morinlab to section "Cancer: SNV calling" at revision 3ce78c04c7e5 (TRT: 0:42:51.461165)
-	Tool strelka installed successfully (in 0:06:05.399153) at revision 3ce78c04c7e5
-(5/10) Installing tool maftools from morinlab to section "Cancer: MAFtools" at revision a67d4b423594 (TRT: 0:48:57.239013)
-	Tool maftools installed successfully (in 0:00:06.331898) at revision a67d4b423594
-(6/10) Installing tool package_maf2tdm_1_0 from morinlab to section "Cancer: Significant Gene Detection" at revision fd09386ad95f (TRT: 0:49:03.880500)
-	Tool package_maf2tdm_1_0 installed successfully (in 0:13:10.169474) at revision fd09386ad95f
-(7/10) Installing tool ensemble_vcf from morinlab to section "Cancer: SNV Calling" at revision 19cfeecca08b (TRT: 1:02:14.375167)
-	Tool ensemble_vcf installed successfully (in 0:03:22.594088) at revision 19cfeecca08b
-(8/10) Installing tool gistic from morinlab to section "Cancer: Significant Gene Detection" at revision d16928a77255 (TRT: 1:05:37.396735)
-	Tool gistic installed successfully (in 0:10:11.878040) at revision d16928a77255
-(9/10) Installing tool igv2gistic from morinlab to section "Cancer: Significant Gene Detection" at revision e4da94676cf8 (TRT: 1:15:49.664103)
-	Tool igv2gistic installed successfully (in 0:00:10.525147) at revision e4da94676cf8
-(10/10) Installing tool mutationseq from morinlab to section "Cancer: SNV Calling" at revision 3f5545f5f0c8 (TRT: 1:16:00.500239)
-	Tool mutationseq installed successfully (in 0:03:24.457397) at revision 3f5545f5f0c8
-Installed tools (10): [('oncocircos', None), ('oncodrivefm', None), ('sequenza', None), ('strelka', None), ('maftools', None), ('package_maf2tdm_1_0', None), ('ensemble_vcf', None), ('gistic', None), ('igv2gistic', None), ('mutationseq', None)]
+(1/18) Installing tool ensembl_vep from morinlab to section "Cancer: Variant Annotation" at revision ba310f592561 (TRT: 0:00:00.439323)
+        Tool ensembl_vep installed successfully (in 0:16:57.118123) at revision ba310f592561
+(2/18) Installing tool oncocircos from morinlab to section "Cancer: Visualization" at revision 417f984cd2e2 (TRT: 0:16:57.867164)
+        Tool oncocircos installed successfully (in 0:03:52.541461) at revision 417f984cd2e2
+(3/18) Installing tool oncodrivefm from morinlab to section "Cancer: Significant Gene Detection" at revision 97e99acadbaf (TRT: 0:20:50.717781)
+        Tool oncodrivefm installed successfully (in 0:08:07.993747) at revision 97e99acadbaf
+(4/18) Installing tool sequenza from morinlab to section "Cancer: CNV calling" at revision 73338a1805e7 (TRT: 0:28:59.025247)
+        Tool sequenza installed successfully (in 0:23:32.252223) at revision 73338a1805e7
+(5/18) Installing tool strelka from morinlab to section "Cancer: SNV calling" at revision 3ce78c04c7e5 (TRT: 0:52:31.587923)
+        Tool strelka installed successfully (in 0:04:41.765479) at revision 3ce78c04c7e5
+(6/18) Installing tool maftools from morinlab to section "Cancer: MAFtools" at revision a67d4b423594 (TRT: 0:57:13.736114)
+        Tool maftools installed successfully (in 0:00:05.993371) at revision a67d4b423594
+(7/18) Installing tool package_maf2tdm_1_0 from morinlab to section "Cancer: Significant Gene Detection" at revision fd09386ad95f (TRT: 0:57:20.038738)
+        Tool package_maf2tdm_1_0 installed successfully (in 0:10:51.696218) at revision fd09386ad95f
+(8/18) Installing tool ensemble_vcf from morinlab to section "Cancer: SNV Calling" at revision 19cfeecca08b (TRT: 1:08:12.043805)
+        Tool ensemble_vcf installed successfully (in 0:03:19.228229) at revision 19cfeecca08b
+(9/18) Installing tool gistic from morinlab to section "Cancer: Significant Gene Detection" at revision da03207b002d (TRT: 1:11:31.585137)
+        Tool gistic installed successfully (in 0:07:10.629498) at revision da03207b002d
+(10/18) Installing tool igv2gistic from morinlab to section "Cancer: Significant Gene Detection" at revision 1dc70385aba7 (TRT: 1:18:42.522601)
+        Tool igv2gistic installed successfully (in 0:00:15.815055) at revision 1dc70385aba7
+(11/18) Installing tool mutationseq from morinlab to section "Cancer: SNV Calling" at revision 3f5545f5f0c8 (TRT: 1:18:58.728858)
+        Tool mutationseq installed successfully (in 0:02:56.812376) at revision 3f5545f5f0c8
+(12/18) Installing tool lumpy from morinlab to section "Cancer: SV Calling" at revision f2d9c9f18d3f (TRT: 1:21:55.870428)
+        Tool lumpy installed successfully (in 0:10:17.016338) at revision f2d9c9f18d3f
+(13/18) Installing tool mutsigcv from morinlab to section "Cancer: Significant Gene Detection" at revision 9d55e8e75236 (TRT: 1:32:13.197235)
+        Tool mutsigcv installed successfully (in 0:11:49.741046) at revision 9d55e8e75236
+(14/18) Installing tool pindel from morinlab to section "Cancer: indel calling" at revision 7f2f81f3644f (TRT: 1:44:03.316686)
+        Tool pindel installed successfully (in 0:02:44.139814) at revision 7f2f81f3644f
+(15/18) Installing tool select_optimal_cluster from morinlab to section "Cancer: CNV calling" at revision 7edf4d48a350 (TRT: 1:46:47.771198)
+        Tool select_optimal_cluster installed successfully (in 0:00:38.648014) at revision 7edf4d48a350
+(16/18) Installing tool titan from morinlab to section "Cancer: CNV calling" at revision 2f57a1c16d15 (TRT: 1:47:26.733130)
+        Tool titan installed successfully (in 0:01:22.118254) at revision 2f57a1c16d15
+(17/18) Installing tool transform_vcf_to_counts from morinlab to section "Cancer: CNV calling" at revision 0d9ef2618d9c (TRT: 1:48:49.251443)
+        Tool transform_vcf_to_counts installed successfully (in 0:00:22.958821) at revision 0d9ef2618d9c
+(18/18) Installing tool vcf2maf from morinlab to section "Cancer: Variant Annotation" at revision dc2f1d630db4 (TRT: 1:49:12.595960)
+        Tool vcf2maf installed successfully (in 0:00:17.729001) at revision dc2f1d630db4
+Installed tools (18): [('ensembl_vep', None), ('oncocircos', None), ('oncodrivefm', None), ('sequenza', None), ('strelka', None), ('maftools', None), ('package_maf2tdm_1_0', None), ('ensemble_vcf', None), ('gistic', None), ('igv2gistic', None), ('mutationseq', None), ('lumpy', None), ('mutsigcv', None), ('pindel', None), ('select_optimal_cluster', None), ('titan', None), ('transform_vcf_to_counts', None), ('vcf2maf', None)]
 Skipped tools (0): []
 Errored tools (0): []
 All tools have been processed.
-Total run time: 1:19:24.958339
+Total run time: 1:49:30.325838
 </pre>
 
 ##Testing your Image
