@@ -817,17 +817,17 @@ oncodrive_fix = function(maf, AACol = NULL, minMut = 5, pvalMethod = 'zscore', n
 	      }
 
 
-laml = read.maf_fix(maf = args$input_maf, removeSilent = F, useAll = T)
+laml = read.maf(maf = args$input_maf, removeSilent = F, useAll = T)
 
 if(is.null(args$gene_blacklist)){
-        laml.sig = oncodrive_fix(maf =laml, AACol = aacol, pvalMethod = 'zscore',minMut = min_mut)
+        laml.sig = oncodrive(maf =laml, AACol = aacol, pvalMethod = 'zscore',minMut = min_mut)
 	write.table(laml.sig,file=args$output_detail, quote=FALSE,row.names=FALSE,sep="\t")
 	pdf(args$output_plot)
 	plotOncodrive(res=laml.sig,fdrCutOff=as.numeric(args$fdr),useFraction=TRUE)
 	dev.off()
 	}else{
         all_genes <- read.table(args$gene_blacklist, stringsAsFactors=FALSE)[,1]
-        laml.sig = oncodrive_fix(maf =laml, AACol = aacol, pvalMethod = 'zscore',minMut = min_mut,ignoreGenes=all_genes)
+        laml.sig = oncodrive(maf =laml, AACol = aacol, pvalMethod = 'zscore',minMut = min_mut,ignoreGenes=all_genes)
 	write.table(laml.sig,file=args$output_detail, quote=FALSE,row.names=FALSE,sep="\t")
 	pdf(args$output_plot)
 	plotOncodrive(res=laml.sig,fdrCutOff=as.numeric(args$fdr),useFraction=TRUE)
