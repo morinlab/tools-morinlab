@@ -33,6 +33,10 @@ tools:
   owner: morinlab
   tool_panel_section_label: "Cancer: Variant Annotation"
   tool_shed_url: https://testtoolshed.g2.bx.psu.edu
+- name: oncoprintplus
+  owner: morinlab
+  tool_panel_section_label: "Cancer: Visualization"
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
 - name: oncocircos
   owner: morinlab
   tool_panel_section_label: "Cancer: Visualization"
