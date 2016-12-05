@@ -1,0 +1,80 @@
+<tool id="cnv2igv" name="cnv2igv" version="1.0">
+	<description>VarDict is a variant discovery program. It can run in single sample, paired sample, or amplicon bias aware modes.</description>
+
+	<requirements>
+		<requirement type="package" version="1.0">cnv2igv</requirement>
+		<requirement type="set_environment">CNV2IGV_DIR</requirement>
+	</requirements> 
+
+	<command>
+	
+		python \$CNV2IGV_DIR/cnv2igv.py 
+		
+		#if $sample_select.seqortitan == "seq"
+			--mode sequenza --sequenza_sample $sample_select.sequenza.display_name
+		#elif $sample_select.seqortitan == "tit"
+			--mode titan
+		#end if
+		
+		
+		
+		#if $format == "oncocircos" 
+			--oncocircos
+		#elif $format == "gistic" 
+		        --gistic
+		#end if
+		
+		
+		#if $sample_select.seqortitan == "seq"
+			$sample_select.sequenza 
+		#elif $sample_select.seqortitan == "tit"
+			$sample_select.titan 
+		#end if 
+		
+		> $out_file;
+
+	</command>  
+
+	<inputs>
+	
+		<conditional name="sample_select">
+			<param name="seqortitan" type="select" label="Input Sequenza or Titan file" help="Input file for conversion is from: 1) Sequenza. 2) Titan. 3)Other" >
+				<option value="seq" selected="True">1) Sequenza</option>
+				<option value="tit">2) Titan</option>
+			
+			</param>
+			
+			<when value="seq">
+				<param name="sequenza" type="data" format="tabular" label="Sequenza output file"/>
+
+				
+				<param name="abs_cn" type="boolean" label="Use absolute copy number when calculating log2 value instead of depth ratio" value="false" />
+				
+			</when>
+			
+			<when value="tit">
+				<param name="titan" type="data" format="tabular" label="titan output file"/>
+				
+			</when>
+			
+		</conditional>
+		<param name="format" type="select" label="format to use for output file" >
+		  <option value="oncocircos">3) Oncocircos</option>
+		  <option value="gistic">4) Gistic/IGV</option>
+		</param>
+	</inputs>
+	
+	<outputs>
+
+		<data name="out_file" label="${sample_select.sequenza.display_name} ${tool.name} for ${format}" format="tabular">
+
+		</data>
+
+	</outputs>
+
+	<help>
+	  This tool takes either Titan or Sequenza segment files and parses the relevant columns, reformatting as input for IGV and other tools. For Sequenza, the sample name is not natively in the file and is instead taken from the display name. To ensure compatability with other tools you should make your display name match your sample ID (e.g. in MAF files). 
+	</help>
+
+</tool>
+
