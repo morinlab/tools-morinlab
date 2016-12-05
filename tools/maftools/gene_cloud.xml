@@ -25,14 +25,14 @@
     <param type="data" format="maf" name="input_maf" label="MAF File"/>
     <conditional name="gene_input_type">
       <param name="gene_input_type_selector" type="select" label="Choose how to input samples">
-	<option value="file" selected="True">Gene Blacklist File</option>
-	<option value="other">Single Gene</option>
+	<option value="file">Gene Blacklist File</option>
+	<option value="other" selected="true" >Single Gene</option>
       </param>
       <when value="file">
 	<param name="gene_file" type="data" format="txt" label="Gene Blacklist File"  help="list of genes separated by newlines" />
       </when>
       <when value="other">
-	<param name="gene" type="text" label="Gene" help="type a valid gene name" />
+	<param name="gene" type="text" label="Gene" value="MUC4" help="type a valid gene name" />
       </when>
     </conditional>
     <param type="integer" min="1" value="3" name="min_mutations" label="Minimum mutation count to include gene"/>

@@ -1,6 +1,18 @@
 api_key: admin
 galaxy_instance: http://localhost:8080
 tools:
+- name: igv_screenshot
+  owner: morinlab
+  tool_panel_section_label: "Cancer: Visualization"
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
+- name: radia
+  owner: morinlab
+  tool_panel_section_label: "Cancer: SNV calling"
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
+- name: somatic_sniper
+  owner: morinlab
+  tool_panel_section_label: "Cancer: SNV calling"
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
 - name: merge
   owner: morinlab
   tool_panel_section_label: "Collection Operations"
