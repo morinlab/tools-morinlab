@@ -27,6 +27,8 @@ Assuming one has variant calls from a sufficiently large cohort, a likely goal i
 ###Reformating and Merging CNV results from a cohort
 ![ScreenShot](merge_reformat_cnv.png)
 
+This shows an example of using data collections to perform the same analysis on a batch of files. In this case, the workflow accepts a collection of output files from either Sequenza or Titan, reformats them for GISTIC or Oncocircos, then concatenates them into one file.
+
 ---
 
 ###Running GISTIC on CNV results and generating Oncocircos visualization
