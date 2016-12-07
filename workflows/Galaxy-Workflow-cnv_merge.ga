@@ -1,0 +1,121 @@
+{
+    "a_galaxy_workflow": "true", 
+    "annotation": "", 
+    "format-version": "0.1", 
+    "name": "cnv_merge", 
+    "steps": {
+        "0": {
+            "annotation": "Create a collection of Sequenza or Titan format outputs for reformatting and merging.", 
+            "content_id": null, 
+            "id": 0, 
+            "input_connections": {}, 
+            "inputs": [
+                {
+                    "description": "Create a collection of Sequenza or Titan format outputs for reformatting and merging.", 
+                    "name": "Collection of CNV segment files"
+                }
+            ], 
+            "label": "Sequenza or Titan output collection", 
+            "name": "Input dataset collection", 
+            "outputs": [], 
+            "position": {
+                "left": 166.56251525878906, 
+                "top": 226.09376525878906
+            }, 
+            "tool_errors": null, 
+            "tool_id": null, 
+            "tool_state": "{\"collection_type\": \"list\", \"name\": \"Collection of CNV segment files\"}", 
+            "tool_version": null, 
+            "type": "data_collection_input", 
+            "uuid": "48c1af3c-4fd9-43f9-b236-4156a54b4005", 
+            "workflow_outputs": []
+        }, 
+        "1": {
+            "annotation": "", 
+            "content_id": "testtoolshed.g2.bx.psu.edu/repos/morinlab/cnv2igv/cnv2igv/1.0", 
+            "id": 1, 
+            "input_connections": {
+                "sample_select|sequenza": {
+                    "id": 0, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool cnv2igv", 
+                    "name": "sample_select"
+                }
+            ], 
+            "label": null, 
+            "name": "cnv2igv", 
+            "outputs": [
+                {
+                    "name": "out_file", 
+                    "type": "tabular"
+                }
+            ], 
+            "position": {
+                "left": 411.07640075683594, 
+                "top": 124.09722900390625
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "testtoolshed.g2.bx.psu.edu/repos/morinlab/cnv2igv/cnv2igv/1.0", 
+            "tool_shed_repository": {
+                "changeset_revision": "41b99b6dcfdc", 
+                "name": "cnv2igv", 
+                "owner": "morinlab", 
+                "tool_shed": "testtoolshed.g2.bx.psu.edu"
+            }, 
+            "tool_state": "{\"sample_select\": \"{\\\"seqortitan\\\": \\\"seq\\\", \\\"sequenza\\\": {\\\"__class__\\\": \\\"RuntimeValue\\\"}, \\\"abs_cn\\\": \\\"false\\\", \\\"__current_case__\\\": 0}\", \"__page__\": 0, \"__rerun_remap_job_id__\": null, \"format\": \"\\\"oncocircos\\\"\"}", 
+            "tool_version": "1.0", 
+            "type": "tool", 
+            "uuid": "92c368d3-a960-4fac-8177-3afb4cf13b0e", 
+            "workflow_outputs": []
+        }, 
+        "2": {
+            "annotation": "This will yield a merged SEG file in a format compatible with oncocircos or GISTIC (depending on option selected for previous tool).", 
+            "content_id": "testtoolshed.g2.bx.psu.edu/repos/morinlab/merge_seg_collection/merge_seg_collection/1.0.0", 
+            "id": 2, 
+            "input_connections": {
+                "seg_collection": {
+                    "id": 1, 
+                    "output_name": "out_file"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool Merge SEG Collection", 
+                    "name": "seg_collection"
+                }
+            ], 
+            "label": null, 
+            "name": "Merge SEG Collection", 
+            "outputs": [
+                {
+                    "name": "output", 
+                    "type": "tabular"
+                }
+            ], 
+            "position": {
+                "left": 616.0764007568359, 
+                "top": 212.08335876464844
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "testtoolshed.g2.bx.psu.edu/repos/morinlab/merge_seg_collection/merge_seg_collection/1.0.0", 
+            "tool_shed_repository": {
+                "changeset_revision": "83219468e161", 
+                "name": "merge_seg_collection", 
+                "owner": "morinlab", 
+                "tool_shed": "testtoolshed.g2.bx.psu.edu"
+            }, 
+            "tool_state": "{\"seg_collection\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"__page__\": 0, \"__rerun_remap_job_id__\": null}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "uuid": "67ca81ed-a411-45f0-97a8-74507b21e9bb", 
+            "workflow_outputs": []
+        }
+    }, 
+    "uuid": "bbd1d360-365c-429c-9efd-a817da8c9101"
+}

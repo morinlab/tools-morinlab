@@ -1,0 +1,8 @@
+{
+    "a_galaxy_workflow": "true", 
+    "annotation": "Run the three steps of Sequenza", 
+    "format-version": "0.1", 
+    "name": "Sequenza", 
+    "steps": {}, 
+    "uuid": "c8c9f708-f46c-4d70-aaf2-b57966f5646e"
+}

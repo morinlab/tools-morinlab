@@ -19,8 +19,8 @@
             "name": "Input dataset", 
             "outputs": [], 
             "position": {
-                "left": 114.96528625488281, 
-                "top": 245.9722442626953
+                "left": 192, 
+                "top": 272
             }, 
             "tool_errors": null, 
             "tool_id": null, 
@@ -61,8 +61,8 @@
                 }
             ], 
             "position": {
-                "left": 331.38890075683594, 
-                "top": 382.4652862548828
+                "left": 178.5, 
+                "top": 340.5
             }, 
             "post_job_actions": {
                 "HideDatasetActionoutput": {
@@ -114,8 +114,8 @@
                 }
             ], 
             "position": {
-                "left": 631.9618377685547, 
-                "top": 427.9861297607422
+                "left": 192, 
+                "top": 465
             }, 
             "post_job_actions": {
                 "HideDatasetActionout_file1": {
@@ -132,7 +132,7 @@
             "tool_errors": null, 
             "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/oncodrivefm/oncodrivefm/1.0.0", 
             "tool_shed_repository": {
-                "changeset_revision": "8d3bca1e3489", 
+                "changeset_revision": "33ee6fa69402", 
                 "name": "oncodrivefm", 
                 "owner": "morinlab", 
                 "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
@@ -172,14 +172,14 @@
                 }
             ], 
             "position": {
-                "left": 653.9410247802734, 
-                "top": 584.9826507568359
+                "left": 201, 
+                "top": 581
             }, 
             "post_job_actions": {}, 
             "tool_errors": null, 
             "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/oncodrivefm/oncodrivefm/1.0.0", 
             "tool_shed_repository": {
-                "changeset_revision": "8d3bca1e3489", 
+                "changeset_revision": "33ee6fa69402", 
                 "name": "oncodrivefm", 
                 "owner": "morinlab", 
                 "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
@@ -226,8 +226,8 @@
                 }
             ], 
             "position": {
-                "left": 834.9653167724609, 
-                "top": 472.9861297607422
+                "left": 382, 
+                "top": 469
             }, 
             "post_job_actions": {}, 
             "tool_errors": null, 
@@ -277,14 +277,14 @@
                 }
             ], 
             "position": {
-                "left": 990.9549407958984, 
-                "top": 305.98960876464844
+                "left": 538, 
+                "top": 302
             }, 
             "post_job_actions": {}, 
             "tool_errors": null, 
             "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/maftools/lollipop/0.9.30", 
             "tool_shed_repository": {
-                "changeset_revision": "a436ba2d0351", 
+                "changeset_revision": "77dcc2249cef", 
                 "name": "maftools", 
                 "owner": "morinlab", 
                 "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
@@ -338,8 +338,8 @@
                 }
             ], 
             "position": {
-                "left": 1199.947982788086, 
-                "top": 442.96876525878906
+                "left": 551, 
+                "top": 556
             }, 
             "post_job_actions": {}, 
             "tool_errors": null, 
@@ -363,5 +363,5 @@
             ]
         }
     }, 
-    "uuid": "3e58a8ef-0ef6-4de1-92db-d2813c0b6381"
+    "uuid": "f739d921-163b-4dfb-80cb-a3f24feec2c8"
 }
