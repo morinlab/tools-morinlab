@@ -4,6 +4,9 @@ These are some example workflows that will get you started using the Cancer Geno
 For details, the full toolkit is described [here](http://biorxiv.org/content/early/2016/11/26/089631)
 Currently, the workflow export files (\*.ga) in this repository point to an unstable local toolshed and may not work out of the box. We are actively working to correct this issue. We hope to include versions of these workflows via our [Docker](../docker/Dockerfile) release in the near future. In the meantime, the details below should help users construct similar workflows that meet their needs.
 
+###Calling somatic SNVs and indels using Strelka
+![ScreenShot](run_strelka.png)
+
 ###Calling somatic SNVs using an ensemble approach
 ![ScreenShot](ensemble_caller_workflow.png)
 
@@ -15,6 +18,10 @@ This workflow demonstrates our implementation of a simple voting-based ensemble 
 ![ScreenShot](igv_screenshot.png)
 
 It is sometimes important to visually check the quality of somatic SNV and indel calls. This simple workflow uses an extended implementation of the igv_screenshot tool to capture screenshots of the aligned reads (in IGV) for a set of variants specified from a MAF file. The workflow first selects lines matching a user-specified set of criteria (e.g. *Missense|Nonsense*) using the Select tool. The other required inputs are the tumor and normal bam file from the patient being analyzed. This workflow generates a data collection containing a PNG file for each line in the input that matches the user's criteria.
+
+---
+###Performing Copy Number Analysis in parallel using Sequenza
+![ScreenShot](run_sequenza.png)
 
 ---
 
