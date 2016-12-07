@@ -1,0 +1,436 @@
+{
+    "a_galaxy_workflow": "true", 
+    "annotation": "", 
+    "format-version": "0.1", 
+    "name": "run_Strelka", 
+    "steps": {
+        "0": {
+            "annotation": "", 
+            "content_id": null, 
+            "id": 0, 
+            "input_connections": {}, 
+            "inputs": [
+                {
+                    "description": "", 
+                    "name": "Tumour Alignment File"
+                }
+            ], 
+            "label": "Tumor Bam", 
+            "name": "Input dataset", 
+            "outputs": [], 
+            "position": {
+                "left": 323.95836067199707, 
+                "top": 253.99306106567383
+            }, 
+            "tool_errors": null, 
+            "tool_id": null, 
+            "tool_state": "{\"name\": \"Tumour Alignment File\"}", 
+            "tool_version": null, 
+            "type": "data_input", 
+            "uuid": "17918a5e-7fa4-475f-a7d3-6ac409bfe33f", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "output", 
+                    "uuid": "3e756331-7cbe-41e8-8c64-d3e29f66b14a"
+                }
+            ]
+        }, 
+        "1": {
+            "annotation": "", 
+            "content_id": null, 
+            "id": 1, 
+            "input_connections": {}, 
+            "inputs": [
+                {
+                    "description": "", 
+                    "name": "Normal Alignment File"
+                }
+            ], 
+            "label": "Normal Bam", 
+            "name": "Input dataset", 
+            "outputs": [], 
+            "position": {
+                "left": 410.97224617004395, 
+                "top": 185.97223281860352
+            }, 
+            "tool_errors": null, 
+            "tool_id": null, 
+            "tool_state": "{\"name\": \"Normal Alignment File\"}", 
+            "tool_version": null, 
+            "type": "data_input", 
+            "uuid": "0e45b568-fbbd-4c85-839f-b6ef7f8008c2", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "output", 
+                    "uuid": "c8a23f38-ebb6-414d-b2c8-1cda68b1ac19"
+                }
+            ]
+        }, 
+        "2": {
+            "annotation": "", 
+            "content_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/fetch_interval/fetch_interval/1.0.0", 
+            "id": 2, 
+            "input_connections": {
+                "input": {
+                    "id": 1, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool Fetch Interval", 
+                    "name": "input"
+                }
+            ], 
+            "label": null, 
+            "name": "Fetch Interval", 
+            "outputs": [
+                {
+                    "name": "list_output", 
+                    "type": "input"
+                }, 
+                {
+                    "name": "order", 
+                    "type": "txt"
+                }
+            ], 
+            "position": {
+                "left": 298.9930591583252, 
+                "top": 412.9861183166504
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionlist_output": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "list_output"
+                }, 
+                "HideDatasetActionorder": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "order"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/fetch_interval/fetch_interval/1.0.0", 
+            "tool_shed_repository": {
+                "changeset_revision": "1f092a1199e2", 
+                "name": "fetch_interval", 
+                "owner": "morinlab", 
+                "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
+            }, 
+            "tool_state": "{\"input\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"__rerun_remap_job_id__\": null, \"output_option\": \"{\\\"output_option_selector\\\": \\\"collection\\\", \\\"__current_case__\\\": 1}\", \"__page__\": 0}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "uuid": "581fc36e-b607-462e-958a-f01db74a64be", 
+            "workflow_outputs": []
+        }, 
+        "3": {
+            "annotation": "", 
+            "content_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/strelka/strelka/1.0.14", 
+            "id": 3, 
+            "input_connections": {
+                "interval_file": {
+                    "id": 2, 
+                    "output_name": "list_output"
+                }, 
+                "normal": {
+                    "id": 1, 
+                    "output_name": "output"
+                }, 
+                "tumour": {
+                    "id": 0, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool Strelka", 
+                    "name": "interval_file"
+                }, 
+                {
+                    "description": "runtime parameter for tool Strelka", 
+                    "name": "tumour"
+                }, 
+                {
+                    "description": "runtime parameter for tool Strelka", 
+                    "name": "normal"
+                }
+            ], 
+            "label": null, 
+            "name": "Strelka", 
+            "outputs": [
+                {
+                    "name": "snvs", 
+                    "type": "vcf"
+                }, 
+                {
+                    "name": "indels", 
+                    "type": "vcf"
+                }, 
+                {
+                    "name": "config", 
+                    "type": "txt"
+                }
+            ], 
+            "position": {
+                "left": 521.0069751739502, 
+                "top": 411.99655532836914
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionconfig": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "config"
+                }, 
+                "HideDatasetActionindels": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "indels"
+                }, 
+                "HideDatasetActionsnvs": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "snvs"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/strelka/strelka/1.0.14", 
+            "tool_state": "{\"interval_file\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"tumour\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"normal\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"__page__\": 0, \"__rerun_remap_job_id__\": null, \"depthfilters\": \"{\\\"seqType\\\": \\\"genome\\\", \\\"__current_case__\\\": 3}\", \"reference_source\": \"{\\\"ref_file\\\": \\\"grch38\\\", \\\"reference_source_selector\\\": \\\"cached\\\", \\\"__current_case__\\\": 0}\", \"advancedsettings\": \"{\\\"ssnvPrior\\\": \\\"1e-06\\\", \\\"sindelQuality_LowerBound\\\": \\\"30\\\", \\\"snvMaxSpanningDeletionFrac\\\": \\\"0.75\\\", \\\"snvMaxFilteredBasecallFrac\\\": \\\"0.4\\\", \\\"sindelPrior\\\": \\\"1e-06\\\", \\\"indelMaxIntHpolLength\\\": \\\"14\\\", \\\"minTier2Mapq\\\": \\\"5\\\", \\\"indelMaxWindowFilteredBasecallFrac\\\": \\\"0.3\\\", \\\"minTier1Mapq\\\": \\\"20\\\", \\\"ssnvNoiseStrandBiasFrac\\\": \\\"0.5\\\", \\\"indelMaxRefRepeat\\\": \\\"8\\\", \\\"ssnvNoise\\\": \\\"5e-07\\\", \\\"sindelNoise\\\": \\\"1e-06\\\", \\\"ssnvQuality_LowerBound\\\": \\\"15\\\"}\"}", 
+            "tool_version": "1.0.14", 
+            "type": "tool", 
+            "uuid": "40ad1da8-7739-4462-87ed-27d232491fd2", 
+            "workflow_outputs": []
+        }, 
+        "4": {
+            "annotation": "", 
+            "content_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/vcf2maf/vcf2maf/1.0.0", 
+            "id": 4, 
+            "input_connections": {
+                "input_vcf": {
+                    "id": 3, 
+                    "output_name": "snvs"
+                }, 
+                "sampleid_source|sampleid_normal": {
+                    "id": 1, 
+                    "output_name": "output"
+                }, 
+                "sampleid_source|sampleid_tumour": {
+                    "id": 0, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool vcf2maf", 
+                    "name": "sampleid_source"
+                }, 
+                {
+                    "description": "runtime parameter for tool vcf2maf", 
+                    "name": "sampleid_source"
+                }, 
+                {
+                    "description": "runtime parameter for tool vcf2maf", 
+                    "name": "input_vcf"
+                }
+            ], 
+            "label": null, 
+            "name": "vcf2maf", 
+            "outputs": [
+                {
+                    "name": "output_maf", 
+                    "type": "maf"
+                }
+            ], 
+            "position": {
+                "left": 838.0208606719971, 
+                "top": 132.9861183166504
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionoutput_maf": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "output_maf"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/vcf2maf/vcf2maf/1.0.0", 
+            "tool_shed_repository": {
+                "changeset_revision": "ca5881cffe56", 
+                "name": "vcf2maf", 
+                "owner": "morinlab", 
+                "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
+            }, 
+            "tool_state": "{\"sampleid_source\": \"{\\\"sampleid_tumour\\\": {\\\"__class__\\\": \\\"RuntimeValue\\\"}, \\\"sampleid_normal\\\": {\\\"__class__\\\": \\\"RuntimeValue\\\"}, \\\"__current_case__\\\": 0, \\\"sampleid_selector\\\": \\\"bamfile\\\"}\", \"__page__\": 0, \"__rerun_remap_job_id__\": null, \"input_vcf\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"species_select\": \"\\\"homo_sapiens-GRCh38\\\"\"}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "uuid": "62b80fc1-028a-4aa3-9208-e0df67522746", 
+            "workflow_outputs": []
+        }, 
+        "5": {
+            "annotation": "", 
+            "content_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/vcf2maf/vcf2maf/1.0.0", 
+            "id": 5, 
+            "input_connections": {
+                "input_vcf": {
+                    "id": 3, 
+                    "output_name": "indels"
+                }, 
+                "sampleid_source|sampleid_normal": {
+                    "id": 1, 
+                    "output_name": "output"
+                }, 
+                "sampleid_source|sampleid_tumour": {
+                    "id": 0, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool vcf2maf", 
+                    "name": "sampleid_source"
+                }, 
+                {
+                    "description": "runtime parameter for tool vcf2maf", 
+                    "name": "sampleid_source"
+                }, 
+                {
+                    "description": "runtime parameter for tool vcf2maf", 
+                    "name": "input_vcf"
+                }
+            ], 
+            "label": null, 
+            "name": "vcf2maf", 
+            "outputs": [
+                {
+                    "name": "output_maf", 
+                    "type": "maf"
+                }
+            ], 
+            "position": {
+                "left": 843.0208606719971, 
+                "top": 308.9930763244629
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionoutput_maf": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "output_maf"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/vcf2maf/vcf2maf/1.0.0", 
+            "tool_shed_repository": {
+                "changeset_revision": "ca5881cffe56", 
+                "name": "vcf2maf", 
+                "owner": "morinlab", 
+                "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
+            }, 
+            "tool_state": "{\"sampleid_source\": \"{\\\"sampleid_tumour\\\": {\\\"__class__\\\": \\\"RuntimeValue\\\"}, \\\"sampleid_normal\\\": {\\\"__class__\\\": \\\"RuntimeValue\\\"}, \\\"__current_case__\\\": 0, \\\"sampleid_selector\\\": \\\"bamfile\\\"}\", \"__page__\": 0, \"__rerun_remap_job_id__\": null, \"input_vcf\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"species_select\": \"\\\"homo_sapiens-GRCh38\\\"\"}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "uuid": "e1cd7a91-38ed-4d86-8a2f-38782d34e2cc", 
+            "workflow_outputs": []
+        }, 
+        "6": {
+            "annotation": "", 
+            "content_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/merge_maf_collection/merge_maf_collection/1.0.0", 
+            "id": 6, 
+            "input_connections": {
+                "maf_collection": {
+                    "id": 4, 
+                    "output_name": "output_maf"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool Merge MAF Collection", 
+                    "name": "maf_collection"
+                }
+            ], 
+            "label": null, 
+            "name": "Merge MAF Collection", 
+            "outputs": [
+                {
+                    "name": "output", 
+                    "type": "maf"
+                }
+            ], 
+            "position": {
+                "left": 1009.5139636993408, 
+                "top": 464.98266983032227
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/merge_maf_collection/merge_maf_collection/1.0.0", 
+            "tool_shed_repository": {
+                "changeset_revision": "71fa82e2dd0c", 
+                "name": "merge_maf_collection", 
+                "owner": "morinlab", 
+                "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
+            }, 
+            "tool_state": "{\"maf_collection\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"__rerun_remap_job_id__\": null, \"__page__\": 0}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "uuid": "d7a4e020-22c4-4fe4-b1c0-e92d8ea1c3b9", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "output", 
+                    "uuid": "50405695-e9b4-460a-8cf3-e6e8fbda9021"
+                }
+            ]
+        }, 
+        "7": {
+            "annotation": "", 
+            "content_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/merge_maf_collection/merge_maf_collection/1.0.0", 
+            "id": 7, 
+            "input_connections": {
+                "maf_collection": {
+                    "id": 5, 
+                    "output_name": "output_maf"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool Merge MAF Collection", 
+                    "name": "maf_collection"
+                }
+            ], 
+            "label": null, 
+            "name": "Merge MAF Collection", 
+            "outputs": [
+                {
+                    "name": "output", 
+                    "type": "maf"
+                }
+            ], 
+            "position": {
+                "left": 867.5173816680908, 
+                "top": 567.9861183166504
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/merge_maf_collection/merge_maf_collection/1.0.0", 
+            "tool_shed_repository": {
+                "changeset_revision": "71fa82e2dd0c", 
+                "name": "merge_maf_collection", 
+                "owner": "morinlab", 
+                "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
+            }, 
+            "tool_state": "{\"maf_collection\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"__rerun_remap_job_id__\": null, \"__page__\": 0}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "uuid": "b6ce0588-7d65-4649-94eb-47c840315a05", 
+            "workflow_outputs": [
+                {
+                    "label": null, 
+                    "output_name": "output", 
+                    "uuid": "1321f6d3-89ce-4f82-b3c1-e08383bd9f87"
+                }
+            ]
+        }
+    }, 
+    "uuid": "ac93a307-0617-4b1b-b7c4-a95bd47fdf68"
+}

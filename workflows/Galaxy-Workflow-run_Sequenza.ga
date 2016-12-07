@@ -1,0 +1,323 @@
+{
+    "a_galaxy_workflow": "true", 
+    "annotation": "", 
+    "format-version": "0.1", 
+    "name": "run_Sequenza", 
+    "steps": {
+        "0": {
+            "annotation": "", 
+            "content_id": null, 
+            "id": 0, 
+            "input_connections": {}, 
+            "inputs": [
+                {
+                    "description": "", 
+                    "name": "Input Dataset"
+                }
+            ], 
+            "label": null, 
+            "name": "Input dataset", 
+            "outputs": [], 
+            "position": {
+                "left": 292, 
+                "top": 425
+            }, 
+            "tool_errors": null, 
+            "tool_id": null, 
+            "tool_state": "{\"name\": \"Input Dataset\"}", 
+            "tool_version": null, 
+            "type": "data_input", 
+            "uuid": "9b0f58c4-6817-4324-a2b4-a3367ffc2709", 
+            "workflow_outputs": []
+        }, 
+        "1": {
+            "annotation": "", 
+            "content_id": null, 
+            "id": 1, 
+            "input_connections": {}, 
+            "inputs": [
+                {
+                    "description": "", 
+                    "name": "Input Dataset"
+                }
+            ], 
+            "label": null, 
+            "name": "Input dataset", 
+            "outputs": [], 
+            "position": {
+                "left": 288, 
+                "top": 501
+            }, 
+            "tool_errors": null, 
+            "tool_id": null, 
+            "tool_state": "{\"name\": \"Input Dataset\"}", 
+            "tool_version": null, 
+            "type": "data_input", 
+            "uuid": "922d3234-9f64-45e2-85d6-c7006b5263f4", 
+            "workflow_outputs": []
+        }, 
+        "2": {
+            "annotation": "", 
+            "content_id": null, 
+            "id": 2, 
+            "input_connections": {}, 
+            "inputs": [
+                {
+                    "description": "", 
+                    "name": "Input Dataset"
+                }
+            ], 
+            "label": null, 
+            "name": "Input dataset", 
+            "outputs": [], 
+            "position": {
+                "left": 290, 
+                "top": 581
+            }, 
+            "tool_errors": null, 
+            "tool_id": null, 
+            "tool_state": "{\"name\": \"Input Dataset\"}", 
+            "tool_version": null, 
+            "type": "data_input", 
+            "uuid": "935ba45a-47c9-4521-9601-a7ccf6ae67d2", 
+            "workflow_outputs": []
+        }, 
+        "3": {
+            "annotation": "", 
+            "content_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/fetch_interval/fetch_interval/1.0.0", 
+            "id": 3, 
+            "input_connections": {
+                "input": {
+                    "id": 0, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool Fetch Interval", 
+                    "name": "input"
+                }
+            ], 
+            "label": null, 
+            "name": "Fetch Interval", 
+            "outputs": [
+                {
+                    "name": "list_output", 
+                    "type": "input"
+                }, 
+                {
+                    "name": "order", 
+                    "type": "txt"
+                }
+            ], 
+            "position": {
+                "left": 608, 
+                "top": 571
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/fetch_interval/fetch_interval/1.0.0", 
+            "tool_shed_repository": {
+                "changeset_revision": "1f092a1199e2", 
+                "name": "fetch_interval", 
+                "owner": "morinlab", 
+                "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
+            }, 
+            "tool_state": "{\"input\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"__rerun_remap_job_id__\": null, \"output_option\": \"{\\\"output_option_selector\\\": \\\"collection\\\", \\\"__current_case__\\\": 1}\", \"__page__\": 0}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "uuid": "5bb4386e-03a8-4ecb-b4d8-c609f7d46e0e", 
+            "workflow_outputs": []
+        }, 
+        "4": {
+            "annotation": "", 
+            "content_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/sequenza/create_seqz_file/2.1.2", 
+            "id": 4, 
+            "input_connections": {
+                "gc_file": {
+                    "id": 2, 
+                    "output_name": "output"
+                }, 
+                "interval": {
+                    "id": 3, 
+                    "output_name": "list_output"
+                }, 
+                "normal": {
+                    "id": 0, 
+                    "output_name": "output"
+                }, 
+                "order_file": {
+                    "id": 3, 
+                    "output_name": "order"
+                }, 
+                "tumour": {
+                    "id": 1, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool Create Seqz File", 
+                    "name": "tumour"
+                }, 
+                {
+                    "description": "runtime parameter for tool Create Seqz File", 
+                    "name": "order_file"
+                }, 
+                {
+                    "description": "runtime parameter for tool Create Seqz File", 
+                    "name": "gc_file"
+                }, 
+                {
+                    "description": "runtime parameter for tool Create Seqz File", 
+                    "name": "normal"
+                }, 
+                {
+                    "description": "runtime parameter for tool Create Seqz File", 
+                    "name": "interval"
+                }
+            ], 
+            "label": null, 
+            "name": "Create Seqz File", 
+            "outputs": [
+                {
+                    "name": "output", 
+                    "type": "tabular"
+                }, 
+                {
+                    "name": "output_gzip", 
+                    "type": "txt"
+                }, 
+                {
+                    "name": "bytes", 
+                    "type": "txt"
+                }
+            ], 
+            "position": {
+                "left": 847.5, 
+                "top": 200
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/sequenza/create_seqz_file/2.1.2", 
+            "tool_shed_repository": {
+                "changeset_revision": "f1ad49c04340", 
+                "name": "sequenza", 
+                "owner": "morinlab", 
+                "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
+            }, 
+            "tool_state": "{\"__page__\": 0, \"tumour\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"interval\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"gc_file\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"normal\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"__rerun_remap_job_id__\": null, \"order_file\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"geno\": \"{\\\"het\\\": \\\"0.25\\\", \\\"hom\\\": \\\"0.9\\\"}\", \"window\": \"\\\"50\\\"\", \"min_depth\": \"\\\"12\\\"\", \"gzip\": \"{\\\"gzip_selector\\\": \\\"yes\\\", \\\"__current_case__\\\": 0}\", \"reference_source\": \"{\\\"ref_file\\\": null, \\\"reference_source_selector\\\": \\\"cached\\\", \\\"__current_case__\\\": 0}\", \"qual\": \"{\\\"depth\\\": \\\"20\\\", \\\"qformat\\\": \\\"sanger\\\", \\\"qlimit\\\": \\\"20\\\"}\"}", 
+            "tool_version": "2.1.2", 
+            "type": "tool", 
+            "uuid": "07732167-852b-480f-864c-7bc64cfd69f7", 
+            "workflow_outputs": []
+        }, 
+        "5": {
+            "annotation": "", 
+            "content_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/merge_gzip/merge_gzip/1.0.0", 
+            "id": 5, 
+            "input_connections": {
+                "list_of_sub_file_bytes": {
+                    "id": 4, 
+                    "output_name": "bytes"
+                }, 
+                "list_of_sub_file_intervals": {
+                    "id": 3, 
+                    "output_name": "list_output"
+                }, 
+                "list_of_sub_files": {
+                    "id": 4, 
+                    "output_name": "output_gzip"
+                }, 
+                "order": {
+                    "id": 3, 
+                    "output_name": "order"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool Merge GunZipped", 
+                    "name": "order"
+                }
+            ], 
+            "label": null, 
+            "name": "Merge GunZipped", 
+            "outputs": [
+                {
+                    "name": "output", 
+                    "type": "txt"
+                }
+            ], 
+            "position": {
+                "left": 1184, 
+                "top": 635
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/merge_gzip/merge_gzip/1.0.0", 
+            "tool_shed_repository": {
+                "changeset_revision": "06e9d83dee6b", 
+                "name": "merge_gzip", 
+                "owner": "morinlab", 
+                "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
+            }, 
+            "tool_state": "{\"__page__\": 0, \"list_of_sub_file_intervals\": \"null\", \"__rerun_remap_job_id__\": null, \"order\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"list_of_sub_file_bytes\": \"null\", \"list_of_sub_files\": \"null\"}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "uuid": "7a73ca71-3631-4dbb-b46a-3dc689075292", 
+            "workflow_outputs": []
+        }, 
+        "6": {
+            "annotation": "", 
+            "content_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/sequenza/sequenza_pipeline/2.1.2", 
+            "id": 6, 
+            "input_connections": {
+                "input": {
+                    "id": 5, 
+                    "output_name": "output"
+                }, 
+                "sampleid_source|id": {
+                    "id": 0, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool Analyze Seqz File", 
+                    "name": "sampleid_source"
+                }, 
+                {
+                    "description": "runtime parameter for tool Analyze Seqz File", 
+                    "name": "input"
+                }
+            ], 
+            "label": null, 
+            "name": "Analyze Seqz File", 
+            "outputs": [
+                {
+                    "name": "output", 
+                    "type": "seg,txt"
+                }
+            ], 
+            "position": {
+                "left": 1476.5, 
+                "top": 541
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/sequenza/sequenza_pipeline/2.1.2", 
+            "tool_shed_repository": {
+                "changeset_revision": "f1ad49c04340", 
+                "name": "sequenza", 
+                "owner": "morinlab", 
+                "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
+            }, 
+            "tool_state": "{\"sampleid_source\": \"{\\\"__current_case__\\\": 1, \\\"sampleid_selector\\\": \\\"bamfile\\\", \\\"id\\\": {\\\"__class__\\\": \\\"RuntimeValue\\\"}}\", \"input\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"__rerun_remap_job_id__\": null, \"choose_fit_option\": \"{\\\"fit_option\\\": \\\"bestfit\\\", \\\"__current_case__\\\": 1}\", \"__page__\": 0}", 
+            "tool_version": "2.1.2", 
+            "type": "tool", 
+            "uuid": "5fea10bf-036b-4a0f-810c-f1914e980e1f", 
+            "workflow_outputs": []
+        }
+    }, 
+    "uuid": "a14cb1c1-7e55-435b-ab7e-27caedb33fe3"
+}
