@@ -51,4 +51,4 @@ Copy number information can be determined from whole genome and whole exome data
 ###Running OncodriveClust and Visualizing Mutations in Lollipop Plots
 ![ScreenShot](oncodriveclust_workflow.png)
 
-Another method to detect mutation recurrence involves searching for mutation clusters and hotspots. OncodriveClust is used in this workflow to accomplish this. This simple workflow uses the *maftools* implementation of OncodriveClust to detect significantly mutated genes and return the detailed output as a plain text file. Lollipop plots are produced for all genes that are above a user-specified Q-value cutoff.
+Another method to detect mutation recurrence involves searching for mutation clusters and hotspots. OncodriveClust is used in this [workflow](Galaxy-Workflow-MutClusterDiscovery.ga) to accomplish this. This simple workflow uses the *maftools* implementation of OncodriveClust to detect significantly mutated genes and return the detailed output as a plain text file. Lollipop plots are produced for all genes that are above a user-specified Q-value cutoff.
