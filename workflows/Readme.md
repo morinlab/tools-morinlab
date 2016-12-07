@@ -6,6 +6,7 @@ Currently, the workflow export files (\*.ga) in this repository point to an unst
 
 ###Calling somatic SNVs and indels using Strelka
 ![ScreenShot](run_strelka.png)
+This [workflow](Galaxy-Workflow-run_Strelka.ga) shows how intervals can be used to parallelize tasks for computationally intensive analyses such as SNV and indel detection. 
 
 ###Calling somatic SNVs using an ensemble approach
 ![ScreenShot](ensemble_caller_workflow.png)
