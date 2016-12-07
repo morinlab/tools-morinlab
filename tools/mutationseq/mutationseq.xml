@@ -98,8 +98,10 @@
     
   --threshold $advancedsettings.filter_prob
 
-  | grep -v ".*no somatic mutation calls.*" >> $output
-
+  | grep -v ".*no somatic mutation calls.*" >> ./output_noheader;
+  echo "\##fileformat=VCFv4.2" > ./minimal_vcf_header;
+  echo "#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO" >> ./minimal_vcf_header;
+  cat ./minimal_vcf_header ./output_noheader > $output
   #if $interval
     ; done
   #end if

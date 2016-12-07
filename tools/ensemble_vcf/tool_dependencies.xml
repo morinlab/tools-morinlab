@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <tool_dependency>
-	<package name="morinkit" version="0.1.1">
-		<repository name="package_morinkit_0_1_1" owner="morinlab" toolshed="https://testtoolshed.g2.bx.psu.edu" />
+	<package name="morinkit" version="0.1.2">
+		<repository name="package_morinkit_0_1_2" owner="morinlab" toolshed="https://testtoolshed.g2.bx.psu.edu" />
 	</package>
 </tool_dependency>

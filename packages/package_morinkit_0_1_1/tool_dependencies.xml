@@ -23,7 +23,7 @@
 					$INSTALL_DIR/bin/conda install --quiet --yes numpy Cython
 				</action>
 				<action type="shell_command">
-					$INSTALL_DIR/bin/pip install --quiet morinkit==0.1.1
+					$INSTALL_DIR/bin/pip install --quiet morinkit
 				</action>
 				<action type="set_environment">
 					<environment_variable action="prepend_to" name="PATH">$INSTALL_DIR/bin</environment_variable>
