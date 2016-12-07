@@ -11,14 +11,14 @@ This [workflow](Galaxy-Workflow-run_Strelka.ga) shows how intervals can be used 
 ###Calling somatic SNVs using an ensemble approach
 ![ScreenShot](ensemble_caller_workflow.png)
 
-This workflow demonstrates our implementation of a simple voting-based ensemble variant calling approach using Galaxy. Here, four somatic SNV callers are run on the same tumour/normal pair (RADIA, SomaticSniper, MutationSeq and Strelka). The vcf-formatted output of each tool is passed to ensemble_vcf, which in turn outputs variants detected by a user-specified proportion of these callers (e.g. >50%). The last step in this workflow is to annotate the remaining variants using vcf2maf. The output is a file in the TCGA MAF format that contains detailed annotations of the effect of each variant on canonical gene annotations (from Ensembl).
+This [workflow](Galaxy-Workflow-Ensemble_Variant_Caller.ga) demonstrates our implementation of a simple voting-based ensemble variant calling approach using Galaxy. Here, four somatic SNV callers are run on the same tumour/normal pair (RADIA, SomaticSniper, MutationSeq and Strelka). The vcf-formatted output of each tool is passed to ensemble_vcf, which in turn outputs variants detected by a user-specified proportion of these callers (e.g. >50%). The last step in this workflow is to annotate the remaining variants using vcf2maf. The output is a file in the TCGA MAF format that contains detailed annotations of the effect of each variant on canonical gene annotations (from Ensembl).
 
 ---
 
 ###Taking a batch of screenshots in IGV for variants affecting specific loci
 ![ScreenShot](igv_screenshot.png)
 
-It is sometimes important to visually check the quality of somatic SNV and indel calls. This simple workflow uses an extended implementation of the igv_screenshot tool to capture screenshots of the aligned reads (in IGV) for a set of variants specified from a MAF file. The workflow first selects lines matching a user-specified set of criteria (e.g. *Missense|Nonsense*) using the Select tool. The other required inputs are the tumor and normal bam file from the patient being analyzed. This workflow generates a data collection containing a PNG file for each line in the input that matches the user's criteria.
+It is sometimes important to visually check the quality of somatic SNV and indel calls. This simple [workflow](Galaxy-Workflow-IGVScreenshotVariants.ga) uses an extended implementation of the igv_screenshot tool to capture screenshots of the aligned reads (in IGV) for a set of variants specified from a MAF file. The workflow first selects lines matching a user-specified set of criteria (e.g. *Missense|Nonsense*) using the Select tool. The other required inputs are the tumor and normal bam file from the patient being analyzed. This workflow generates a data collection containing a PNG file for each line in the input that matches the user's criteria.
 
 ---
 ###Performing Copy Number Analysis in parallel using Sequenza
