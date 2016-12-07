@@ -23,6 +23,8 @@ It is sometimes important to visually check the quality of somatic SNV and indel
 ###Performing Copy Number Analysis in parallel using Sequenza
 ![ScreenShot](run_sequenza.png)
 
+This [workflow](Galaxy-Workflow-run_Sequenza.ga) shows how intervals can be used to parallelize tasks for computationally intensive analyses (e.g. early steps in the Sequenza process).
+
 ---
 
 ###Using OncodriveFM to detect significantly mutated genes and visualizations
