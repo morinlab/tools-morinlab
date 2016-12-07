@@ -38,7 +38,7 @@
         }, 
         "1": {
             "annotation": "", 
-            "content_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/package_maf2tdm_1_0/maf2tdm/1.0", 
+            "content_id": "testtoolshed.g2.bx.psu.edu/repos/morinlab/package_maf2tdm_1_0/maf2tdm/1.0", 
             "id": 1, 
             "input_connections": {
                 "input": {
@@ -72,12 +72,12 @@
                 }
             }, 
             "tool_errors": null, 
-            "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/package_maf2tdm_1_0/maf2tdm/1.0", 
+            "tool_id": "testtoolshed.g2.bx.psu.edu/repos/morinlab/package_maf2tdm_1_0/maf2tdm/1.0", 
             "tool_shed_repository": {
-                "changeset_revision": "8a3e8140e3c9", 
+                "changeset_revision": "fd09386ad95f", 
                 "name": "package_maf2tdm_1_0", 
                 "owner": "morinlab", 
-                "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
+                "tool_shed": "testtoolshed.g2.bx.psu.edu"
             }, 
             "tool_state": "{\"__page__\": 0, \"exclude\": \"\\\"exclude_2na\\\"\", \"genename\": \"\\\"hugo\\\"\", \"__rerun_remap_job_id__\": null, \"input\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\"}", 
             "tool_version": "1.0", 
@@ -87,7 +87,7 @@
         }, 
         "2": {
             "annotation": "Reduce the gene threshold to allow less frequently genes to be considered. In this run of oncodriveFM, the Q value is used as  a threshold.", 
-            "content_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/oncodrivefm/oncodrivefm/1.0.0", 
+            "content_id": "testtoolshed.g2.bx.psu.edu/repos/morinlab/oncodrivefm/oncodrivefm/1.0.0", 
             "id": 2, 
             "input_connections": {
                 "input_maf": {
@@ -130,12 +130,12 @@
                 }
             }, 
             "tool_errors": null, 
-            "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/oncodrivefm/oncodrivefm/1.0.0", 
+            "tool_id": "testtoolshed.g2.bx.psu.edu/repos/morinlab/oncodrivefm/oncodrivefm/1.0.0", 
             "tool_shed_repository": {
-                "changeset_revision": "33ee6fa69402", 
+                "changeset_revision": "97e99acadbaf", 
                 "name": "oncodrivefm", 
                 "owner": "morinlab", 
-                "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
+                "tool_shed": "testtoolshed.g2.bx.psu.edu"
             }, 
             "tool_state": "{\"input_maf\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"__page__\": 0, \"__rerun_remap_job_id__\": null, \"advancedsettings\": \"{\\\"mapoption\\\": {\\\"__current_case__\\\": 1, \\\"mapfile\\\": \\\"included_file\\\"}, \\\"gthreshold\\\": \\\"4\\\", \\\"slices\\\": \\\"SIFT,PPH2\\\", \\\"pthreshold\\\": \\\"10\\\", \\\"samplings\\\": \\\"10000\\\", \\\"estimator\\\": \\\"median\\\", \\\"qcut\\\": \\\"0.2\\\"}\"}", 
             "tool_version": "1.0.0", 
@@ -145,7 +145,7 @@
         }, 
         "3": {
             "annotation": "", 
-            "content_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/oncodrivefm/oncodrivefm/1.0.0", 
+            "content_id": "testtoolshed.g2.bx.psu.edu/repos/morinlab/oncodrivefm/oncodrivefm/1.0.0", 
             "id": 3, 
             "input_connections": {
                 "input_maf": {
@@ -177,12 +177,12 @@
             }, 
             "post_job_actions": {}, 
             "tool_errors": null, 
-            "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/oncodrivefm/oncodrivefm/1.0.0", 
+            "tool_id": "testtoolshed.g2.bx.psu.edu/repos/morinlab/oncodrivefm/oncodrivefm/1.0.0", 
             "tool_shed_repository": {
-                "changeset_revision": "33ee6fa69402", 
+                "changeset_revision": "97e99acadbaf", 
                 "name": "oncodrivefm", 
                 "owner": "morinlab", 
-                "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
+                "tool_shed": "testtoolshed.g2.bx.psu.edu"
             }, 
             "tool_state": "{\"input_maf\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"__page__\": 0, \"__rerun_remap_job_id__\": null, \"advancedsettings\": \"{\\\"mapoption\\\": {\\\"__current_case__\\\": 1, \\\"mapfile\\\": \\\"included_file\\\"}, \\\"gthreshold\\\": \\\"4\\\", \\\"slices\\\": \\\"SIFT,PPH2\\\", \\\"pthreshold\\\": \\\"10\\\", \\\"samplings\\\": \\\"10000\\\", \\\"estimator\\\": \\\"median\\\", \\\"qcut\\\": \\\"1.0\\\"}\"}", 
             "tool_version": "1.0.0", 
@@ -246,7 +246,7 @@
         }, 
         "5": {
             "annotation": "", 
-            "content_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/maftools/lollipop/0.9.30", 
+            "content_id": "testtoolshed.g2.bx.psu.edu/repos/morinlab/maftools/lollipop/0.9.30", 
             "id": 5, 
             "input_connections": {
                 "gene_input_type|gene_file": {
@@ -282,12 +282,12 @@
             }, 
             "post_job_actions": {}, 
             "tool_errors": null, 
-            "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/maftools/lollipop/0.9.30", 
+            "tool_id": "testtoolshed.g2.bx.psu.edu/repos/morinlab/maftools/lollipop/0.9.30", 
             "tool_shed_repository": {
-                "changeset_revision": "77dcc2249cef", 
+                "changeset_revision": "8263ddfcd202", 
                 "name": "maftools", 
                 "owner": "morinlab", 
-                "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
+                "tool_shed": "testtoolshed.g2.bx.psu.edu"
             }, 
             "tool_state": "{\"input_maf\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"__page__\": 0, \"gene_input_type\": \"{\\\"gene_file\\\": {\\\"__class__\\\": \\\"RuntimeValue\\\"}, \\\"__current_case__\\\": 0, \\\"gene_input_type_selector\\\": \\\"file\\\"}\", \"__rerun_remap_job_id__\": null}", 
             "tool_version": "0.9.30", 
@@ -303,7 +303,7 @@
         }, 
         "6": {
             "annotation": "", 
-            "content_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/oncoprintplus/oncoprintplus/1.0.0", 
+            "content_id": "testtoolshed.g2.bx.psu.edu/repos/morinlab/oncoprintplus/oncoprintplus/1.0.0", 
             "id": 6, 
             "input_connections": {
                 "gene|gene_list": {
@@ -343,12 +343,12 @@
             }, 
             "post_job_actions": {}, 
             "tool_errors": null, 
-            "tool_id": "galaxy-morinlab.mbb.sfu.ca:9009/repos/morinlab/oncoprintplus/oncoprintplus/1.0.0", 
+            "tool_id": "testtoolshed.g2.bx.psu.edu/repos/morinlab/oncoprintplus/oncoprintplus/1.0.0", 
             "tool_shed_repository": {
-                "changeset_revision": "52f90fcd8794", 
+                "changeset_revision": "2877b1ba1250", 
                 "name": "oncoprintplus", 
                 "owner": "morinlab", 
-                "tool_shed": "galaxy-morinlab.mbb.sfu.ca:9009"
+                "tool_shed": "testtoolshed.g2.bx.psu.edu"
             }, 
             "tool_state": "{\"input_maf\": \"{\\\"__class__\\\": \\\"RuntimeValue\\\"}\", \"__page__\": 0, \"patient\": \"{\\\"snv_counts\\\": \\\"true\\\", \\\"snv_distribution\\\": \\\"true\\\", \\\"covariates\\\": {\\\"order\\\": [{\\\"__index__\\\": 0, \\\"order\\\": \\\"default\\\"}], \\\"__current_case__\\\": 0, \\\"use_covariates\\\": \\\"no\\\"}}\", \"__rerun_remap_job_id__\": null, \"gene\": \"{\\\"snv_counts\\\": \\\"true\\\", \\\"oncodrive\\\": {\\\"plot\\\": \\\"false\\\", \\\"oncodrive\\\": {\\\"__class__\\\": \\\"RuntimeValue\\\"}}, \\\"mutsig\\\": {\\\"plot\\\": \\\"false\\\", \\\"mutsig\\\": {\\\"__class__\\\": \\\"RuntimeValue\\\"}}, \\\"order\\\": \\\"default\\\", \\\"gene_list\\\": {\\\"__class__\\\": \\\"RuntimeValue\\\"}}\", \"center_plot\": \"\\\"impact\\\"\"}", 
             "tool_version": "1.0.0", 
