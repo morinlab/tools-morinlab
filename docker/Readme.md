@@ -58,9 +58,33 @@ All tools have been processed.
 Total run time: 1:49:30.325838
 </pre>
 
+The latest Dockerfile also should install several workflows that give example use cases for these tools. 
+
 ##Testing your Image
 To boot your newly build Docker image, use the following command, substituting the name argument with whatever you choose.
 
 ```docker run --name test_image -p 8080:80 full_galaxy_can```
 
 If successful, you should be able to access your Galaxy instance on port 8080  (in this example) on the server running Docker. Unless you change the Dockerfile, which is highly recommended that you do for security reasons, you will be able to log in as admin using "admin" as your password. 
+
+##Testing out the tools and workflows
+The Dockerfile adds a script to the image that should allow you to automatically pull in data from a URL for testing the image. To create new histories in your running image, use the commands in the file 'run_after.exec'. The commands in this file look like this:
+
+<pre>docker exec -it $IMAGE_NAME sh -c 'python $GALAXY_ROOT/create_and_upload_history.py snv_calling https://github.com/morinlab/tools-morinlab/raw/master/test-data/strelka_test_data/test.tumour.bam https://github.com/morinlab/tools-morinlab/raw/master/test-data/strelka_test_data/test.normal.bam https://github.com/morinlab/tools-morinlab/raw/master/test-data/strelka_test_data/test.fa'
+docker exec -it $IMAGE_NAME sh -c 'python $GALAXY_ROOT/create_and_upload_history.py gistic_tool https://github.com/morinlab/tools-morinlab/raw/master/test-data/gistic_test_data/gistic_input_segments_preprocessed.txt https://github.com/morinlab/tools-morinlab/raw/master/test-data/gistic_test_data/gistic_marker_file.txt.gz'
+docker exec -it $IMAGE_NAME sh -c 'python $GALAXY_ROOT/create_and_upload_history.py oncocircos_tool https://github.com/morinlab/tools-morinlab/raw/master/test-data/oncocircos_test_data/blacklist.txt https://github.com/morinlab/tools-morinlab/raw/master/test-data/oncocircos_test_data/example_genes_to_label.txt https://github.com/morinlab/tools-morinlab/raw/master/test-data/oncocircos_test_data/gistic_sigregions.bed https://github.com/morinlab/tools-morinlab/raw/master/test-data/oncocircos_test_data/hg19_genes_biomart.txt https://github.com/morinlab/tools-morinlab/raw/master/test-data/oncocircos_test_data/merged_segmented_data_for_oncocircos.seg https://github.com/morinlab/tools-morinlab/raw/master/test-data/oncocircos_test_data/mutations.maf.gz'</pre>
+
+*Before you run these*, set an environment variable for your image name:
+
+```export $IMAGE_NAME=test_image``` 
+
+test_image in the above example should match what your running container is named. You can confirm the name using:
+
+```docker ps```
+
+If you then run the commands in this file, you should be able to see the new histories in your "saved histories" list. This script is currently submitting as the admin user and this will need to be modified if you change the user and authentication.
+
+![ScreenShot](test_data_history.png)
+
+
+
