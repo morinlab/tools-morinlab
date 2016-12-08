@@ -75,8 +75,11 @@ docker exec -it $IMAGE_NAME sh -c 'python $GALAXY_ROOT/create_and_upload_history
 docker exec -it $IMAGE_NAME sh -c 'python $GALAXY_ROOT/create_and_upload_history.py oncocircos_tool https://github.com/morinlab/tools-morinlab/raw/master/test-data/oncocircos_test_data/blacklist.txt https://github.com/morinlab/tools-morinlab/raw/master/test-data/oncocircos_test_data/example_genes_to_label.txt https://github.com/morinlab/tools-morinlab/raw/master/test-data/oncocircos_test_data/gistic_sigregions.bed https://github.com/morinlab/tools-morinlab/raw/master/test-data/oncocircos_test_data/hg19_genes_biomart.txt https://github.com/morinlab/tools-morinlab/raw/master/test-data/oncocircos_test_data/merged_segmented_data_for_oncocircos.seg https://github.com/morinlab/tools-morinlab/raw/master/test-data/oncocircos_test_data/mutations.maf.gz'</pre>
 
 *Before you run these*, set an environment variable for your image name:
+
 ```export $IMAGE_NAME=test_image``` 
+
 test_image in the above example should match what your running container is named. You can confirm the name using:
+
 ```docker ps```
 
 If you then run the commands in this file, you should be able to see the new histories in your "saved histories" list. This script is currently submitting as the admin user and this will need to be modified if you change the user and authentication.
