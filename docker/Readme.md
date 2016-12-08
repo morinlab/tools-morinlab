@@ -84,5 +84,7 @@ test_image in the above example should match what your running container is name
 
 If you then run the commands in this file, you should be able to see the new histories in your "saved histories" list. This script is currently submitting as the admin user and this will need to be modified if you change the user and authentication.
 
+![ScreenShot](test_data_history.png)
+
 
 
