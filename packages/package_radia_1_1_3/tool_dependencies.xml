@@ -3,15 +3,12 @@
   <package name="radia" version="1.1.3">
     <install version="1.0">
       <actions>
-        <action type="download_by_url">https://github.com/aradenbaugh/radia/archive/v1.1.3.tar.gz</action>
+        <action type="download_by_url">https://github.com/aradenbaugh/radia/raw/v1.1.3/scripts/radia.py</action>
+	<action type="download_by_url">https://github.com/aradenbaugh/radia/raw/v1.1.3/scripts/radiaUtil.py</action>
         <action type="make_directory">$INSTALL_DIR/radia_src/</action>
 	<action type="move_directory_files"><source_directory>.</source_directory><destination_directory>$INSTALL_DIR/radia_src/</destination_directory></action>
-	<action type="setup_virtualenv">
-	pysam==0.8.1
-	</action>
 	<action type="set_environment">
           <environment_variable action="set_to" name="RADIA_INSTALL_DIR">$INSTALL_DIR</environment_variable>
-
         </action>
       </actions>
     </install>
