@@ -1,0 +1,45 @@
+<tool id="maf2maf" name="maf2maf" version="1.0.0">
+    <description>Reannotates MAF file creating a new MAF file</description>
+
+    <command>
+        echo \$VCF2MAF_SCRIPT_PATH;
+        echo \$ENSEMBL_VEP_84_INSTALL_DIR;
+        ln -s $input_maf ./input.maf;
+        perl \$VCF2MAF_SCRIPT_PATH/maf2maf.pl
+            --input-maf ./input.maf
+            --output-maf $output_maf
+            --vep-path \$ENSEMBL_VEP_84_INSTALL_DIR
+            --vep-data \${ENSEMBL_VEP_84_INSTALL_DIR}/cache
+            --ref-fasta \${ENSEMBL_VEP_84_INSTALL_DIR}/cache/`echo $species_select.value | sed 's/-/\t/g' | cut -f1`/84_`echo $species_select.value | sed 's/-/\t/g' | cut -f2`/*.fa
+            --species `echo $species_select.value | sed 's/-/\t/g' | cut -f1`
+            --ncbi-build `echo $species_select.value | sed 's/-/\t/g' | cut -f2`;
+    </command>
+
+    <inputs>
+        <expand macro="genome_list" />
+        <param name="input_maf" type="data" format="maf" label="Input MAF file" />
+    </inputs>
+
+    <outputs>
+        <data name="output_maf" format="maf" label="#echo os.path.splitext( str( $input_maf.name ) )[ 0 ] #.${tool.name}.maf" />
+    </outputs>
+
+    <stdio>
+        <exit_code range="1:" level="fatal" description="Failure" />
+    </stdio>
+
+    <requirements>
+        <requirement type="package" version="84">ensembl_vep</requirement>
+        <requirement type="package" version="1.6.7">vcf2maf</requirement>
+        <requirement type="paclage" version="84">ensembl_vep_perl_environment</requirement>
+    </requirements>
+
+    <macros>
+        <import>ensembl_vep_macros.xml</import>
+    </macros>
+
+    <help>
+
+    </help>
+
+</tool>
