@@ -14,7 +14,7 @@ These have *largely* been deposited into the Galaxy test toolshed. We are in the
 We **strongly** recommend you try using our [Dockerfile](docker/Readme.md) if you have the capability of running Docker. This will allow you to reproduce a Docker image with the tools described in the manuscript already installed. In principle, this should be a relatively painless way for you to get your hands on the tools without having to set up your own Galaxy server and get the dependencies right as that process can be difficult if not impossible on certain systems. 
 
 ## Getting started
-We are in the process of putting example data that should demonstrate how to use some of the main tools and workflows provided with this toolkit. Please refer to the documentation in the test-data directory for more details. To orient yourself with how tools are meant to be used together, please refer to our many example workflows. 
+We are in the process of putting example data that should demonstrate how to use some of the main tools and workflows provided with this toolkit. Please refer to the documentation in the test-data directory for more details. To orient yourself with how tools are meant to be used together, please refer to our many example [workflows](workflows/Readme.md). 
 
 ## Known limitations
 Please be aware that many of the tools included here have only been tested on a small number of data sets. 
