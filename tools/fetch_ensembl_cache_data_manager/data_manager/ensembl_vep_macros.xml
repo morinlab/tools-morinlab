@@ -1,0 +1,76 @@
+<macros>
+	<xml name="genome_list">
+		<param name="species_select" type="select" label="Select Species">
+			<option value="ailuropoda melanoleuca">ailuropoda melanoleuca</option>
+			<option value="anas platyrhynchos">anas platyrhynchos</option>
+			<option value="anolis carolinensis">anolis carolinensis</option>
+			<option value="astyanax mexicanus">astyanax mexicanus</option>
+			<option value="bos taurus">bos taurus</option>
+			<option value="caenorhabditis elegans">caenorhabditis elegans</option>
+			<option value="callithrix jacchus">callithrix jacchus</option>
+			<option value="canis familiaris">canis familiaris</option>
+			<option value="cavia porcellus">cavia porcellus</option>
+			<option value="chlorocebus sabaeus">chlorocebus sabaeus</option>
+			<option value="choloepus hoffmanni">choloepus hoffmanni</option>
+			<option value="ciona intestinalis">ciona intestinalis</option>
+			<option value="ciona savignyi">ciona savignyi</option>
+			<option value="danio rerio">danio rerio</option>
+			<option value="dasypus novemcinctus">dasypus novemcinctus</option>
+			<option value="dipodomys ordii">dipodomys ordii</option>
+			<option value="drosophila melanogaster">drosophila melanogaster</option>
+			<option value="echinops telfairi">echinops telfairi</option>
+			<option value="equus caballus">equus caballus</option>
+			<option value="erinaceus europaeus">erinaceus europaeus</option>
+			<option value="felis catus">felis catus</option>
+			<option value="ficedula albicollis">ficedula albicollis</option>
+			<option value="gadus morhua">gadus morhua</option>
+			<option value="gallus gallus">gallus gallus</option>
+			<option value="gasterosteus aculeatus">gasterosteus aculeatus</option>
+			<option value="gorilla gorilla">gorilla gorilla</option>
+			<option value="homo_sapiens-GRCh37">homo sapiens - GRCh37</option>
+			<option value="homo_sapiens-GRCh38" selected="true">homo sapiens - GRCh38</option>
+			<option value="ictidomys tridecemlineatus">ictidomys tridecemlineatus</option>
+			<option value="latimeria chalumnae">latimeria chalumnae</option>
+			<option value="lepisosteus oculatus">lepisosteus oculatus</option>
+			<option value="loxodonta africana">loxodonta africana</option>
+			<option value="macaca mulatta">macaca mulatta</option>
+			<option value="macropus eugenii">macropus eugenii</option>
+			<option value="meleagris gallopavo">meleagris gallopavo</option>
+			<option value="microcebus murinus">microcebus murinus</option>
+			<option value="monodelphis domestica">monodelphis domestica</option>
+			<option value="mus musculus">mus musculus</option>
+			<option value="mustela putorius furo">mustela putorius furo</option>
+			<option value="myotis lucifugus">myotis lucifugus</option>
+			<option value="nomascus leucogenys">nomascus leucogenys</option>
+			<option value="ochotona princeps">ochotona princeps</option>
+			<option value="oreochromis niloticus">oreochromis niloticus</option>
+			<option value="ornithorhynchus anatinus">ornithorhynchus anatinus</option>
+			<option value="oryctolagus cuniculus">oryctolagus cuniculus</option>
+			<option value="oryzias latipes">oryzias latipes</option>
+			<option value="otolemur garnettii">otolemur garnettii</option>
+			<option value="ovis aries">ovis aries</option>
+			<option value="pan troglodytes">pan troglodytes</option>
+			<option value="papio anubis">papio anubis</option>
+			<option value="pelodiscus sinensis">pelodiscus sinensis</option>
+			<option value="petromyzon marinus">petromyzon marinus</option>
+			<option value="poecilia formosa">poecilia formosa</option>
+			<option value="pongo abelii">pongo abelii</option>
+			<option value="procavia capensis">procavia capensis</option>
+			<option value="pteropus vampyrus">pteropus vampyrus</option>
+			<option value="rattus norvegicus">rattus norvegicus</option>
+			<option value="saccharomyces cerevisiae">saccharomyces cerevisiae</option>
+			<option value="sarcophilus harrisii">sarcophilus harrisii</option>
+			<option value="sorex araneus">sorex araneus</option>
+			<option value="sus scrofa">sus scrofa</option>
+			<option value="taeniopygia guttata">taeniopygia guttata</option>
+			<option value="takifugu rubripes">takifugu rubripes</option>
+			<option value="tarsius syrichta">tarsius syrichta</option>
+			<option value="tetraodon nigroviridis">tetraodon nigroviridis</option>
+			<option value="tupaia belangeri">tupaia belangeri</option>
+			<option value="tursiops truncatus">tursiops truncatus</option>
+			<option value="vicugna pacos">vicugna pacos</option>
+			<option value="xenopus tropicalis">xenopus tropicalis</option>
+			<option value="xiphophorus maculatus">xiphophorus maculatus</option>
+		</param>
+	</xml>
+</macros>

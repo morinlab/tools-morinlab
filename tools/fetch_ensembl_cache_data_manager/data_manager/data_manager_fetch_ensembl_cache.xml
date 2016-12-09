@@ -1,0 +1,17 @@
+<tool id="fetch_ensembl_cache_data_manager" name="Fetch Ensembl Cache" tool_type="manage_data" version="0.0.2">
+    <description>fetcher</description>
+    <requirements>
+        <requirement type="package" version="84">ensembl_vep</requirement>
+    </requirements>
+    <macros>
+      <import>ensembl_vep_macros.xml</import>
+    </macros>    
+    <command interpreter="python">
+    $__tool_directory__/data_manager_fetch_ensembl_cache.py "${out_file}" --organism_string $species_select.value --ensembl_vep_path "\$ENSEMBL_VEP_84_INSTALL_DIR" </command>
+    <inputs>
+        <expand macro="genome_list"/>
+    </inputs>
+    <outputs>
+        <data name="out_file" format="data_manager_json"/>
+    </outputs>
+</tool>

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<tool_dependency>
+	<package name="mcr" version="1.0">
+		<install version="1.0">
+            <actions>
+                <action type="download_by_url">http://www.mathworks.com/supportfiles/MCR_Runtime/R2013a/MCR_R2013a_glnxa64_installer.zip</action>
+                <action type="shell_command">chmod 777 -R .</action>
+				<action type="make_directory">$INSTALL_DIR/MATLAB</action>
+				<action type="make_directory">$INSTALL_DIR/MATLAB/MATLAB_Compiler_Runtime</action>
+				<action type="shell_command">rm ./bin/glnxa64/libstdc++.so.6</action>
+				<action type="shell_command">ln -s ./bin/glnxa64/libstdc++.so.6.0.13 ./bin/glnxa64/libstdc++.so.6</action>
+				<action type="shell_command">./install -mode silent -inputFile $REPOSITORY_INSTALL_DIR/installer_input.txt</action>
+				<action type="move_directory_files">
+						<source_directory>.</source_directory>
+						<destination_directory>$INSTALL_DIR</destination_directory>
+				</action>
+				<action type="shell_command">export LD_LIBRARY_PATH=$INSTALL_DIR/MATLAB/MATLAB_Compiler_Runtime/v81/runtime/glnxa64:$INSTALL_DIR/MATLAB/MATLAB_Compiler_Runtime/v81/bin/glnxa64:$INSTALL_DIR/MATLAB/MATLAB_Compiler_Runtime/v81/sys/os/glnxa64:$INSTALL_DIR/MATLAB/MATLAB_Compiler_Runtime/v81/sys/java/jre/glnxa64/jre/lib/amd64/native_threads:$INSTALL_DIR/MATLAB/MATLAB_Compiler_Runtime/v81/sys/java/jre/glnxa64/jre/lib/amd64/server:$INSTALL_DIR/MATLAB/MATLAB_Compiler_Runtime/v81/sys/java/jre/glnxa64/jre/lib/amd64</action>
+				<action type="shell_command">export XAPPLRESDIR=$INSTALL_DIR/MATLAB/MATLAB_Compiler_Runtime/v81/X11/app-defaults</action>
+				<action type="set_environment">
+                    <environment_variable name="MCR_ROOT" action="set_to">$INSTALL_DIR/MATLAB/MATLAB_Compiler_Runtime</environment_variable>   
+                </action>
+            </actions>
+        </install>
+        <readme>
+            Matlab Compiler Runtime. 
+        </readme>		
+	</package>
+</tool_dependency>
