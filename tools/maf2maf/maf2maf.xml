@@ -6,11 +6,12 @@
     </command>
 
     <inputs>
-
+        <expand macro="genome_list" />
+        <param name="input_maf" type="data" format="maf" label="Input MAF file" />
     </inputs>
 
     <outputs>
-
+        <data name="output_maf" format="maf" label="#echo os.path.splitext( str( $input_maf.name ) )[ 0 ] #.${tool.name}.maf" />
     </outputs>
 
     <stdio>
