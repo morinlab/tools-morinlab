@@ -29,7 +29,7 @@
       for i in \$(samtools view -H normal.bam | grep SQ | cut -f2 | tail -n+2 | cut -c4- ); do
     #end if
 
-    python \$RADIA_INSTALL_DIR/radia_src/scripts/radia.py
+    python \$RADIA_INSTALL_DIR/radia_src/radia.py
       test
       \$i
       -n normal.bam

@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<tool_dependency>
+	<set_environment version="1.0"> 
+		<environment_variable action="set_to" name="FILE_PATH">$REPOSITORY_INSTALL_DIR</environment_variable>
+	</set_environment>
+	<package name="mcr" version="1.0">
+		<repository changeset_revision="2156f4742d6b" name="package_mcr_1_0" owner="eritch" prior_installation_required="True" toolshed="http://galaxy-morinlab.mbb.sfu.ca:9009" />				
+	</package>	
+	<package name="MutsigCV" version="1.0">
+		<install version="1.0">
+            <actions>
+                <action type="download_by_url">http://www.broadinstitute.org/cancer/cga/sites/default/files/data/tools/mutsig/MutSigCV_1.4.zip</action>
+				<action type="download_file">http://www.broadinstitute.org/cancer/cga/sites/default/files/data/tools/mutsig/reference_files/mutation_type_dictionary_file.txt</action>
+				<action type="download_file">http://www.broadinstitute.org/cancer/cga/sites/default/files/data/tools/mutsig/reference_files/gene.covariates.txt</action>
+				<action type="download_file">http://www.broadinstitute.org/cancer/cga/sites/default/files/data/tools/mutsig/reference_files/exome_full192.coverage.zip</action>
+				<action type="shell_command">chmod 777 -R .</action>
+				<action type="shell_command">unzip exome_full192.coverage.zip</action>
+				<action type="move_directory_files">
+						<source_directory>.</source_directory>
+						<destination_directory>$INSTALL_DIR</destination_directory>
+				</action>
+				<action type="make_directory">$INSTALL_DIR/chr_files_hg19</action>
+				<action type="download_file">http://www.broadinstitute.org/cancer/cga/sites/default/files/data/tools/mutsig/reference_files/chr_files_hg19.zip</action>
+				<action type="shell_command">unzip chr_files_hg19.zip</action>
+				<action type="move_directory_files">
+						<source_directory>chr_files_hg19</source_directory>
+						<destination_directory>$INSTALL_DIR/chr_files_hg19</destination_directory>
+				</action>
+                <action type="set_environment">
+                    <environment_variable action="set_to" name="MUTSIGCV_DIR">$INSTALL_DIR</environment_variable>   
+                </action>
+            </actions>
+        </install>
+        <readme>
+            MutSig and relevant files needed for execution.
+        </readme>
+	</package>
+</tool_dependency>

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<data_managers>
+
+    <data_manager tool_file="data_manager/data_manager_fetch_ensembl_cache.xml" id="fetch_ensembl_cache" version="0.0.1">
+        <data_table name="ensembl_cache">
+            <output>
+                <column name="value" />
+                <column name="name"/>
+                <column name="species" />
+                <column name="assembly" />
+                <column name="version" />
+                <column name="path" output_ref="out_file" >
+                    <move type="directory" relativize_symlinks="True">
+                        <!-- <source>${path}</source>--> <!-- out_file.extra_files_path is used as base by default --> <!-- if no source, eg for type=directory, then refers to base -->
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">${species}/${assembly}/${version}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/${species}/${assembly}/${version}/${path}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+    </data_manager>
+   
+</data_managers>
