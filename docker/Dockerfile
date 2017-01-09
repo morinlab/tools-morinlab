@@ -47,6 +47,7 @@ ADD https://github.com/morinlab/tools-morinlab/raw/master/workflows/Galaxy-Workf
 ADD https://github.com/morinlab/tools-morinlab/raw/master/workflows/Galaxy-Workflow-Ensemble_caller_history.ga $GALAXY_ROOT/Galaxy-Workflow-Ensemble_caller_history.ga
 ADD ./import_workflows.py $GALAXY_ROOT/import_workflows.py
 
+#Warning: If your build fails at this step, try commenting the next two lines out (RUN and ADD)
 RUN startup_lite &&  sleep 10 && . $GALAXY_VIRTUAL_ENV/bin/activate &&  python import_workflows.py $GALAXY_ROOT/*.ga
 
 #add script that will populate a history with imported test data (or any other data set desired) after Galaxy is fully launched. 
