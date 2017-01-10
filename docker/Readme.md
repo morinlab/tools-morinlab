@@ -58,7 +58,7 @@ All tools have been processed.
 Total run time: 1:49:30.325838
 </pre>
 
-The latest Dockerfile also should install several workflows that give example use cases for these tools. 
+The latest Dockerfile also should install several workflows that give example use cases for these tools. We have noticed that the last few steps seem to cause problems on fresh builds. If you encounter an issue at the workflow installation step, this can be safely removed from the Dockerfile. 
 
 ##Testing your Image
 To boot your newly build Docker image, use the following command, substituting the name argument with whatever you choose.
