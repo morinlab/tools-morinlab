@@ -46,7 +46,7 @@ ADD https://github.com/morinlab/tools-morinlab/raw/master/workflows/Galaxy-Workf
 ADD https://github.com/morinlab/tools-morinlab/raw/master/workflows/Galaxy-Workflow-IGVScreenshotVariants.ga $GALAXY_ROOT/Galaxy-Workflow-IGVScreenshotVariants.ga
 ADD https://github.com/morinlab/tools-morinlab/raw/master/workflows/Galaxy-Workflow-MutClusterDiscovery.ga $GALAXY_ROOT/Galaxy-Workflow-MutClusterDiscovery.ga
 ADD https://github.com/morinlab/tools-morinlab/raw/master/workflows/Galaxy-Workflow-Ensemble_caller_history.ga $GALAXY_ROOT/Galaxy-Workflow-Ensemble_caller_history.ga
-ADD ./import_workflows.py $GALAXY_ROOT/import_workflows.py
+ADD https://github.com/morinlab/tools-morinlab/raw/master/docker/import_workflows.py $GALAXY_ROOT/import_workflows.py
 
 #Warning: If your build fails at this step, try commenting the next two lines out (RUN and ADD)
 RUN startup_lite &&  sleep 10 && . $GALAXY_VIRTUAL_ENV/bin/activate &&  python import_workflows.py $GALAXY_ROOT/*.ga
