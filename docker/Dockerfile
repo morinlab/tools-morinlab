@@ -32,9 +32,9 @@ RUN Rscript -e 'install.packages("argparse",repos="https://cloud.r-project.org/"
 ADD cancer_tools.yml $GALAXY_ROOT/cancer_tools.yml
 
 #add the files that will later be loaded into a history for testing (optional)
-ADD ./test.tumour.bam $GALAXY_ROOT/test.tumour.bam
-ADD ./test.normal.bam $GALAXY_ROOT/test.normal.bam
-ADD ./test.fa $GALAXY_ROOT/test.fa
+ADD https://github.com/morinlab/tools-morinlab/raw/master/test-data/strelka_test_data/test.tumour.bam $GALAXY_ROOT/test.tumour.bam
+ADD https://github.com/morinlab/tools-morinlab/raw/master/test-data/strelka_test_data/test.tumour.bam $GALAXY_ROOT/test.normal.bam
+ADD https://github.com/morinlab/tools-morinlab/raw/master/test-data/strelka_test_data/test.fa $GALAXY_ROOT/test.fa
 
 # Install the tools
 RUN install-tools $GALAXY_ROOT/cancer_tools.yml
