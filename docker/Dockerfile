@@ -21,6 +21,7 @@ RUN sh -c '/bin/echo -e "n\n" | apt-get --assume-yes install r-base-dev' #workar
 RUN apt-get --assume-yes install libcurl4-gnutls-dev #needed for maftools dependencies to install correctly, namely RCurl
 RUN apt-get --assume-yes install libxml2-dev #another dependency for maftools
 RUN Rscript -e 'install.packages("RCurl",repos="https://cloud.r-project.org/")'
+#MAFtools dependency installation is simpler if done outside of Galaxy
 RUN Rscript -e 'install.packages("XML",repos="https://cloud.r-project.org/")'
 RUN Rscript -e 'source("http://bioconductor.org/biocLite.R"); biocLite("ComplexHeatmap"); biocLite("VariantAnnotation"); biocLite("Biostrings")'
 RUN Rscript -e 'install.packages("devtools",repos="https://cloud.r-project.org/")'
