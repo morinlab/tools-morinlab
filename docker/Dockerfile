@@ -7,6 +7,7 @@ RUN add-tool-shed --url 'https://testtoolshed.g2.bx.psu.edu/' --name 'Test Tool 
 
 ENV GALAXY_CONFIG_BRAND Cancer Genomics Galaxy Flavour
 ENV GALAXY_CONFIG_ADMIN_USERS  rdmorin@sfu.ca,admin@galaxy.org
+ENV GALAXY_CONFIG_LIBRARY_IMPORT_DIR /imported_data/
 
 # Expose port 80 (webserver), 21 (FTP server), 8800 (Proxy)
 EXPOSE :80
