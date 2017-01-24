@@ -89,6 +89,9 @@ If you then run the commands in this file, you should be able to see the new his
 
 ![ScreenShot](test_data_history.png)
 
+## Testing it out on some larger data sets
+There are some excellent data sets available from the ICGC-TCGA DREAM challenges that are useful for testing out some of the tools. We recommend (especially if you are already using Google cloud) to try out some of the data sets provided by this group. For example, refer to (this documentation)[https://www.synapse.org/#!Synapse:syn312572/wiki/61863] to obtain the synthetic data for the somatic SNV calling challenge.
+
 ## Get started working with real data
 The test data provided with this release is synthetic and well below the size of real human exome data. The human reference sequences are also not packaged with this release. References files appropriate for your project can be added to (and/or built) within Galaxy using data managers. These data managers can be installed from the main tool shed. To test the image on real human exome data, we suggest you obtain one or more of the exome pairs from Baylor described [here](http://www.nature.com/articles/sdata201610).
 
