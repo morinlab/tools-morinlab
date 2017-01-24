@@ -92,3 +92,6 @@ If you then run the commands in this file, you should be able to see the new his
 ## Get started working with real data
 The test data provided with this release is synthetic and well below the size of real human exome data. The human reference sequences are also not packaged with this release. References files appropriate for your project can be added to (and/or built) within Galaxy using data managers. These data managers can be installed from the main tool shed. To test the image on real human exome data, we suggest you obtain one or more of the exome pairs from Baylor described [here](http://www.nature.com/articles/sdata201610).
 
+You can either download these datasets directly to Galaxy via FTP or (assuming you have them locally on the host machine running your Docker container), you can run the following command to export the local directory containing those bams. In this example, the bams are stored in ~/data.
+
+```docker run -p 8080:80 -v ~/data/:/imported_data full_galaxy_can```
