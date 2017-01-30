@@ -21,6 +21,7 @@ RUN sh -c '/bin/echo -e "n\n" | apt-get --assume-yes install r-base-dev' #workar
 
 RUN apt-get --assume-yes install libcurl4-gnutls-dev #needed for maftools dependencies to install correctly, namely RCurl
 RUN apt-get --assume-yes install libfile-copy-recursive-perl
+RUN apt-get --assume-yes install Xvfb #needed by IGV screenshot tool
 RUN apt-get --assume-yes install libxml2-dev #another dependency for maftools
 RUN apt-get --assume-yes install pypy #needed for current implementation of Sequenza to run 
 RUN Rscript -e 'install.packages("RCurl",repos="https://cloud.r-project.org/")'
