@@ -1,0 +1,48 @@
+<tool id="download_cache" name="Get VEP Cache" version="1.0.0">
+    <description>
+      Download and Index Genomes and Reference files used by Ensemble VEP
+    </description>
+    <requirements>
+        <requirement type="package" version="84">ensembl_vep</requirement>
+    </requirements>    
+    <command>
+      #if $use_mirror.value == "no":
+perl \$ENSEMBL_VEP_84_INSTALL_DIR/INSTALL.pl 
+--AUTO cf 
+--SPECIES \$(echo $species_select.value | sed 's/-/\t/g' | cut -f1) 
+--CACHEDIR \$ENSEMBL_VEP_84_INSTALL_DIR/cache
+#if "-" in $species_select.value
+  --ASSEMBLY \$(echo $species_select.value | sed 's/-/\t/g' | cut -f2)
+#end if
+        ;
+        #else:
+perl \$ENSEMBL_VEP_84_INSTALL_DIR/INSTALL.pl
+--AUTO cf
+--SPECIES \$(echo $species_select.value | sed 's/-/\t/g' | cut -f1)
+--CACHEDIR \$ENSEMBL_VEP_84_INSTALL_DIR/cache
+--CACHEURL ftp://ftp03.bcgsc.ca/public/ensembl/VEP/ --FASTAURL ftp://ftp03.bcgsc.ca/public/ensembl/
+    #if "-" in $species_select.value
+    --ASSEMBLY \$(echo $species_select.value | sed 's/-/\t/g' | cut -f2)
+    #end if
+    ;
+#end if
+        gzip -d \$ENSEMBL_VEP_84_INSTALL_DIR/cache/\$(echo $species_select.value | sed 's/-/\t/g' | cut -f1 | sed 's/\ /_/g')/*\$(echo $species_select.value | sed 's/-/\t/g' | cut -f2)/*.fa.gz;
+      	samtools faidx \$ENSEMBL_VEP_84_INSTALL_DIR/cache/\$(echo $species_select.value | sed 's/-/\t/g' | cut -f1 | sed 's/\ /_/g')/*\$(echo $species_select.value | sed 's/-/\t/g' | cut -f2)/*.fa;
+
+env > $output;
+   </command>
+    <inputs>
+      <expand macro="genome_list" />
+      <param name="use_mirror" type="boolean" checked="false" label="use North American mirror site for download" display="radio" truevalue="yes" falsevalue="no"/>
+    </inputs>
+    <outputs>
+        <data format="txt" name="output"/>
+    </outputs>
+    <stdio>
+        <exit_code range="1:" level="fatal" description="Failure" />
+    </stdio>
+    <macros>
+      <import>ensembl_vep_macros.xml</import>
+    </macros>
+    
+</tool>
