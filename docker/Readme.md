@@ -98,3 +98,6 @@ The test data provided with this release is synthetic and well below the size of
 You can either download these datasets directly to Galaxy via FTP or (assuming you have them locally on the host machine running your Docker container), you can run the following command to export the local directory containing those bams. In this example, the bams are stored in ~/data.
 
 ```docker run -p 8080:80 -v ~/data/:/imported_data full_galaxy_can```
+
+## Adding reference genomes
+You can't do much with this toolkit without first installing reference fasta, SAM indexes and Ensembl VEP cache files to Galaxy. You can install these by obtaining the appropriate data manager tools from the main tool shed. If you are working with bam files, be sure to install a matched reference fasta. The safest (and most efficient) way to accomplish this is to provide this fasta, uncompressed, in the data folder you import to your container. The data manager for installing a reference fasta can be pointed to a local file and it should generate a symbolic link to this file when it is run this way.
