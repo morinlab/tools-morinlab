@@ -3,7 +3,7 @@ library(argparse);
 
 ###
 
-parser <- ArgumentParser(description="Create a Gene Lollipop using Maftools");
+parser <- ArgumentParser(description="Create an Oncostrip plot using Maftools");
 
 parser$add_argument(
     "--input_maf", "-maf",
@@ -43,7 +43,7 @@ sort = FALSE
 sort_by_anno = FALSE
 if(args$sort_by == "anno"){
 sort_by_anno=TRUE
-print(paste("sort_by_anno",sort_by_anno))
+#print(paste("sort_by_anno",sort_by_anno))
 }else if(args$sort_by == "gene"){
 sort=TRUE
 }else{
