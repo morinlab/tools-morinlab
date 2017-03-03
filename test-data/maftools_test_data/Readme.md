@@ -14,3 +14,5 @@ Run the oncoprintplus tool with the provided MAF and the outputs from oncodriveF
 ### OncodriveClust - genes with mutation clusters, shown in Figure 5, panel B
 Run the OncodriveClust tool with the provided MAF and blacklist data sets. To generate the lollipop plots automatically, use [this workflow](https://github.com/morinlab/tools-morinlab/tree/master/workflows#running-oncodriveclust-and-visualizing-mutations-in-lollipop-plots) instead. 
 
+### Oncostrip - Supplemental Figure S4
+The GISTIC output files from the test data are included here for convenience. If you want to display copy number and mutation data together in one "oncostrip", upload these data to a Galaxy server with MAFtools installed. Select the Oncostrip Plot tool and choose the three Gistic files as inputs under _Optional: include GISTIC output in display_. Annotations for each sample can optionally be provided as a tab-delimited text file with one row per patient and a column for each annotation. Headers and row names must be present.  
