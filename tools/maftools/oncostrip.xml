@@ -1,7 +1,7 @@
 <tool id="oncostrip" name="Oncostrip Plot" version="0.9.30">
 
   <description>
-    Mutation strip
+    Cohort-wide mutation oncostrip from MAF and (optionally) GISTIC data
   </description>
 
   <command detect_errors="aggressive">
@@ -14,7 +14,7 @@
         cat $gene_input_type.gene_file > gene_list.txt;
       #end if
 
-      Rscript $__tool_directory__/oncostrip.R
+      Rscript $__tool_directory__/oncostrip_gistic.R
         --input_maf $input_maf
         --gene_list gene_list.txt
         --output_plot $output_plot
@@ -22,12 +22,19 @@
         --anno $include_anno.anno_file
       #end if
       #if $sort_by == "anno":
-        --sort_by anno;
+        --sort_by anno
       #elif $sort_by == "gene":
-        --sort_by gene;
+        --sort_by gene
       #else:
-        --sort_by $sort_by ;	
+        --sort_by $sort_by 
       #end if
+      #if $include_gistic.gistic == "use_gistic":
+      -gal $include_gistic.file1
+      -ga $include_gistic.file2
+      -gd $include_gistic.file3
+      #end if
+      ;
+      
   </command>
 
   <inputs>
@@ -61,7 +68,17 @@
 
       
     </when>
-    
+    </conditional>
+    <conditional name="include_gistic">
+      <param name="gistic" type="select" display="radio" label="Optional: include GISTIC output in display">
+	<option value="use_gistic" checked="false">Include</option>
+	<option value="no_gistic" checked="true">Do not include</option>
+      </param>
+      <when value="use_gistic">
+	<param name="file1" type="data" format="txt" label="all_lesions"  help="all_lesions output from GISTIC" />
+	<param name="file2" type="data" format="txt" label="amp_genes"  help="amp_genes output from GISTIC" />
+	<param name="file3" type="data" format="txt" label="del_genes"  help="del_genes output from GISTIC" />
+      </when>
     </conditional>
   </inputs>
 
