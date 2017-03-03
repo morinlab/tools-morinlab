@@ -3,6 +3,11 @@ These files can be used to reproduce a variety of the images generated with our 
 
 ## Reproducing specific figures from our paper
 ### GeneCloud in Figure 3, panel B
-Run the Gene Cloud Plot tool on this data with the
+Run the Gene Cloud Plot tool on this data with the MAF and (optionally) blacklist file as input. 
 
+### MAF summary in Figure 3, panel C
+Run the Maf Summary Plot tool on the provided MAF file and the blacklist file. 
+
+### Oncoprintplus in Figure 4, panel B
+Run the oncoprintplus tool with the provided MAF and the outputs from oncodriveFM and MutSig.
 
