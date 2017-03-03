@@ -8,6 +8,8 @@ Run the Gene Cloud Plot tool on this data with the MAF and (optionally) blacklis
 ### MAF summary in Figure 3, panel C
 Run the Maf Summary Plot tool on the provided MAF file and the blacklist file. 
 
-### Oncoprintplus in Figure 4, panel B
-Run the oncoprintplus tool with the provided MAF and the outputs from oncodriveFM and MutSig.
+### Oncoprintplus in Figure 4, panel C
+Run the oncoprintplus tool with the provided MAF and the outputs from oncodriveFM and/or MutSig. An example workflow showing how to prepare your input for oncodriveFM is included in the [provided workflow](https://github.com/morinlab/tools-morinlab/tree/master/workflows#using-oncodrivefm-to-detect-significantly-mutated-genes-and-visualizations). This workflow will also generate the Lollipop Plots for each significant gene, such as those examples shown in Panel C of the same figure.
+
+
 
