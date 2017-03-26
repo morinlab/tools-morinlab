@@ -6,7 +6,7 @@
 	<package name="cancer_genomics_functions" version="1.0">
 	  <install version="1.0">
 		  <actions>
-			  <action type="download_by_url">https://raw.githubusercontent.com/marcoalbuquerque-sfu/cancer_genomics_functions/master/functions.R</action>
+			  <action type="download_by_url">https://github.com/morinlab/tools-morinlab/raw/master/packages/package_cancer_genomics_functions_1_0/functions.R</action>
         <action type="setup_r_environment">
           <repository name="package_r_3_2_1" owner="iuc">
             <package name="R" version="3.2.1" />
