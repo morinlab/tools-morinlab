@@ -19,7 +19,7 @@ We are in the process of putting example data that should demonstrate how to use
 ## Known limitations
 Please be aware that many of the tools included here have only been tested on a small number of data sets. 
 
-### Not all MAFs are quivalent
+### Not all MAFs are equivalent
 We fully expect incompatability with MAF files exported from other pipelines. Ideally, if you are running downstream analyses on your own mutation calls, you should reannotate these. We have packaged the maf2maf tool for this purpose. If you encounter a MAF file that does not work with maf2maf it may be difficult to debug. You can first try paring it down to the minimum required columns for a MAF file. 
 
 ###chr1 or 1
